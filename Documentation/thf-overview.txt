@@ -1,0 +1,183 @@
+THF OVERVIEW FOR  hotptp-bnf2-v3.2.0.6.txt
+
+by Allen Van Gelder (avg at host shown below)
+
+THF formulas are intended to represent typed lambda calculus formulas.
+This overview is somewhat informal and incomplete, with the goal of
+helping users compose and read THF formulas.  Other useful files
+can be found in the same directory as this document, or at the URL
+http://cse.ucsc.edu/~avg/TPTPparser/.
+
+The syntax is completely specified by the BNF2 document: hotptp-bnf2.txt.
+
+Several example files (names beginning thf-) should help to clarify this text.
+
+A linux-executable parser for THF is also available as hotptp-yl-parser or
+hotptp-yl-parser-verbose.  (This parser also parses TFF, FOF and CNF).
+Parsers for other platforms can be generated from available files.
+
+The semantics of THF formulas is largely beyond the scope of the TPTP project.
+
+PUNCTUATION STYLE
+
+The principles of style in TPTP for FOF (first order formulas) and CNF
+are followed, in general.
+
+  1. An expression with a binary operator as the principal operator must be
+     enclosed in parentheses before being used in a larger expression.
+     For purposes of this rule, the colon (:) and DEFINITION symbol (:=)
+     are considered to be punctuation, not binary operators.
+
+  2. Multiple occurrences of the SAME associative binary operator can be
+     enclosed in one pair of parentheses.
+
+  3. There are no precedence relationships among binary operators:
+     scopes must be made explicit with parentheses.
+
+  4. An expression with a prefix operator as the principal operator does NOT
+     need to be enclosed in parentheses before being used in a
+     larger expression.
+
+  5. All operators are logical symbols, in the sense that their interpretation
+     is fixed in the language.
+
+  6. To ensure that formulas are Prolog-readable, each colon (:) and
+     each operator consisting of "symbol" characters should be
+     followed by white-space.
+
+TOKENS (WORDS)
+
+The words or tokens in a thf formula consist of logical symbols,
+constants, variables, and punctuation symbols.
+
+  1. Variables begin with an uppercase letter; the underscore (_) is NOT
+     considered an uppercase letter, differing from Prolog.
+
+  2. Constants introduced by users begin with a lowercase letter.
+     Note that a constant can represent a function in this terminology.
+     Also, a proposition is a function that returns a boolean value,
+     so a constant can represent a proposition.
+     Certain "defined constants" begin with a dollar-sign ($), followed by
+     a lowercase letter.  They currently include:
+
+          the boolean truth-values, $true and $false, which denote the
+               lambda-calculus expressions ^ [X, Y]: X and ^ [X, Y]: Y;
+
+          the boolean type ($oType, $o), i.e., {$true, $false};
+
+          the type of individuals ($iType, $i), which is the normal range
+               of first-order variables;
+
+          the set of all types ($tType, $t).
+
+     Pairs in parentheses are synonyms.
+     The language admits "system constants", which begin with two
+     dollar-signs ($$), followed by a lowercase letter, but their role
+     in thf is unclear.
+     Finally, strings enclosed in single quotes, strings enclosed in
+     double quotes, and numbers denote constants.
+
+  3. The PRIMITIVE logical symbols represent abstraction (lambda, ^) and
+     function application (@).  "lambda" and "^" are synonyms.
+     Abstraction is right-associative and application is left-associative,
+     in accordance with the standard conventions of lambda calculus.
+
+  4. The TYPING logical symbols represent mapping (->, >), cross product (*),
+     and type-union (+).  "->" and ">" are synonyms.
+     Mapping is right-associative, cross product and type-union are
+     left-associative, following standard conventions.
+
+  5. The DEFINITION symbol is := and is punctuation, not a binary operator.
+     Currently, the left operand of a definition (:=) must be an
+     untyped constant, and the right operand can be any expression.
+
+  6. The TUPLE forming symbol is comma (,).  Comma-separated lists enclosed
+     in parentheses are TUPLES, which represent the PAIR function of
+     lambda calculus.  That is, (E1, E2) denotes ^ [X: $o] (X @ E1 @ E2),
+     so that ((E1, E2) @ $true) = E1 and ((E1, E2) @ $false) = E2.
+     However, comma-separated lists enclosed in square brackets ([])
+     are specific language constructs for abstraction and quantification.
+     The comma is right-associative in both contexts, for thf formulas.
+
+  6. The remaining logical symbols can be regarded as notational
+     conventions for certain fixed lambda expressions.  They include
+     !, ?, ~, &, |, =, among which "and" (&) and "or" (|) are left-associative,
+     equality (=) is nonassociative, and "forall" (!), "exists" (?),
+     and "not" (~) are prefixi and right-associative.
+     There are some additional nonassociative binary operators that
+     can be defined in terms of these (=>, <=, <=>, ~&, ~|).
+     These symbols can be treated syntactically as constants by enclosing them
+     in parentheses, e.g., (!), (?), (~), (&), (|), (=), etc.
+
+EXPRESSIONS
+
+The simplest expressions are untyped variables and constants, e.g., X1 and fib.
+The next simplest are typed variables and constants, e.g.,
+
+     X1: ((int * list) -> $o),
+     fib: (nat -> nat).
+
+A typed constant can be an entire thf formula, e.g.,
+
+     thf(1, type, fib: (nat -> nat)).
+
+The syntax also permits a constant to be typed wherever it appears
+in an expression.
+
+The "prefix operators" corresponding to abstraction, quantification, and
+scoped definition consist of multiple tokens.  In these examples, the parts
+that function as prefix operators are underlined:
+
+     lambda [X1: ((int * list) -> $o)]: (g @ X1)
+     ----------------------------------
+
+     ? [X1: ((int * list) -> $o), L]: ((X1 @ (3, L)) = $true)
+     --------------------------------
+
+     letrec [t1 := (nat -> $o), c1 := ^ [X]: (X = (fib @ X))]: (c1:t1 @ 1)
+     ---------------------------------------------------------
+
+The point is that the colon (:) that follows the right bracket (])
+may be PARSED as a binary operator, but it is not considered to be
+a binary operator FUNCTIONALLY, so the syntax does not require that parentheses
+enclose the expressions shown.  The same applies to both := and :
+occurring inside the square brackets.
+This is further illustrated in the next example,
+in which the three prefix operators are underlined:
+
+     ^ [X1: ((int * list) -> $o)]:  ? [G]:  ~  (G @ X1)
+     -----------------------------  ------  -
+
+THROUGH VERSION v3.2.0.4,
+Type expressions can use only typing operators and typing operators
+can only appear in type expressions.  The atoms, or leaves, of a type
+expression are untyped variables and constants.
+
+BEGINNING VERSION v3.2.0.5,
+In principle, a type expression can be just about any lambda expression
+with "enough" parentheses, but it is expected that normally a
+type expression will consist of the typing operators, and lambda
+abstraction (^ and @) for polymorphic types.
+
+Normally, type expressions follow a colon (;) and apply to the untyped
+variable or constant that precedes the colon, as seen in the examples above.
+When a typed constant is the entire formula, it is taken as a global
+declaration; when it is within a larger expression, it's meaning
+is unspecified at present.
+Type expressions can also appear where a lambda-calculus expression is
+required, i.e, as either operand of "@".
+
+Definitions may appear only in the bracketed list following "letrec",
+or at top level.
+A definition takes the form "untyped_constant := expression".
+When definitions appear within a letrec, their scope is the formula
+that completes the letrec expression, as in:
+
+     letrec [one := 1, two := 2]: (plus @ (one, two)).
+
+Global definitions appear at top level, comprising the entire formula.  E.g.,
+
+     thf(1, definition, one := 1).
+     thf(2, definition, (two := 2)).
+
+Note that a definition may optionally be enclosed in parentheses.

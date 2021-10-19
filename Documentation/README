@@ -1,0 +1,142 @@
+HIGHER-ORDER DRAFT FILES --- ALL KNOWN FEATURES IN TEST FILES ARE WORKING
+
+thf-overview.txt is a new overview; RECOMMENDED READING.
+
+Older files and events are documented in README-pre-IJCAR06.
+What used to be HOL or HOF is now called THF.  thf test files begin thf- .
+
+hotptp-bnf2.txt  was developed from Geoff's file: THFSyntaxBNF-v3.2.0.1.
+The first version, Aug. 29, 2006, is labeled v3.2.0.2.
+
+The second version, Aug. 31, 2006, is labeled v3.2.0.3, includes rules
+for tff (many-sorted first-order logic), but is only lightly tested.
+See tff-first-examples.txt.  hotptp-bnf2-v3.2.0.3.txt has no changes to
+fof, cnf, or thf, compared to hotptp-bnf2-v3.2.0.2.txt.
+
+The scripts and Makefile in this directory are somewhat based on this
+file name: hotptp-bnf2.txt.
+Scripts have changed on Sep 09, 2006, concurrent with v3.2.0.6 of
+hotptp-bnf2.txt.  Old scripts are in the subdirectory Mar06Scripts/.
+
+The parser prints out parse trees so you can see if it parses
+your favorite HOL sentence the way you'd like.
+Type "hotptp-yl-parser-verbose < thf-setops.ax" for example.
+
+hotptp-bnf2.txt   (Version v3.2.0.6)
+
+The BNF2-style description, modified from IJCAR06 version of TPTP description.
+
+hotptp-bnf2-v3.2.0.6.txt defines the same language as hotptp-bnf2-v3.2.0.5.txt;
+the changes are all technical, and the revised scripts are needed
+to process hotptp-bnf2-v3.2.0.5.txt.
+
+make hotptp       generates hotptp-yl-parser from hotptp-bnf2.txt
+
+hotptp-yl-parser            Linux Intel Xeon executable (exit code only)
+hotptp-yl-parser-verbose    Linux Intel Xeon executable (prints parse trees)
+
+Sat Sep 09 2006.  Version v3.2.0.6 placed on Internet.
+                  all known THF features working on thf-* test files.
+                  FOF and CNF also verified against TPTP library,
+                  TPTP-v3.1.1/Problems/*/.
+
+------------------------------------------------------------------------------
+thf-setops.ax
+
+lambda encoding of axioms for set operations, following ESHOL 2005 Workshop
+paper by Benzmuller, Sorge, Jamnik, and Kerber.
+This file uses = for definitions, which might lead to semantic problems
+but it provides tests for the syntax.
+------------------------------------------------------------------------------
+thf-setops_arb.ax
+
+More examples.
+------------------------------------------------------------------------------
+thf-thof1-examples.txt
+
+The examples from http://www.cs.miami.edu/~tptp/TPTP/Proposals/HOL.html
+with syntax and semantic updates based on emails from Chad Brown and
+Chris Benzmuller.  The parentheses that would be implied by
+associativity of @ (left), -> (right), and : (right) have been removed.
+Operators used as bare constants are enclosed in parentheses (this gives
+Prolog a fighting chance, too).
+Definitions using := are demonstrated.  Spaces were inserted after colons
+where there was no whitespace, to conform to TPTP requirements.
+
+------------------------------------------------------------------------------
+thf-thof2-examples.txt
+
+The examples from http://www.cs.miami.edu/~tptp/TPTP/Proposals/HOL.html
+in the second part of the page, which use a moderately different set of
+conventions.  Parentheses are added around the arguments of = in
+several places.  Unbalanced parentheses in the first sentence are corrected.
+Spaces were inserted after colons where there was no whitespace.
+This file uses = for definitions, which might lead to semantic problems
+but it provides tests for the syntax.
+
+"nat(A)" for a type is not supported any longer.
+They were changed to "(nat * A)" for expediency, so it would parse.
+A solution to this requirement for variables in definitions is needed.
+------------------------------------------------------------------------------
+thf-type-examples.txt
+thf-type-examples-bad.txt
+thf-sum-example.txt
+
+Some syntax tests concentrating on typing expressions.
+Use of * (cross product) and + (type union) and ',' (tuples) is illustrated.
+
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+hotptp-1.lex0
+hotptp-1.y
+
+The "source" files converted from hotptp-bnf2.txt.
+------------------------------------------------------------------------------
+GENERATING PARSERS
+
+On Red Hat Fedora Linux, Intel Xeon the commands in Makefile were used
+to generate the executable parsers.  NOTE: LANG=C is important.
+On Linux, lex points to flex anyway; note "-l" in the command.
+"bison -y" and "flex -l" should work in place of lex and yacc.
+The warning outputs shown are acceptable (no warnings currently on Linux).
+
+Various intermediate files that are of interest only for debugging
+parser generation at another site, or from a different bnf2 file, are
+in the directory Intermediates/.
+
+% yacc -d -v hotptp-1.y
+
+% lex -l hotptp-1.lex0
+
+% gcc -g  -o hotptp-yl-parser lex.yy.c y.tab.c -ly -ll
+% gcc -g  -DP_VERBOSE=1 -o hotptp-yl-parser-verbose lex.yy.c y.tab.c -ly -ll
+
+On IRIX and probably Solaris
+% lex hotptp-1.lex0
+"hotptp-1.lex0":line XX: Warning: Non-portable Character Class
+.... (a few lines like this)
+
+ON SGI Irix and Sun Solaris, the same compile method works, except
+no "-l" flag to lex, and I used cc instead of gcc.  Maybe gcc is OK too.
+------------------------------------------------------------------------------
+
+sample.txt      is a short fof test file (no hof constructs) with these lines:
+
+fof(1,axiom, foo(X,Y,h(Y,Z)), unknown).
+fof(2,axiom, bar(X,Y,h(Y,Z)) != baz(h(Y,Z), Y,X), unknown).
+fof(status,status,X=1,theory(ac),[status(tau)]).
+cnf(include,file,(X=1|X=2),file('mary.txt',harry),[status(tau)]).
+include('fred.txt',[1,3]).
+fof(3,equality,'Mary'("\"Queen\" of \\Scots\\")='1',introduced(axiom_of_choice,[status(uns)])).
+/* $$ Sample: multi-line
+ * system comment.
+ */
+/* multi-line
+ * comment.
+ */
+------------------------------------------------------------------------------
+
+sample_inline.txt  concentrates on testing comments in the middle of
+formulas.  No thf.
+
+------------------------------------------------------------------------------
