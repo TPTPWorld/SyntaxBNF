@@ -60,6 +60,7 @@ $2 ~ "^_GR" {
     gsub("[\\^]",     " CARET ");
     gsub("[~]",       " TILDE ");
     gsub("[/]",       " SLASH ");
+    gsub("[\\\\]",      " SLOSH ");
     gsub("\"",        " DQUOTE ");
     gsub("[']",       " SQUOTE ");
     gsub("[`]",       " BQUOTE ");

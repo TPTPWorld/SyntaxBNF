@@ -31,7 +31,7 @@ thf_prefix_unary _GRR unary_connective thf_preunit_formula
 thf_infix_unary _GRR thf_unitary_term infix_inequality thf_unitary_term
 thf_atomic_formula _GRR thf_plain_atomic | thf_defined_atomic | thf_system_atomic | thf_fof_function
 thf_plain_atomic _GRR constant | thf_tuple
-thf_defined_atomic _GRR defined_constant | thf_conditional | thf_let | thf_defined_term | LPAREN thf_conn_term RPAREN
+thf_defined_atomic _GRR defined_constant | thf_conditional | thf_let | thf_defined_term | LPAREN thf_conn_term RPAREN | tnc_connective
 thf_defined_term _GRR defined_term | th1_defined_term
 thf_defined_infix _GRR thf_unitary_term defined_infix_pred thf_unitary_term
 thf_system_atomic _GRR system_constant
@@ -43,7 +43,7 @@ thf_let_defns _GRR thf_let_defn | LBRKT thf_let_defn_list RBRKT
 thf_let_defn _GRR thf_logic_formula assignment thf_logic_formula
 thf_let_defn_list _GRR thf_let_defn | thf_let_defn COMMA thf_let_defn_list
 thf_unitary_term _GRR thf_atomic_formula | variable | LPAREN thf_logic_formula RPAREN
-thf_conn_term _GRR nonassoc_connective | assoc_connective | infix_equality | infix_inequality | unary_connective
+thf_conn_term _GRR nonassoc_connective | assoc_connective | infix_equality | infix_inequality | unary_connective | _DLR_ite
 thf_tuple _GRR LBRKT RBRKT | LBRKT thf_formula_list RBRKT
 thf_fof_function _GRR functor LPAREN thf_arguments RPAREN | defined_functor LPAREN thf_arguments RPAREN | system_functor LPAREN thf_arguments RPAREN
 thf_arguments _GRR thf_formula_list
@@ -84,8 +84,8 @@ tff_atomic_formula _GRR tff_plain_atomic | tff_defined_atomic | tff_system_atomi
 tff_plain_atomic _GRR constant | functor LPAREN tff_arguments RPAREN
 tff_plain_atomic _GRS proposition | predicate LPAREN tff_arguments RPAREN
 tff_defined_atomic _GRR tff_defined_plain
-tff_defined_plain _GRR defined_constant | defined_functor LPAREN tff_arguments RPAREN | tfx_conditional | tfx_let
-tff_defined_plain _GRS defined_proposition | defined_predicate LPAREN tff_arguments RPAREN | tfx_conditional | tfx_let
+tff_defined_plain _GRR defined_constant | defined_functor LPAREN tff_arguments RPAREN | tfx_conditional | tfx_let | tfx_tnc_atom
+tff_defined_plain _GRS defined_proposition | defined_predicate LPAREN tff_arguments RPAREN | tfx_conditional | tfx_let | tfx_tnc
 tff_defined_infix _GRR tff_unitary_term defined_infix_pred tff_unitary_term
 tff_system_atomic _GRR system_constant | system_functor LPAREN tff_arguments RPAREN
 tff_system_atomic _GRS system_proposition | system_predicate LPAREN tff_arguments RPAREN
@@ -97,7 +97,8 @@ tfx_let_defns _GRR tfx_let_defn | LBRKT tfx_let_defn_list RBRKT
 tfx_let_defn _GRR tfx_let_LHS assignment tff_term
 tfx_let_LHS _GRR tff_plain_atomic | tfx_tuple
 tfx_let_defn_list _GRR tfx_let_defn | tfx_let_defn COMMA tfx_let_defn_list
-tff_term _GRR tff_logic_formula | defined_term | tfx_tuple
+tfx_tnc_atom _GRR tnc_connective LPAREN tff_arguments RPAREN
+tff_term _GRR tff_logic_formula | defined_term | tfx_tuple | tnc_key_pair
 tff_unitary_term _GRR tff_atomic_formula | defined_term | tfx_tuple | variable | LPAREN tff_logic_formula RPAREN
 tfx_tuple _GRR LBRKT RBRKT | LBRKT tff_arguments RBRKT
 tff_arguments _GRR tff_term | tff_term COMMA tff_arguments
@@ -116,6 +117,20 @@ tff_type_list _GRR tff_top_level_type | tff_top_level_type COMMA tff_type_list
 tff_subtype _GRR untyped_atom subtype_sign atom
 tfx_definition _GRR tff_atomic_formula identical tff_term
 tfx_sequent _GRR tfx_tuple gentzen_arrow tfx_tuple
+tnc_connective _GRR tnc_short_connective | tnc_long_connective
+tnc_short_connective _GRR LBRKT PERIOD RBRKT | less_sign PERIOD arrow | slash PERIOD slash | slosh PERIOD slosh | LBRKT tnc_index RBRKT | less_sign tnc_index arrow | LBRACE tnc_index RBRACE | LPAREN tnc_index RPAREN
+tnc_long_connective _GRR LBRACE tnc_connective_name RBRACE | LBRACE tnc_connective_name LPAREN tnc_parameter_list RPAREN RBRACE
+tnc_connective_name _GRR def_or_sys_constant
+tnc_parameter_list _GRR tnc_parameter | tnc_parameter COMMA tnc_parameter_list
+tnc_parameter _GRR tnc_index | tnc_key_pair
+tnc_index _GRR hash tff_unitary_term
+tnc_key_pair _GRR def_or_sys_constant assignment tff_unitary_term
+logic_defn_rule _GRS logic_defn_LHS identical logic_defn_RHS
+logic_defn_LHS _GRS defined_constant
+logic_defn_LHS _GRS _DLR_constants | _DLR_quantification | _DLR_consequence | _DLR_modalities
+logic_defn_RHS _GRS tff_unitary_term | thf_unitary_formula
+logic_defn_RHS _GRS defined_constant | tfx_tuple | thf_tuple
+logic_defn_RHS _GRS _DLR_rigid | _DLR_flexible | _DLR_constant | _DLR_varying | _DLR_cumulative | _DLR_decreasing | _DLR_local | _DLR_global | DOLLAR modal_system_* | DOLLAR modal_axiom_*
 tcf_formula _GRR tcf_logic_formula | tff_atom_typing
 tcf_logic_formula _GRR tcf_quantified_formula | cnf_formula
 tcf_quantified_formula _GRR EXCLAMATION LBRKT tff_variable_list RBRKT COLON cnf_formula
@@ -164,6 +179,7 @@ assoc_connective _GRR VLINE | AMPERSAND
 unary_connective _GRR TILDE
 gentzen_arrow _GRR MINUS_MINUS_GREATER
 assignment _GRR COLON_EQUALS
+identical _GRR EQUALS_EQUALS
 type_constant _GRR type_functor
 type_functor _GRR atomic_word
 defined_type _GRR atomic_defined_word
@@ -184,11 +200,12 @@ infix_equality _GRR EQUALS
 infix_inequality _GRR EXCLAMATION_EQUALS
 constant _GRR functor
 functor _GRR atomic_word
-system_constant _GRR system_functor
-system_functor _GRR atomic_system_word
 defined_constant _GRR defined_functor
 defined_functor _GRR atomic_defined_word
 defined_functor _GRS _DLR_uminus | _DLR_sum | _DLR_difference | _DLR_product | _DLR_quotient | _DLR_quotient_e | _DLR_quotient_t | _DLR_quotient_f | _DLR_remainder_e | _DLR_remainder_t | _DLR_remainder_f | _DLR_floor | _DLR_ceiling | _DLR_truncate | _DLR_round | _DLR_to_int | _DLR_to_rat | _DLR_to_real
+system_constant _GRR system_functor
+system_functor _GRR atomic_system_word
+def_or_sys_constant _GRR defined_constant | system_constant
 th1_defined_term _GRR EXCLAMATION_EXCLAMATION | QUESTION_QUESTION | AT_AT_SIGN_PLUS | AT_AT_SIGN_MINUS | AT_SIGN_EQUALS
 defined_term _GRR number | distinct_object
 variable _GRR upper_word
@@ -261,6 +278,7 @@ null _GRR
 {plus} _TRT [+]
 {arrow} _TRT [>]
 {less_sign} _TRT [<]
+{hash} _TRT [#]
 {real} _TRT ({signed_real}|{unsigned_real})
 {signed_real} _TRT {sign}{unsigned_real}
 {unsigned_real} _TRT ({decimal_fraction}|{decimal_exponent})
@@ -278,6 +296,8 @@ null _GRR
 {exp_integer} _TRT ({signed_exp_integer}|{unsigned_exp_integer})
 {signed_exp_integer} _TRT {sign}{unsigned_exp_integer}
 {unsigned_exp_integer} _TRT {numeric}{numeric}*
+{slash} _TRT {slash_char}
+{slosh} _TRT {slosh_char}
 {percentage_sign} _TRM [%]
 {double_quote} _TRM ["]
 {do_char} _TRM ([\40-\41\43-\133\135-\176]|[\\]["\\])
@@ -286,7 +306,8 @@ null _GRR
 {sign} _TRM [+-]
 {dot} _TRM [.]
 {exponent} _TRM [Ee]
-{slash} _TRM [/]
+{slash_char} _TRM [/]
+{slosh_char} _TRM [\\]
 {zero_numeric} _TRM [0]
 {non_zero_numeric} _TRM [1-9]
 {numeric} _TRM [0-9]

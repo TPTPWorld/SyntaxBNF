@@ -11,6 +11,8 @@
 #endif
 int verbose = P_VERBOSE;
 
+#define YYMAXDEPTH 32768
+
 //----Compile with -DP_USERPROC=1 to #include p_user_proc.c. p_user_proc.c 
 //----should #define P_ACT, P_BUILD, P_TOKEN, P_PRINT to different procedures 
 //----from those below, and supply code.
@@ -30,7 +32,7 @@ extern char yytext[];
 extern int tptp_store_size;
 extern char* tptp_lval[];
 
-#define MAX_CHILDREN 12
+#define MAX_CHILDREN 1200
 typedef struct pTreeNode * pTree;
 struct pTreeNode {
     char* symbol; 

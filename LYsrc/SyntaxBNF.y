@@ -11,6 +11,8 @@
 #endif
 int verbose = P_VERBOSE;
 
+#define YYMAXDEPTH 32768
+
 //----Compile with -DP_USERPROC=1 to #include p_user_proc.c. p_user_proc.c 
 //----should #define P_ACT, P_BUILD, P_TOKEN, P_PRINT to different procedures 
 //----from those below, and supply code.
@@ -30,7 +32,7 @@ extern char yytext[];
 extern int tptp_store_size;
 extern char* tptp_lval[];
 
-#define MAX_CHILDREN 12
+#define MAX_CHILDREN 1200
 typedef struct pTreeNode * pTree;
 struct pTreeNode {
     char* symbol; 
@@ -221,6 +223,8 @@ int yywrap(void) {
 %token <ival> signed_rational
 %token <ival> signed_real
 %token <ival> single_quoted
+%token <ival> slash
+%token <ival> slosh
 %token <ival> star
 %token <ival> unrecognized
 %token <ival> unsigned_exp_integer
@@ -414,6 +418,7 @@ thf_conn_term : nonassoc_connective {$<pval>$ = P_BUILD("thf_conn_term", $<pval>
                     | infix_equality {$<pval>$ = P_BUILD("thf_conn_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | infix_inequality {$<pval>$ = P_BUILD("thf_conn_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | unary_connective {$<pval>$ = P_BUILD("thf_conn_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | _DLR_ite {$<pval>$ = P_BUILD("thf_conn_term", P_TOKEN("_DLR_ite ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 thf_tuple : LBRKT RBRKT {$<pval>$ = P_BUILD("thf_tuple", P_TOKEN("LBRKT ", $<ival>1), P_TOKEN("RBRKT ", $<ival>2),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -686,25 +691,25 @@ tfx_definition : tff_atomic_formula identical tff_term {$<pval>$ = P_BUILD("tfx_
 tfx_sequent : tfx_tuple gentzen_arrow tfx_tuple {$<pval>$ = P_BUILD("tfx_sequent", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tnc_connective : short_tnc_connective {$<pval>$ = P_BUILD("tnc_connective", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | long_tnc_connective {$<pval>$ = P_BUILD("tnc_connective", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+tnc_connective : tnc_short_connective {$<pval>$ = P_BUILD("tnc_connective", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | tnc_long_connective {$<pval>$ = P_BUILD("tnc_connective", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-short_tnc_connective : LBRKT PERIOD RBRKT {$<pval>$ = P_BUILD("short_tnc_connective", P_TOKEN("LBRKT ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | less_sign PERIOD arrow {$<pval>$ = P_BUILD("short_tnc_connective", P_TOKEN("less_sign ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("arrow ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LBRACE PERIOD RBRACE {$<pval>$ = P_BUILD("short_tnc_connective", P_TOKEN("LBRACE ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LPAREN PERIOD RPAREN {$<pval>$ = P_BUILD("short_tnc_connective", P_TOKEN("LPAREN ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RPAREN ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LBRKT tnc_index RBRKT {$<pval>$ = P_BUILD("short_tnc_connective", P_TOKEN("LBRKT ", $<ival>1), $<pval>2, P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | less_sign tnc_index arrow {$<pval>$ = P_BUILD("short_tnc_connective", P_TOKEN("less_sign ", $<ival>1), $<pval>2, P_TOKEN("arrow ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LBRACE tnc_index RBRACE {$<pval>$ = P_BUILD("short_tnc_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LPAREN tnc_index RPAREN {$<pval>$ = P_BUILD("short_tnc_connective", P_TOKEN("LPAREN ", $<ival>1), $<pval>2, P_TOKEN("RPAREN ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+tnc_short_connective : LBRKT PERIOD RBRKT {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("LBRKT ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | less_sign PERIOD arrow {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("less_sign ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("arrow ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | slash PERIOD slash {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("slash ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("slash ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | slosh PERIOD slosh {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("slosh ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("slosh ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LBRKT tnc_index RBRKT {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("LBRKT ", $<ival>1), $<pval>2, P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | less_sign tnc_index arrow {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("less_sign ", $<ival>1), $<pval>2, P_TOKEN("arrow ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LBRACE tnc_index RBRACE {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LPAREN tnc_index RPAREN {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("LPAREN ", $<ival>1), $<pval>2, P_TOKEN("RPAREN ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-long_tnc_connective : LBRACE defined_tnc_connective RBRACE {$<pval>$ = P_BUILD("long_tnc_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LBRACE defined_tnc_connective LPAREN tnc_parameter_list RPAREN RBRACE {$<pval>$ = P_BUILD("long_tnc_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("LPAREN ", $<ival>3), $<pval>4, P_TOKEN("RPAREN ", $<ival>5), P_TOKEN("RBRACE ", $<ival>6),NULL,NULL,NULL,NULL);}
+tnc_long_connective : LBRACE tnc_connective_name RBRACE {$<pval>$ = P_BUILD("tnc_long_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LBRACE tnc_connective_name LPAREN tnc_parameter_list RPAREN RBRACE {$<pval>$ = P_BUILD("tnc_long_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("LPAREN ", $<ival>3), $<pval>4, P_TOKEN("RPAREN ", $<ival>5), P_TOKEN("RBRACE ", $<ival>6),NULL,NULL,NULL,NULL);}
                     ;
 
-defined_tnc_connective : defined_constant {$<pval>$ = P_BUILD("defined_tnc_connective", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+tnc_connective_name : def_or_sys_constant {$<pval>$ = P_BUILD("tnc_connective_name", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tnc_parameter_list : tnc_parameter {$<pval>$ = P_BUILD("tnc_parameter_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -718,7 +723,7 @@ tnc_parameter : tnc_index {$<pval>$ = P_BUILD("tnc_parameter", $<pval>1,NULL,NUL
 tnc_index : hash tff_unitary_term {$<pval>$ = P_BUILD("tnc_index", P_TOKEN("hash ", $<ival>1), $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tnc_key_pair : defined_constant assignment tff_unitary_term {$<pval>$ = P_BUILD("tnc_key_pair", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+tnc_key_pair : def_or_sys_constant assignment tff_unitary_term {$<pval>$ = P_BUILD("tnc_key_pair", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tcf_formula : tcf_logic_formula {$<pval>$ = P_BUILD("tcf_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -938,16 +943,20 @@ constant : functor {$<pval>$ = P_BUILD("constant", $<pval>1,NULL,NULL,NULL,NULL,
 functor : atomic_word {$<pval>$ = P_BUILD("functor", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
+defined_constant : defined_functor {$<pval>$ = P_BUILD("defined_constant", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    ;
+
+defined_functor : atomic_defined_word {$<pval>$ = P_BUILD("defined_functor", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    ;
+
 system_constant : system_functor {$<pval>$ = P_BUILD("system_constant", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 system_functor : atomic_system_word {$<pval>$ = P_BUILD("system_functor", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-defined_constant : defined_functor {$<pval>$ = P_BUILD("defined_constant", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    ;
-
-defined_functor : atomic_defined_word {$<pval>$ = P_BUILD("defined_functor", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+def_or_sys_constant : defined_constant {$<pval>$ = P_BUILD("def_or_sys_constant", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | system_constant {$<pval>$ = P_BUILD("def_or_sys_constant", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 th1_defined_term : EXCLAMATION_EXCLAMATION {$<pval>$ = P_BUILD("th1_defined_term", P_TOKEN("EXCLAMATION_EXCLAMATION ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}

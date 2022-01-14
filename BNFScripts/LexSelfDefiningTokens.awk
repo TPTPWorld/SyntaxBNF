@@ -222,6 +222,10 @@ function print_for_token(begin_line,token,token_word) {
     print_for_token("","/",$1);
     next;
 }
+/^SLOSH$/ {
+    print_for_token("","\\",$1);
+    next;
+}
 /^SLASH_STAR$/ {
     print_for_token("","/*",$1);
     next;

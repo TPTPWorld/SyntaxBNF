@@ -4,7 +4,6 @@
 %----v7.5.0.2 - Added <thf_definition> and <tfx_definition>
 %----v7.5.0.3 - Made defined and system words more flexible, so they can start
 %----           with $ then any <alpha_numeric>
-%----v7.5.0.4 - Changed format of <long_tnc_connective>
 %----v7.5.0.5 - CHanged the third part of a <thf_let> to a <thf_logic_formula>
 %------------------------------------------------------------------------------
 %----README ... this header provides important meta- and usage information
@@ -137,8 +136,7 @@
 <thf_plain_atomic>     ::= <constant> | <thf_tuple>
 %----Tuples can be formulae in logic definitions
 <thf_defined_atomic>   ::= <defined_constant> | <thf_conditional> | <thf_let> |
-                           <thf_defined_term> | (<thf_conn_term>) |
-                           <tnc_connective>
+                           <thf_defined_term> | (<thf_conn_term>)
 <thf_defined_term>     ::= <defined_term> | <th1_defined_term>
 <thf_defined_infix>    ::= <thf_unitary_term> <defined_infix_pred>
                            <thf_unitary_term>
@@ -259,10 +257,10 @@
 %---To avoid confusion in TFX mode a = b | p   | <tff_defined_infix>
 <tff_defined_plain>    ::= <defined_constant> |
                            <defined_functor>(<tff_arguments>) |
-                           <tfx_conditional> | <tfx_let> | <tfx_tnc_atom>
+                           <tfx_conditional> | <tfx_let>
 <tff_defined_plain>    :== <defined_proposition> |
                            <defined_predicate>(<tff_arguments>) |
-                           <tfx_conditional> | <tfx_let> | <tfx_tnc>
+                           <tfx_conditional> | <tfx_let>
 %----This is the only one that is strictly a formula, type $o. In TFX, if the
 %----LHS/RHS is a formula that does not look like a term, then it must be ()ed
 %----per <tff_unitary_term>. If you put an un()ed formula that looks like a term
@@ -282,10 +280,8 @@
 <tfx_let_defn>         ::= <tfx_let_LHS> <assignment> <tff_term>
 <tfx_let_LHS>          ::= <tff_plain_atomic> | <tfx_tuple>
 <tfx_let_defn_list>    ::= <tfx_let_defn> | <tfx_let_defn>,<tfx_let_defn_list>
-<tfx_tnc_atom>         ::= <tnc_connective>(<tff_arguments>)
 
-<tff_term>             ::= <tff_logic_formula> | <defined_term> | <tfx_tuple> |
-                           <tnc_key_pair>
+<tff_term>             ::= <tff_logic_formula> | <defined_term> | <tfx_tuple>
 <tff_unitary_term>     ::= <tff_atomic_formula> | <defined_term> |
                            <tfx_tuple> | <variable> | (<tff_logic_formula>)
 <tfx_tuple>            ::= [] | [<tff_arguments>]
@@ -319,33 +315,6 @@
 
 <tfx_definition>       ::= <tff_atomic_formula> <identical> <tff_term>
 <tfx_sequent>          ::= <tfx_tuple> <gentzen_arrow> <tfx_tuple>
-
-%------------------------------------------------------------------------------
-%----Typed non-classical here
-<tnc_connective>       ::= <short_tnc_connective> | <long_tnc_connective>
-<short_tnc_connective> ::= [.] | <less_sign>.<arrow> | {.} | (.) |
-                           [<tnc_index>] | <less_sign><tnc_index><arrow> |
-                           {<tnc_index>} | (<tnc_index>)
-<long_tnc_connective>  ::= {<defined_tnc_connective>} |
-                           {<defined_tnc_connective>(<tnc_parameter_list>)}
-<defined_tnc_connective> ::= <defined_constant>
-<tnc_parameter_list>   ::= <tnc_parameter> |
-                           <tnc_parameter>,<tnc_parameter_list>
-<tnc_parameter>        ::= <tnc_index> | <tnc_key_pair>
-<tnc_index>            ::= <hash><tff_unitary_term>
-<tnc_key_pair>         ::= <defined_constant> <assignment> <tff_unitary_term>
-
-%----Non-classical logic semantic specifications
-<logic_defn_rule>      :== <logic_defn_LHS> <identical> <logic_defn_RHS>
-<logic_defn_LHS>       :== <defined_constant>
-<logic_defn_LHS>       :== $constants | $quantification | $consequence |
-                           $modalities
-<logic_defn_RHS>       :== <tff_unitary_term> | <thf_unitary_formula>
-<logic_defn_RHS>       :== <defined_constant> | <tfx_tuple> | <thf_tuple>
-<logic_defn_RHS>       :== $rigid | $flexible |
-                           $constant | $varying | $cumulative | $decreasing |
-                           $local | $global |
-                           $modal_system_* | $modal_axiom_*
 
 %------------------------------------------------------------------------------
 %----TCF formulae.
@@ -456,7 +425,6 @@
 %----The seqent arrow
 <gentzen_arrow>        ::= -->
 <assignment>           ::= :=
-<identical>            ::= ==
 
 %----Types for THF and TFF
 <type_constant>        ::= <type_functor>
@@ -714,7 +682,6 @@
 <plus>                 ::- [+]
 <arrow>                ::- [>]
 <less_sign>            ::- [<]
-<hash>                 ::- [#]
 
 %----Numbers. Signs are made part of the same token here.
 <real>                 ::- (<signed_real>|<unsigned_real>)

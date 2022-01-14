@@ -72,14 +72,16 @@
 #define signed_rational 328
 #define signed_real 329
 #define single_quoted 330
-#define star 331
-#define unrecognized 332
-#define unsigned_exp_integer 333
-#define unsigned_integer 334
-#define unsigned_rational 335
-#define unsigned_real 336
-#define upper_word 337
-#define vline 338
+#define slash 331
+#define slosh 332
+#define star 333
+#define unrecognized 334
+#define unsigned_exp_integer 335
+#define unsigned_integer 336
+#define unsigned_rational 337
+#define unsigned_real 338
+#define upper_word 339
+#define vline 340
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1

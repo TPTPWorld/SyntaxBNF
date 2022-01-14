@@ -43,7 +43,7 @@ thf_let_defns _GRR thf_let_defn | LBRKT thf_let_defn_list RBRKT
 thf_let_defn _GRR thf_logic_formula assignment thf_logic_formula
 thf_let_defn_list _GRR thf_let_defn | thf_let_defn COMMA thf_let_defn_list
 thf_unitary_term _GRR thf_atomic_formula | variable | LPAREN thf_logic_formula RPAREN
-thf_conn_term _GRR nonassoc_connective | assoc_connective | infix_equality | infix_inequality | unary_connective
+thf_conn_term _GRR nonassoc_connective | assoc_connective | infix_equality | infix_inequality | unary_connective | _DLR_ite
 thf_tuple _GRR LBRKT RBRKT | LBRKT thf_formula_list RBRKT
 thf_fof_function _GRR functor LPAREN thf_arguments RPAREN | defined_functor LPAREN thf_arguments RPAREN | system_functor LPAREN thf_arguments RPAREN
 thf_arguments _GRR thf_formula_list
@@ -117,14 +117,15 @@ tff_type_list _GRR tff_top_level_type | tff_top_level_type COMMA tff_type_list
 tff_subtype _GRR untyped_atom subtype_sign atom
 tfx_definition _GRR tff_atomic_formula identical tff_term
 tfx_sequent _GRR tfx_tuple gentzen_arrow tfx_tuple
-tnc_connective _GRR short_tnc_connective | long_tnc_connective
-short_tnc_connective _GRR LBRKT PERIOD RBRKT | less_sign PERIOD arrow | LBRACE PERIOD RBRACE | LPAREN PERIOD RPAREN | LBRKT tnc_index RBRKT | less_sign tnc_index arrow | LBRACE tnc_index RBRACE | LPAREN tnc_index RPAREN
-long_tnc_connective _GRR LBRACE defined_tnc_connective RBRACE | LBRACE defined_tnc_connective LPAREN tnc_parameter_list RPAREN RBRACE
-defined_tnc_connective _GRR defined_constant
+tnc_connective _GRR tnc_short_connective | tnc_long_connective
+tnc_short_connective _GRR LBRKT PERIOD RBRKT | less_sign PERIOD arrow | LBRACE PERIOD RBRACE | LPAREN PERIOD RPAREN | LBRKT tnc_index RBRKT | less_sign tnc_index arrow | LBRACE tnc_index RBRACE | LPAREN tnc_index RPAREN
+tnc_long_connective _GRR LBRACE tnc_defined_connective RBRACE | LBRACE tnc_defined_connective LPAREN tnc_parameter_list RPAREN RBRACE | LBRACE tnc_system_connective RBRACE | LBRACE tnc_system_connective LPAREN tnc_parameter_list RPAREN RBRACE
+tnc_defined_connective _GRR defined_constant
+tnc_system_connective _GRR system_constant
 tnc_parameter_list _GRR tnc_parameter | tnc_parameter COMMA tnc_parameter_list
 tnc_parameter _GRR tnc_index | tnc_key_pair
 tnc_index _GRR hash tff_unitary_term
-tnc_key_pair _GRR defined_constant assignment tff_unitary_term
+tnc_key_pair _GRR defined_constant assignment tff_unitary_term | system_constant assignment tff_unitary_term
 logic_defn_rule _GRS logic_defn_LHS identical logic_defn_RHS
 logic_defn_LHS _GRS defined_constant
 logic_defn_LHS _GRS _DLR_constants | _DLR_quantification | _DLR_consequence | _DLR_modalities
