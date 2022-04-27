@@ -174,6 +174,7 @@ int yywrap(void) {
 %token <ival> LESS_LESS
 %token <ival> LESS_TILDE_GREATER
 %token <ival> LPAREN
+%token <ival> MINUS
 %token <ival> MINUS_MINUS_GREATER
 %token <ival> PERIOD
 %token <ival> QUESTION
@@ -190,7 +191,6 @@ int yywrap(void) {
 %token <ival> _DLR_cnf
 %token <ival> _DLR_fof
 %token <ival> _DLR_fot
-%token <ival> _DLR_ite
 %token <ival> _DLR_let
 %token <ival> _DLR_tff
 %token <ival> _DLR_thf
@@ -277,6 +277,7 @@ annotations : COMMA source optional_info {$<pval>$ = P_BUILD("annotations", P_TO
                     ;
 
 formula_role : lower_word {$<pval>$ = P_BUILD("formula_role", P_TOKEN("lower_word ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | lower_word MINUS general_term {$<pval>$ = P_BUILD("formula_role", P_TOKEN("lower_word ", $<ival>1), P_TOKEN("MINUS ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 thf_formula : thf_logic_formula {$<pval>$ = P_BUILD("thf_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -366,11 +367,10 @@ thf_plain_atomic : constant {$<pval>$ = P_BUILD("thf_plain_atomic", $<pval>1,NUL
                     ;
 
 thf_defined_atomic : defined_constant {$<pval>$ = P_BUILD("thf_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | thf_conditional {$<pval>$ = P_BUILD("thf_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | thf_let {$<pval>$ = P_BUILD("thf_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | thf_defined_term {$<pval>$ = P_BUILD("thf_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | LPAREN thf_conn_term RPAREN {$<pval>$ = P_BUILD("thf_defined_atomic", P_TOKEN("LPAREN ", $<ival>1), $<pval>2, P_TOKEN("RPAREN ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | tnc_connective {$<pval>$ = P_BUILD("thf_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | thf_let {$<pval>$ = P_BUILD("thf_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 thf_defined_term : defined_term {$<pval>$ = P_BUILD("thf_defined_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -381,9 +381,6 @@ thf_defined_infix : thf_unitary_term defined_infix_pred thf_unitary_term {$<pval
                     ;
 
 thf_system_atomic : system_constant {$<pval>$ = P_BUILD("thf_system_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    ;
-
-thf_conditional : _DLR_ite LPAREN thf_logic_formula COMMA thf_logic_formula COMMA thf_logic_formula RPAREN {$<pval>$ = P_BUILD("thf_conditional", P_TOKEN("_DLR_ite ", $<ival>1), P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("COMMA ", $<ival>4), $<pval>5, P_TOKEN("COMMA ", $<ival>6), $<pval>7, P_TOKEN("RPAREN ", $<ival>8),NULL,NULL);}
                     ;
 
 thf_let : _DLR_let LPAREN thf_let_types COMMA thf_let_defns COMMA thf_logic_formula RPAREN {$<pval>$ = P_BUILD("thf_let", P_TOKEN("_DLR_let ", $<ival>1), P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("COMMA ", $<ival>4), $<pval>5, P_TOKEN("COMMA ", $<ival>6), $<pval>7, P_TOKEN("RPAREN ", $<ival>8),NULL,NULL);}
@@ -418,7 +415,6 @@ thf_conn_term : nonassoc_connective {$<pval>$ = P_BUILD("thf_conn_term", $<pval>
                     | infix_equality {$<pval>$ = P_BUILD("thf_conn_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | infix_inequality {$<pval>$ = P_BUILD("thf_conn_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | unary_connective {$<pval>$ = P_BUILD("thf_conn_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | _DLR_ite {$<pval>$ = P_BUILD("thf_conn_term", P_TOKEN("_DLR_ite ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 thf_tuple : LBRKT RBRKT {$<pval>$ = P_BUILD("thf_tuple", P_TOKEN("LBRKT ", $<ival>1), P_TOKEN("RBRKT ", $<ival>2),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -562,13 +558,13 @@ tff_plain_atomic : constant {$<pval>$ = P_BUILD("tff_plain_atomic", $<pval>1,NUL
                     ;
 
 tff_defined_atomic : tff_defined_plain {$<pval>$ = P_BUILD("tff_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | tnc_connective {$<pval>$ = P_BUILD("tff_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_defined_plain : defined_constant {$<pval>$ = P_BUILD("tff_defined_plain", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | defined_functor LPAREN tff_arguments RPAREN {$<pval>$ = P_BUILD("tff_defined_plain", $<pval>1, P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("RPAREN ", $<ival>4),NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tfx_conditional {$<pval>$ = P_BUILD("tff_defined_plain", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tfx_let {$<pval>$ = P_BUILD("tff_defined_plain", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | tfx_tnc_atom {$<pval>$ = P_BUILD("tff_defined_plain", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | tfx_let {$<pval>$ = P_BUILD("tff_defined_plain", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_defined_infix : tff_unitary_term defined_infix_pred tff_unitary_term {$<pval>$ = P_BUILD("tff_defined_infix", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -576,9 +572,6 @@ tff_defined_infix : tff_unitary_term defined_infix_pred tff_unitary_term {$<pval
 
 tff_system_atomic : system_constant {$<pval>$ = P_BUILD("tff_system_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | system_functor LPAREN tff_arguments RPAREN {$<pval>$ = P_BUILD("tff_system_atomic", $<pval>1, P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("RPAREN ", $<ival>4),NULL,NULL,NULL,NULL,NULL,NULL);}
-                    ;
-
-tfx_conditional : _DLR_ite LPAREN tff_logic_formula COMMA tff_term COMMA tff_term RPAREN {$<pval>$ = P_BUILD("tfx_conditional", P_TOKEN("_DLR_ite ", $<ival>1), P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("COMMA ", $<ival>4), $<pval>5, P_TOKEN("COMMA ", $<ival>6), $<pval>7, P_TOKEN("RPAREN ", $<ival>8),NULL,NULL);}
                     ;
 
 tfx_let : _DLR_let LPAREN tfx_let_types COMMA tfx_let_defns COMMA tff_term RPAREN {$<pval>$ = P_BUILD("tfx_let", P_TOKEN("_DLR_let ", $<ival>1), P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("COMMA ", $<ival>4), $<pval>5, P_TOKEN("COMMA ", $<ival>6), $<pval>7, P_TOKEN("RPAREN ", $<ival>8),NULL,NULL);}
@@ -697,12 +690,10 @@ tnc_connective : tnc_short_connective {$<pval>$ = P_BUILD("tnc_connective", $<pv
 
 tnc_short_connective : LBRKT PERIOD RBRKT {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("LBRKT ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | less_sign PERIOD arrow {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("less_sign ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("arrow ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | slash PERIOD slash {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("slash ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("slash ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | slosh PERIOD slosh {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("slosh ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("slosh ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LBRACE PERIOD RBRACE {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("LBRACE ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | LBRKT tnc_index RBRKT {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("LBRKT ", $<ival>1), $<pval>2, P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | less_sign tnc_index arrow {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("less_sign ", $<ival>1), $<pval>2, P_TOKEN("arrow ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | LBRACE tnc_index RBRACE {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LPAREN tnc_index RPAREN {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("LPAREN ", $<ival>1), $<pval>2, P_TOKEN("RPAREN ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tnc_long_connective : LBRACE tnc_connective_name RBRACE {$<pval>$ = P_BUILD("tnc_long_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -724,6 +715,16 @@ tnc_index : hash tff_unitary_term {$<pval>$ = P_BUILD("tnc_index", P_TOKEN("hash
                     ;
 
 tnc_key_pair : def_or_sys_constant assignment tff_unitary_term {$<pval>$ = P_BUILD("tnc_key_pair", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    ;
+
+logic_defn_rule : logic_defn_LHS identical logic_defn_RHS {$<pval>$ = P_BUILD("logic_defn_rule", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    ;
+
+logic_defn_LHS : defined_constant {$<pval>$ = P_BUILD("logic_defn_LHS", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    ;
+
+logic_defn_RHS : defined_constant {$<pval>$ = P_BUILD("logic_defn_RHS", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | tfx_tuple {$<pval>$ = P_BUILD("logic_defn_RHS", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tcf_formula : tcf_logic_formula {$<pval>$ = P_BUILD("tcf_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}

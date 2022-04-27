@@ -9,7 +9,7 @@ tcf_annotated _GRR _LIT_tcf LPAREN name COMMA formula_role COMMA tcf_formula ann
 fof_annotated _GRR _LIT_fof LPAREN name COMMA formula_role COMMA fof_formula annotations RPAREN PERIOD
 cnf_annotated _GRR _LIT_cnf LPAREN name COMMA formula_role COMMA cnf_formula annotations RPAREN PERIOD
 annotations _GRR COMMA source optional_info | null
-formula_role _GRR lower_word
+formula_role _GRR lower_word | lower_word MINUS general_term
 formula_role _GRS _LIT_axiom | _LIT_hypothesis | _LIT_definition | _LIT_assumption | _LIT_lemma | _LIT_theorem | _LIT_corollary | _LIT_conjecture | _LIT_negated_conjecture | _LIT_plain | _LIT_type | _LIT_fi_domain | _LIT_fi_functors | _LIT_fi_predicates | _LIT_unknown
 thf_formula _GRR thf_logic_formula | thf_atom_typing | thf_subtype
 thf_logic_formula _GRR thf_unitary_formula | thf_unary_formula | thf_binary_formula | thf_defined_infix | thf_definition | thf_sequent
@@ -31,11 +31,10 @@ thf_prefix_unary _GRR unary_connective thf_preunit_formula
 thf_infix_unary _GRR thf_unitary_term infix_inequality thf_unitary_term
 thf_atomic_formula _GRR thf_plain_atomic | thf_defined_atomic | thf_system_atomic | thf_fof_function
 thf_plain_atomic _GRR constant | thf_tuple
-thf_defined_atomic _GRR defined_constant | thf_conditional | thf_let | thf_defined_term | LPAREN thf_conn_term RPAREN | tnc_connective
+thf_defined_atomic _GRR defined_constant | thf_defined_term | LPAREN thf_conn_term RPAREN | tnc_connective | thf_let
 thf_defined_term _GRR defined_term | th1_defined_term
 thf_defined_infix _GRR thf_unitary_term defined_infix_pred thf_unitary_term
 thf_system_atomic _GRR system_constant
-thf_conditional _GRR _DLR_ite LPAREN thf_logic_formula COMMA thf_logic_formula COMMA thf_logic_formula RPAREN
 thf_let _GRR _DLR_let LPAREN thf_let_types COMMA thf_let_defns COMMA thf_logic_formula RPAREN
 thf_let_types _GRR thf_atom_typing | LBRKT thf_atom_typing_list RBRKT
 thf_atom_typing_list _GRR thf_atom_typing | thf_atom_typing COMMA thf_atom_typing_list
@@ -43,7 +42,7 @@ thf_let_defns _GRR thf_let_defn | LBRKT thf_let_defn_list RBRKT
 thf_let_defn _GRR thf_logic_formula assignment thf_logic_formula
 thf_let_defn_list _GRR thf_let_defn | thf_let_defn COMMA thf_let_defn_list
 thf_unitary_term _GRR thf_atomic_formula | variable | LPAREN thf_logic_formula RPAREN
-thf_conn_term _GRR nonassoc_connective | assoc_connective | infix_equality | infix_inequality | unary_connective | _DLR_ite
+thf_conn_term _GRR nonassoc_connective | assoc_connective | infix_equality | infix_inequality | unary_connective
 thf_tuple _GRR LBRKT RBRKT | LBRKT thf_formula_list RBRKT
 thf_fof_function _GRR functor LPAREN thf_arguments RPAREN | defined_functor LPAREN thf_arguments RPAREN | system_functor LPAREN thf_arguments RPAREN
 thf_arguments _GRR thf_formula_list
@@ -83,13 +82,13 @@ tff_infix_unary _GRR tff_unitary_term infix_inequality tff_unitary_term
 tff_atomic_formula _GRR tff_plain_atomic | tff_defined_atomic | tff_system_atomic
 tff_plain_atomic _GRR constant | functor LPAREN tff_arguments RPAREN
 tff_plain_atomic _GRS proposition | predicate LPAREN tff_arguments RPAREN
-tff_defined_atomic _GRR tff_defined_plain
-tff_defined_plain _GRR defined_constant | defined_functor LPAREN tff_arguments RPAREN | tfx_conditional | tfx_let | tfx_tnc_atom
+tff_defined_atomic _GRR tff_defined_plain | tnc_connective
+tff_defined_plain _GRR defined_constant | defined_functor LPAREN tff_arguments RPAREN | tfx_tnc_atom | tfx_let
 tff_defined_plain _GRS defined_proposition | defined_predicate LPAREN tff_arguments RPAREN | tfx_conditional | tfx_let | tfx_tnc
 tff_defined_infix _GRR tff_unitary_term defined_infix_pred tff_unitary_term
 tff_system_atomic _GRR system_constant | system_functor LPAREN tff_arguments RPAREN
 tff_system_atomic _GRS system_proposition | system_predicate LPAREN tff_arguments RPAREN
-tfx_conditional _GRR _DLR_ite LPAREN tff_logic_formula COMMA tff_term COMMA tff_term RPAREN
+tfx_conditional _GRS _DLR_ite LPAREN tff_logic_formula COMMA tff_term COMMA tff_term RPAREN
 tfx_let _GRR _DLR_let LPAREN tfx_let_types COMMA tfx_let_defns COMMA tff_term RPAREN
 tfx_let_types _GRR tff_atom_typing | LBRKT tff_atom_typing_list RBRKT
 tff_atom_typing_list _GRR tff_atom_typing | tff_atom_typing COMMA tff_atom_typing_list
@@ -118,19 +117,18 @@ tff_subtype _GRR untyped_atom subtype_sign atom
 tfx_definition _GRR tff_atomic_formula identical tff_term
 tfx_sequent _GRR tfx_tuple gentzen_arrow tfx_tuple
 tnc_connective _GRR tnc_short_connective | tnc_long_connective
-tnc_short_connective _GRR LBRKT PERIOD RBRKT | less_sign PERIOD arrow | slash PERIOD slash | slosh PERIOD slosh | LBRKT tnc_index RBRKT | less_sign tnc_index arrow | LBRACE tnc_index RBRACE | LPAREN tnc_index RPAREN
+tnc_short_connective _GRR LBRKT PERIOD RBRKT | less_sign PERIOD arrow | LBRACE PERIOD RBRACE | LBRKT tnc_index RBRKT | less_sign tnc_index arrow | LBRACE tnc_index RBRACE
 tnc_long_connective _GRR LBRACE tnc_connective_name RBRACE | LBRACE tnc_connective_name LPAREN tnc_parameter_list RPAREN RBRACE
 tnc_connective_name _GRR def_or_sys_constant
 tnc_parameter_list _GRR tnc_parameter | tnc_parameter COMMA tnc_parameter_list
 tnc_parameter _GRR tnc_index | tnc_key_pair
 tnc_index _GRR hash tff_unitary_term
 tnc_key_pair _GRR def_or_sys_constant assignment tff_unitary_term
-logic_defn_rule _GRS logic_defn_LHS identical logic_defn_RHS
-logic_defn_LHS _GRS defined_constant
-logic_defn_LHS _GRS _DLR_constants | _DLR_quantification | _DLR_consequence | _DLR_modalities
-logic_defn_RHS _GRS tff_unitary_term | thf_unitary_formula
-logic_defn_RHS _GRS defined_constant | tfx_tuple | thf_tuple
-logic_defn_RHS _GRS _DLR_rigid | _DLR_flexible | _DLR_constant | _DLR_varying | _DLR_cumulative | _DLR_decreasing | _DLR_local | _DLR_global | DOLLAR modal_system_* | DOLLAR modal_axiom_*
+logic_defn_rule _GRR logic_defn_LHS identical logic_defn_RHS
+logic_defn_LHS _GRR defined_constant
+logic_defn_LHS _GRS _DLR_constants | _DLR_consequence | _DLR_modalities
+logic_defn_RHS _GRR defined_constant | tfx_tuple
+logic_defn_RHS _GRS _DLR_rigid | _DLR_flexible | _DLR_constant | _DLR_varying | _DLR_cumulative | _DLR_decreasing | DOLLAR modal_system_* | DOLLAR modal_axiom_*
 tcf_formula _GRR tcf_logic_formula | tff_atom_typing
 tcf_logic_formula _GRR tcf_quantified_formula | cnf_formula
 tcf_quantified_formula _GRR EXCLAMATION LBRKT tff_variable_list RBRKT COLON cnf_formula

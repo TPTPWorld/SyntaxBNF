@@ -232,6 +232,11 @@ viewable_char         [.\n]
     yylval.ival = tptp_update_lval(yytext);
     return(LPAREN);
 }
+"-" {
+    tptp_prev_tok=MINUS;
+    yylval.ival = tptp_update_lval(yytext);
+    return(MINUS);
+}
 "-->" {
     tptp_prev_tok=MINUS_MINUS_GREATER;
     yylval.ival = tptp_update_lval(yytext);
@@ -312,11 +317,6 @@ viewable_char         [.\n]
     tptp_prev_tok=_DLR_fot;
     yylval.ival = tptp_update_lval(yytext);
     return(_DLR_fot);
-}
-"$ite" {
-    tptp_prev_tok=_DLR_ite;
-    yylval.ival = tptp_update_lval(yytext);
-    return(_DLR_ite);
 }
 "$let" {
     tptp_prev_tok=_DLR_let;
