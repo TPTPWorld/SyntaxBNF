@@ -32,7 +32,7 @@ tff(hate_the_multi_biter_any,axiom,
       ( ( H != owner_of(T,D)
         & bit(T,D,H,N) 
         & $greater(N,1) )
-     => {$necessary(#garfield)}(hates(H,owner_of(T,D))) ) ).
+     => {$necessary(#arlene)}(hates(H,owner_of(T,D))) ) ).
 
 tff(jon_says_truth,axiom,
     ! [S: $o] :

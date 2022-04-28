@@ -27,7 +27,7 @@ tff(hate_the_multi_biter_dog,axiom,
       ( ( H != owner_of(D)
         & bit(D,H,N) 
         & $greater(N,1) )
-     => {$necessary(#garfield)}(hates(H,owner_of(D))) ) ).
+     => {$necessary(#arlene)}(hates(H,owner_of(D))) ) ).
 
 tff(feed_the_non_biter_dog,axiom,
     ! [D: dog,H: human] :

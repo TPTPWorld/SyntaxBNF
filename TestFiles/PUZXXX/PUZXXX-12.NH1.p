@@ -33,7 +33,7 @@ thf(hate_the_multi_biter_any,axiom,
       ( ( ~ ( owns @ T @ H @ B )
         & ( bit @ T @ B @ H @ N )
         & ( $greater @ N @ 1 ) )
-     => ( {$necessary(#garfield)} @ ( hates @ H @ ( owner_of @ T @ B ) ) ) ) ).
+     => ( {$necessary(#arlene)} @ ( hates @ H @ ( owner_of @ T @ B ) ) ) ) ).
 
 thf(feed_the_non_biter_dog,axiom,
     ! [D: biter @ dog,H: human] :
