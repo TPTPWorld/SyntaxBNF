@@ -22,10 +22,10 @@ thf(owns_defn,definition,
     ( owns
     = ( ^ [T: $tType,H: human,B: biter @ T] : ( H = ( owner_of @ T @ B ) ) ) ) ).
 
-thf(jon_owns_odie,axiom,
+thf(jon_owns_odie,axiom-local,
     owns @ dog @ jon @ odie ).
 
-thf(odie_bit_jon_twice,axiom,
+thf(odie_bit_jon_twice,axiom-local,
     bit @ dog @ odie @ jon @ 2 ).
 
 thf(hate_the_multi_biter_any,axiom,
@@ -44,7 +44,7 @@ thf(feed_the_non_biter_dog,axiom,
         chases @ H @ D,
         feeds @ H @ D) ).
 
-thf(jon_says_a_dog_bit_him_twice,axiom,
+thf(jon_says_a_dog_bit_him_twice,axiom-local,
     ? [D: biter @ dog] :
       ( ( D != odie )
       & ~ ( owns @ dog @ jon @ D )

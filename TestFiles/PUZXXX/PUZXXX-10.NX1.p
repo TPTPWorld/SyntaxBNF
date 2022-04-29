@@ -15,17 +15,11 @@ tff(bit_decl,type,      bit: !>[BiterType: $tType]: ( (biter(BiterType) * human 
 tff(hates_decl,type,    hates: (human * human) > $o ).
 tff(says_decl,type,     says: (human * $o) > $o ).
 
-tff(jon_owns_odie,axiom,
+tff(jon_owns_odie,axiom-local,
     jon = owner_of(dog,odie) ).
 
-tff(odie_bit_jon_twice,axiom,
+tff(odie_bit_jon_twice,axiom-local,
     bit(dog,odie,jon,2) ).
-
-tff(jon_says_a_dog_bit_him_twice,axiom,
-    ? [D: biter(dog)] :
-      ( D != odie
-      & jon != owner_of(D)
-      & says(jon,bit(dog,D,jon,2)) ) ).
 
 tff(hate_the_multi_biter_any,axiom,
     ! [T: $tType,D: biter(T),H: human,N: $int] :
@@ -33,6 +27,12 @@ tff(hate_the_multi_biter_any,axiom,
         & bit(T,D,H,N) 
         & $greater(N,1) )
      => {$necessary(#arlene)}(hates(H,owner_of(T,D))) ) ).
+
+tff(jon_says_a_dog_bit_him_twice,axiom-local,
+    ? [D: biter(dog)] :
+      ( D != odie
+      & jon != owner_of(D)
+      & says(jon,bit(dog,D,jon,2)) ) ).
 
 tff(jon_says_truth,axiom,
     ! [S: $o] :

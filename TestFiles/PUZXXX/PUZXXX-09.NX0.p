@@ -16,10 +16,10 @@ tff(feeds_decl,type,    feeds: (human * dog) > $o ).
 tff(chases_decl,type,   chases: (human * dog) > $o ).
 tff(says_decl,type,     says: (human * $o) > $o ).
 
-tff(jon_owns_odie,axiom,
+tff(jon_owns_odie,axiom-local,
     jon = owner_of(odie) ).
 
-tff(odie_bit_jon_twice,axiom,
+tff(odie_bit_jon_twice,axiom-local,
     bit(odie,jon,2) ).
 
 tff(hate_the_multi_biter_dog,axiom,
@@ -38,7 +38,7 @@ tff(feed_the_non_biter_dog,axiom,
         chases(H,D),
         feeds(H,D)) ).
 
-tff(jon_says_a_dog_bit_him_twice,axiom,
+tff(jon_says_a_dog_bit_him_twice,axiom-local,
     ? [D: dog] :
       ( D != odie
       & jon != owner_of(D)
