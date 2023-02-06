@@ -1,17 +1,14 @@
-thf(exotic,logic,(
-    $modal ==
-      [ $constants == $flexible,
-        $quantification == $cumulative,
-        $modalities ==
-          [ $modal_system_S5,
-            [#a] == $modal_system_KB,
-            [#b] == $modal_system_K ] ] )).
+tff(p_type,type,
+    p: $o ).
 
-tff(exotic,logic,(
-    $modal ==
-      [ $constants == $flexible,
-        $quantification == $cumulative,
-        $modalities ==
-          [ $modal_system_S5,
-            [#a] == $modal_system_KB,
-            [#b] == $modal_system_K ] ] )).
+tff(short,axiom,
+    [.] p ).
+
+tff(long,axiom,
+    {$box} @ (p) ).
+
+thf(short,axiom,
+    [.] p ).
+
+thf(short,axiom,
+    ([.]) @ p ).

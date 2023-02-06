@@ -350,7 +350,7 @@ thf_unary_formula : thf_prefix_unary {$<pval>$ = P_BUILD("thf_unary_formula", $<
                     | thf_infix_unary {$<pval>$ = P_BUILD("thf_unary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-thf_prefix_unary : unary_connective thf_preunit_formula {$<pval>$ = P_BUILD("thf_prefix_unary", $<pval>1, $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+thf_prefix_unary : thf_unary_connective thf_preunit_formula {$<pval>$ = P_BUILD("thf_prefix_unary", $<pval>1, $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 thf_infix_unary : thf_unitary_term infix_inequality thf_unitary_term {$<pval>$ = P_BUILD("thf_infix_unary", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -369,7 +369,7 @@ thf_plain_atomic : constant {$<pval>$ = P_BUILD("thf_plain_atomic", $<pval>1,NUL
 thf_defined_atomic : defined_constant {$<pval>$ = P_BUILD("thf_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | thf_defined_term {$<pval>$ = P_BUILD("thf_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | LPAREN thf_conn_term RPAREN {$<pval>$ = P_BUILD("thf_defined_atomic", P_TOKEN("LPAREN ", $<ival>1), $<pval>2, P_TOKEN("RPAREN ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tnc_connective {$<pval>$ = P_BUILD("thf_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | nhf_long_connective {$<pval>$ = P_BUILD("thf_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | thf_let {$<pval>$ = P_BUILD("thf_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
@@ -414,7 +414,7 @@ thf_conn_term : nonassoc_connective {$<pval>$ = P_BUILD("thf_conn_term", $<pval>
                     | assoc_connective {$<pval>$ = P_BUILD("thf_conn_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | infix_equality {$<pval>$ = P_BUILD("thf_conn_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | infix_inequality {$<pval>$ = P_BUILD("thf_conn_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | unary_connective {$<pval>$ = P_BUILD("thf_conn_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | thf_unary_connective {$<pval>$ = P_BUILD("thf_conn_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 thf_tuple : LBRKT RBRKT {$<pval>$ = P_BUILD("thf_tuple", P_TOKEN("LBRKT ", $<ival>1), P_TOKEN("RBRKT ", $<ival>2),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -483,8 +483,8 @@ tff_logic_formula : tff_unitary_formula {$<pval>$ = P_BUILD("tff_logic_formula",
                     | tff_unary_formula {$<pval>$ = P_BUILD("tff_logic_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | tff_binary_formula {$<pval>$ = P_BUILD("tff_logic_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | tff_defined_infix {$<pval>$ = P_BUILD("tff_logic_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tfx_definition {$<pval>$ = P_BUILD("tff_logic_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tfx_sequent {$<pval>$ = P_BUILD("tff_logic_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | txf_definition {$<pval>$ = P_BUILD("tff_logic_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | txf_sequent {$<pval>$ = P_BUILD("tff_logic_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_binary_formula : tff_binary_nonassoc {$<pval>$ = P_BUILD("tff_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -517,11 +517,11 @@ tff_preunit_formula : tff_unitary_formula {$<pval>$ = P_BUILD("tff_preunit_formu
 
 tff_unitary_formula : tff_quantified_formula {$<pval>$ = P_BUILD("tff_unitary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | tff_atomic_formula {$<pval>$ = P_BUILD("tff_unitary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tfx_unitary_formula {$<pval>$ = P_BUILD("tff_unitary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | txf_unitary_formula {$<pval>$ = P_BUILD("tff_unitary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | LPAREN tff_logic_formula RPAREN {$<pval>$ = P_BUILD("tff_unitary_formula", P_TOKEN("LPAREN ", $<ival>1), $<pval>2, P_TOKEN("RPAREN ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tfx_unitary_formula : variable {$<pval>$ = P_BUILD("tfx_unitary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+txf_unitary_formula : variable {$<pval>$ = P_BUILD("txf_unitary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_quantified_formula : fof_quantifier LBRKT tff_variable_list RBRKT COLON tff_unit_formula {$<pval>$ = P_BUILD("tff_quantified_formula", $<pval>1, P_TOKEN("LBRKT ", $<ival>2), $<pval>3, P_TOKEN("RBRKT ", $<ival>4), P_TOKEN("COLON ", $<ival>5), $<pval>6,NULL,NULL,NULL,NULL);}
@@ -542,7 +542,7 @@ tff_unary_formula : tff_prefix_unary {$<pval>$ = P_BUILD("tff_unary_formula", $<
                     | tff_infix_unary {$<pval>$ = P_BUILD("tff_unary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tff_prefix_unary : unary_connective tff_preunit_formula {$<pval>$ = P_BUILD("tff_prefix_unary", $<pval>1, $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+tff_prefix_unary : tff_unary_connective tff_preunit_formula {$<pval>$ = P_BUILD("tff_prefix_unary", $<pval>1, $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_infix_unary : tff_unitary_term infix_inequality tff_unitary_term {$<pval>$ = P_BUILD("tff_infix_unary", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -558,13 +558,12 @@ tff_plain_atomic : constant {$<pval>$ = P_BUILD("tff_plain_atomic", $<pval>1,NUL
                     ;
 
 tff_defined_atomic : tff_defined_plain {$<pval>$ = P_BUILD("tff_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tnc_connective {$<pval>$ = P_BUILD("tff_defined_atomic", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_defined_plain : defined_constant {$<pval>$ = P_BUILD("tff_defined_plain", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | defined_functor LPAREN tff_arguments RPAREN {$<pval>$ = P_BUILD("tff_defined_plain", $<pval>1, P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("RPAREN ", $<ival>4),NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tfx_tnc_atom {$<pval>$ = P_BUILD("tff_defined_plain", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tfx_let {$<pval>$ = P_BUILD("tff_defined_plain", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | nxf_atom {$<pval>$ = P_BUILD("tff_defined_plain", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | txf_let {$<pval>$ = P_BUILD("tff_defined_plain", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_defined_infix : tff_unitary_term defined_infix_pred tff_unitary_term {$<pval>$ = P_BUILD("tff_defined_infix", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -574,50 +573,49 @@ tff_system_atomic : system_constant {$<pval>$ = P_BUILD("tff_system_atomic", $<p
                     | system_functor LPAREN tff_arguments RPAREN {$<pval>$ = P_BUILD("tff_system_atomic", $<pval>1, P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("RPAREN ", $<ival>4),NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tfx_let : _DLR_let LPAREN tfx_let_types COMMA tfx_let_defns COMMA tff_term RPAREN {$<pval>$ = P_BUILD("tfx_let", P_TOKEN("_DLR_let ", $<ival>1), P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("COMMA ", $<ival>4), $<pval>5, P_TOKEN("COMMA ", $<ival>6), $<pval>7, P_TOKEN("RPAREN ", $<ival>8),NULL,NULL);}
+txf_let : _DLR_let LPAREN txf_let_types COMMA txf_let_defns COMMA tff_term RPAREN {$<pval>$ = P_BUILD("txf_let", P_TOKEN("_DLR_let ", $<ival>1), P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("COMMA ", $<ival>4), $<pval>5, P_TOKEN("COMMA ", $<ival>6), $<pval>7, P_TOKEN("RPAREN ", $<ival>8),NULL,NULL);}
                     ;
 
-tfx_let_types : tff_atom_typing {$<pval>$ = P_BUILD("tfx_let_types", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LBRKT tff_atom_typing_list RBRKT {$<pval>$ = P_BUILD("tfx_let_types", P_TOKEN("LBRKT ", $<ival>1), $<pval>2, P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+txf_let_types : tff_atom_typing {$<pval>$ = P_BUILD("txf_let_types", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LBRKT tff_atom_typing_list RBRKT {$<pval>$ = P_BUILD("txf_let_types", P_TOKEN("LBRKT ", $<ival>1), $<pval>2, P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_atom_typing_list : tff_atom_typing {$<pval>$ = P_BUILD("tff_atom_typing_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | tff_atom_typing COMMA tff_atom_typing_list {$<pval>$ = P_BUILD("tff_atom_typing_list", $<pval>1, P_TOKEN("COMMA ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tfx_let_defns : tfx_let_defn {$<pval>$ = P_BUILD("tfx_let_defns", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LBRKT tfx_let_defn_list RBRKT {$<pval>$ = P_BUILD("tfx_let_defns", P_TOKEN("LBRKT ", $<ival>1), $<pval>2, P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+txf_let_defns : txf_let_defn {$<pval>$ = P_BUILD("txf_let_defns", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LBRKT txf_let_defn_list RBRKT {$<pval>$ = P_BUILD("txf_let_defns", P_TOKEN("LBRKT ", $<ival>1), $<pval>2, P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tfx_let_defn : tfx_let_LHS assignment tff_term {$<pval>$ = P_BUILD("tfx_let_defn", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+txf_let_defn : txf_let_LHS assignment tff_term {$<pval>$ = P_BUILD("txf_let_defn", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tfx_let_LHS : tff_plain_atomic {$<pval>$ = P_BUILD("tfx_let_LHS", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tfx_tuple {$<pval>$ = P_BUILD("tfx_let_LHS", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+txf_let_LHS : tff_plain_atomic {$<pval>$ = P_BUILD("txf_let_LHS", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | txf_tuple {$<pval>$ = P_BUILD("txf_let_LHS", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tfx_let_defn_list : tfx_let_defn {$<pval>$ = P_BUILD("tfx_let_defn_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tfx_let_defn COMMA tfx_let_defn_list {$<pval>$ = P_BUILD("tfx_let_defn_list", $<pval>1, P_TOKEN("COMMA ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+txf_let_defn_list : txf_let_defn {$<pval>$ = P_BUILD("txf_let_defn_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | txf_let_defn COMMA txf_let_defn_list {$<pval>$ = P_BUILD("txf_let_defn_list", $<pval>1, P_TOKEN("COMMA ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tfx_tnc_atom : tnc_connective LPAREN tff_arguments RPAREN {$<pval>$ = P_BUILD("tfx_tnc_atom", $<pval>1, P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("RPAREN ", $<ival>4),NULL,NULL,NULL,NULL,NULL,NULL);}
+nxf_atom : nxf_long_connective AT_SIGN LPAREN tff_arguments RPAREN {$<pval>$ = P_BUILD("nxf_atom", $<pval>1, P_TOKEN("AT_SIGN ", $<ival>2), P_TOKEN("LPAREN ", $<ival>3), $<pval>4, P_TOKEN("RPAREN ", $<ival>5),NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_term : tff_logic_formula {$<pval>$ = P_BUILD("tff_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | defined_term {$<pval>$ = P_BUILD("tff_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tfx_tuple {$<pval>$ = P_BUILD("tff_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tnc_key_pair {$<pval>$ = P_BUILD("tff_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | txf_tuple {$<pval>$ = P_BUILD("tff_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_unitary_term : tff_atomic_formula {$<pval>$ = P_BUILD("tff_unitary_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | defined_term {$<pval>$ = P_BUILD("tff_unitary_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tfx_tuple {$<pval>$ = P_BUILD("tff_unitary_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | txf_tuple {$<pval>$ = P_BUILD("tff_unitary_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | variable {$<pval>$ = P_BUILD("tff_unitary_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | LPAREN tff_logic_formula RPAREN {$<pval>$ = P_BUILD("tff_unitary_term", P_TOKEN("LPAREN ", $<ival>1), $<pval>2, P_TOKEN("RPAREN ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tfx_tuple : LBRKT RBRKT {$<pval>$ = P_BUILD("tfx_tuple", P_TOKEN("LBRKT ", $<ival>1), P_TOKEN("RBRKT ", $<ival>2),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LBRKT tff_arguments RBRKT {$<pval>$ = P_BUILD("tfx_tuple", P_TOKEN("LBRKT ", $<ival>1), $<pval>2, P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+txf_tuple : LBRKT RBRKT {$<pval>$ = P_BUILD("txf_tuple", P_TOKEN("LBRKT ", $<ival>1), P_TOKEN("RBRKT ", $<ival>2),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LBRKT tff_arguments RBRKT {$<pval>$ = P_BUILD("txf_tuple", P_TOKEN("LBRKT ", $<ival>1), $<pval>2, P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_arguments : tff_term {$<pval>$ = P_BUILD("tff_arguments", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -654,7 +652,7 @@ tff_atomic_type : type_constant {$<pval>$ = P_BUILD("tff_atomic_type", $<pval>1,
                     | variable {$<pval>$ = P_BUILD("tff_atomic_type", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | type_functor LPAREN tff_type_arguments RPAREN {$<pval>$ = P_BUILD("tff_atomic_type", $<pval>1, P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("RPAREN ", $<ival>4),NULL,NULL,NULL,NULL,NULL,NULL);}
                     | LPAREN tff_atomic_type RPAREN {$<pval>$ = P_BUILD("tff_atomic_type", P_TOKEN("LPAREN ", $<ival>1), $<pval>2, P_TOKEN("RPAREN ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tfx_tuple_type {$<pval>$ = P_BUILD("tff_atomic_type", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | txf_tuple_type {$<pval>$ = P_BUILD("tff_atomic_type", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_type_arguments : tff_atomic_type {$<pval>$ = P_BUILD("tff_type_arguments", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -668,7 +666,7 @@ tff_xprod_type : tff_unitary_type STAR tff_atomic_type {$<pval>$ = P_BUILD("tff_
                     | tff_xprod_type STAR tff_atomic_type {$<pval>$ = P_BUILD("tff_xprod_type", $<pval>1, P_TOKEN("STAR ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tfx_tuple_type : LBRKT tff_type_list RBRKT {$<pval>$ = P_BUILD("tfx_tuple_type", P_TOKEN("LBRKT ", $<ival>1), $<pval>2, P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+txf_tuple_type : LBRKT tff_type_list RBRKT {$<pval>$ = P_BUILD("txf_tuple_type", P_TOKEN("LBRKT ", $<ival>1), $<pval>2, P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_type_list : tff_top_level_type {$<pval>$ = P_BUILD("tff_type_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -678,53 +676,51 @@ tff_type_list : tff_top_level_type {$<pval>$ = P_BUILD("tff_type_list", $<pval>1
 tff_subtype : untyped_atom subtype_sign atom {$<pval>$ = P_BUILD("tff_subtype", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tfx_definition : tff_atomic_formula identical tff_term {$<pval>$ = P_BUILD("tfx_definition", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+txf_definition : tff_atomic_formula identical tff_term {$<pval>$ = P_BUILD("txf_definition", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tfx_sequent : tfx_tuple gentzen_arrow tfx_tuple {$<pval>$ = P_BUILD("tfx_sequent", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+txf_sequent : txf_tuple gentzen_arrow txf_tuple {$<pval>$ = P_BUILD("txf_sequent", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tnc_connective : tnc_short_connective {$<pval>$ = P_BUILD("tnc_connective", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tnc_long_connective {$<pval>$ = P_BUILD("tnc_connective", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+nhf_long_connective : LBRACE ntf_connective_name RBRACE {$<pval>$ = P_BUILD("nhf_long_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LBRACE ntf_connective_name LPAREN nhf_parameter_list RPAREN RBRACE {$<pval>$ = P_BUILD("nhf_long_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("LPAREN ", $<ival>3), $<pval>4, P_TOKEN("RPAREN ", $<ival>5), P_TOKEN("RBRACE ", $<ival>6),NULL,NULL,NULL,NULL);}
                     ;
 
-tnc_short_connective : LBRKT PERIOD RBRKT {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("LBRKT ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | less_sign PERIOD arrow {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("less_sign ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("arrow ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LBRACE PERIOD RBRACE {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("LBRACE ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LBRKT tnc_index RBRKT {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("LBRKT ", $<ival>1), $<pval>2, P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | less_sign tnc_index arrow {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("less_sign ", $<ival>1), $<pval>2, P_TOKEN("arrow ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LBRACE tnc_index RBRACE {$<pval>$ = P_BUILD("tnc_short_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+nhf_parameter_list : nhf_parameter {$<pval>$ = P_BUILD("nhf_parameter_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | nhf_parameter COMMA nhf_parameter_list {$<pval>$ = P_BUILD("nhf_parameter_list", $<pval>1, P_TOKEN("COMMA ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tnc_long_connective : LBRACE tnc_connective_name RBRACE {$<pval>$ = P_BUILD("tnc_long_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LBRACE tnc_connective_name LPAREN tnc_parameter_list RPAREN RBRACE {$<pval>$ = P_BUILD("tnc_long_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("LPAREN ", $<ival>3), $<pval>4, P_TOKEN("RPAREN ", $<ival>5), P_TOKEN("RBRACE ", $<ival>6),NULL,NULL,NULL,NULL);}
+nhf_parameter : ntf_index {$<pval>$ = P_BUILD("nhf_parameter", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | nhf_key_pair {$<pval>$ = P_BUILD("nhf_parameter", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tnc_connective_name : def_or_sys_constant {$<pval>$ = P_BUILD("tnc_connective_name", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+nhf_key_pair : thf_definition {$<pval>$ = P_BUILD("nhf_key_pair", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tnc_parameter_list : tnc_parameter {$<pval>$ = P_BUILD("tnc_parameter_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tnc_parameter COMMA tnc_parameter_list {$<pval>$ = P_BUILD("tnc_parameter_list", $<pval>1, P_TOKEN("COMMA ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+nxf_long_connective : LBRACE ntf_connective_name RBRACE {$<pval>$ = P_BUILD("nxf_long_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LBRACE ntf_connective_name LPAREN nxf_parameter_list RPAREN RBRACE {$<pval>$ = P_BUILD("nxf_long_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("LPAREN ", $<ival>3), $<pval>4, P_TOKEN("RPAREN ", $<ival>5), P_TOKEN("RBRACE ", $<ival>6),NULL,NULL,NULL,NULL);}
                     ;
 
-tnc_parameter : tnc_index {$<pval>$ = P_BUILD("tnc_parameter", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tnc_key_pair {$<pval>$ = P_BUILD("tnc_parameter", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+ntf_connective_name : def_or_sys_constant {$<pval>$ = P_BUILD("ntf_connective_name", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tnc_index : hash tff_unitary_term {$<pval>$ = P_BUILD("tnc_index", P_TOKEN("hash ", $<ival>1), $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+nxf_parameter_list : nxf_parameter {$<pval>$ = P_BUILD("nxf_parameter_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | nxf_parameter COMMA nxf_parameter_list {$<pval>$ = P_BUILD("nxf_parameter_list", $<pval>1, P_TOKEN("COMMA ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tnc_key_pair : def_or_sys_constant assignment tff_unitary_term {$<pval>$ = P_BUILD("tnc_key_pair", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+nxf_parameter : ntf_index {$<pval>$ = P_BUILD("nxf_parameter", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | nxf_key_pair {$<pval>$ = P_BUILD("nxf_parameter", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-logic_defn_rule : logic_defn_LHS identical logic_defn_RHS {$<pval>$ = P_BUILD("logic_defn_rule", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+nxf_key_pair : txf_definition {$<pval>$ = P_BUILD("nxf_key_pair", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-logic_defn_LHS : defined_constant {$<pval>$ = P_BUILD("logic_defn_LHS", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+ntf_short_connective : LBRKT PERIOD RBRKT {$<pval>$ = P_BUILD("ntf_short_connective", P_TOKEN("LBRKT ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | less_sign PERIOD arrow {$<pval>$ = P_BUILD("ntf_short_connective", P_TOKEN("less_sign ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("arrow ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LBRACE PERIOD RBRACE {$<pval>$ = P_BUILD("ntf_short_connective", P_TOKEN("LBRACE ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-logic_defn_RHS : defined_constant {$<pval>$ = P_BUILD("logic_defn_RHS", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tfx_tuple {$<pval>$ = P_BUILD("logic_defn_RHS", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+ntf_index : hash tff_unitary_term {$<pval>$ = P_BUILD("ntf_index", P_TOKEN("hash ", $<ival>1), $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tcf_formula : tcf_logic_formula {$<pval>$ = P_BUILD("tcf_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -735,7 +731,7 @@ tcf_logic_formula : tcf_quantified_formula {$<pval>$ = P_BUILD("tcf_logic_formul
                     | cnf_formula {$<pval>$ = P_BUILD("tcf_logic_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tcf_quantified_formula : EXCLAMATION LBRKT tff_variable_list RBRKT COLON cnf_formula {$<pval>$ = P_BUILD("tcf_quantified_formula", P_TOKEN("EXCLAMATION ", $<ival>1), P_TOKEN("LBRKT ", $<ival>2), $<pval>3, P_TOKEN("RBRKT ", $<ival>4), P_TOKEN("COLON ", $<ival>5), $<pval>6,NULL,NULL,NULL,NULL);}
+tcf_quantified_formula : EXCLAMATION LBRKT tff_variable_list RBRKT COLON tcf_logic_formula {$<pval>$ = P_BUILD("tcf_quantified_formula", P_TOKEN("EXCLAMATION ", $<ival>1), P_TOKEN("LBRKT ", $<ival>2), $<pval>3, P_TOKEN("RBRKT ", $<ival>4), P_TOKEN("COLON ", $<ival>5), $<pval>6,NULL,NULL,NULL,NULL);}
                     ;
 
 fof_formula : fof_logic_formula {$<pval>$ = P_BUILD("fof_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -854,22 +850,27 @@ fof_formula_tuple_list : fof_logic_formula {$<pval>$ = P_BUILD("fof_formula_tupl
                     | fof_logic_formula COMMA fof_formula_tuple_list {$<pval>$ = P_BUILD("fof_formula_tuple_list", $<pval>1, P_TOKEN("COMMA ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-cnf_formula : disjunction {$<pval>$ = P_BUILD("cnf_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LPAREN disjunction RPAREN {$<pval>$ = P_BUILD("cnf_formula", P_TOKEN("LPAREN ", $<ival>1), $<pval>2, P_TOKEN("RPAREN ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+cnf_formula : cnf_disjunction {$<pval>$ = P_BUILD("cnf_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LPAREN cnf_formula RPAREN {$<pval>$ = P_BUILD("cnf_formula", P_TOKEN("LPAREN ", $<ival>1), $<pval>2, P_TOKEN("RPAREN ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-disjunction : literal {$<pval>$ = P_BUILD("disjunction", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | disjunction VLINE literal {$<pval>$ = P_BUILD("disjunction", $<pval>1, P_TOKEN("VLINE ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+cnf_disjunction : cnf_literal {$<pval>$ = P_BUILD("cnf_disjunction", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | cnf_disjunction VLINE cnf_literal {$<pval>$ = P_BUILD("cnf_disjunction", $<pval>1, P_TOKEN("VLINE ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-literal : fof_atomic_formula {$<pval>$ = P_BUILD("literal", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | TILDE fof_atomic_formula {$<pval>$ = P_BUILD("literal", P_TOKEN("TILDE ", $<ival>1), $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | fof_infix_unary {$<pval>$ = P_BUILD("literal", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+cnf_literal : fof_atomic_formula {$<pval>$ = P_BUILD("cnf_literal", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | TILDE fof_atomic_formula {$<pval>$ = P_BUILD("cnf_literal", P_TOKEN("TILDE ", $<ival>1), $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | TILDE LPAREN fof_atomic_formula RPAREN {$<pval>$ = P_BUILD("cnf_literal", P_TOKEN("TILDE ", $<ival>1), P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("RPAREN ", $<ival>4),NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | fof_infix_unary {$<pval>$ = P_BUILD("cnf_literal", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 thf_quantifier : fof_quantifier {$<pval>$ = P_BUILD("thf_quantifier", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | th0_quantifier {$<pval>$ = P_BUILD("thf_quantifier", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | th1_quantifier {$<pval>$ = P_BUILD("thf_quantifier", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    ;
+
+thf_unary_connective : unary_connective {$<pval>$ = P_BUILD("thf_unary_connective", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | ntf_short_connective {$<pval>$ = P_BUILD("thf_unary_connective", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 th1_quantifier : EXCLAMATION_GREATER {$<pval>$ = P_BUILD("th1_quantifier", P_TOKEN("EXCLAMATION_GREATER ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -882,6 +883,10 @@ th0_quantifier : CARET {$<pval>$ = P_BUILD("th0_quantifier", P_TOKEN("CARET ", $
                     ;
 
 subtype_sign : LESS_LESS {$<pval>$ = P_BUILD("subtype_sign", P_TOKEN("LESS_LESS ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    ;
+
+tff_unary_connective : unary_connective {$<pval>$ = P_BUILD("tff_unary_connective", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | ntf_short_connective {$<pval>$ = P_BUILD("tff_unary_connective", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 fof_quantifier : EXCLAMATION {$<pval>$ = P_BUILD("fof_quantifier", P_TOKEN("EXCLAMATION ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -984,15 +989,23 @@ optional_info : COMMA useful_info {$<pval>$ = P_BUILD("optional_info", P_TOKEN("
 useful_info : general_list {$<pval>$ = P_BUILD("useful_info", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-include : _LIT_include LPAREN file_name formula_selection RPAREN PERIOD {$<pval>$ = P_BUILD("include", P_TOKEN("_LIT_include ", $<ival>1), P_TOKEN("LPAREN ", $<ival>2), $<pval>3, $<pval>4, P_TOKEN("RPAREN ", $<ival>5), P_TOKEN("PERIOD ", $<ival>6),NULL,NULL,NULL,NULL);}
+include : _LIT_include LPAREN file_name include_optionals RPAREN PERIOD {$<pval>$ = P_BUILD("include", P_TOKEN("_LIT_include ", $<ival>1), P_TOKEN("LPAREN ", $<ival>2), $<pval>3, $<pval>4, P_TOKEN("RPAREN ", $<ival>5), P_TOKEN("PERIOD ", $<ival>6),NULL,NULL,NULL,NULL);}
                     ;
 
-formula_selection : COMMA LBRKT name_list RBRKT {$<pval>$ = P_BUILD("formula_selection", P_TOKEN("COMMA ", $<ival>1), P_TOKEN("LBRKT ", $<ival>2), $<pval>3, P_TOKEN("RBRKT ", $<ival>4),NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | null {$<pval>$ = P_BUILD("formula_selection", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+include_optionals : null {$<pval>$ = P_BUILD("include_optionals", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | COMMA formula_selection {$<pval>$ = P_BUILD("include_optionals", P_TOKEN("COMMA ", $<ival>1), $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | COMMA formula_selection COMMA space_name {$<pval>$ = P_BUILD("include_optionals", P_TOKEN("COMMA ", $<ival>1), $<pval>2, P_TOKEN("COMMA ", $<ival>3), $<pval>4,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    ;
+
+formula_selection : LBRKT name_list RBRKT {$<pval>$ = P_BUILD("formula_selection", P_TOKEN("LBRKT ", $<ival>1), $<pval>2, P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | STAR {$<pval>$ = P_BUILD("formula_selection", P_TOKEN("STAR ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 name_list : name {$<pval>$ = P_BUILD("name_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | name COMMA name_list {$<pval>$ = P_BUILD("name_list", $<pval>1, P_TOKEN("COMMA ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    ;
+
+space_name : name {$<pval>$ = P_BUILD("space_name", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 general_term : general_data {$<pval>$ = P_BUILD("general_term", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
