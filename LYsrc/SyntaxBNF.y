@@ -701,9 +701,6 @@ nxf_long_connective : LBRACE ntf_connective_name RBRACE {$<pval>$ = P_BUILD("nxf
                     | LBRACE ntf_connective_name LPAREN nxf_parameter_list RPAREN RBRACE {$<pval>$ = P_BUILD("nxf_long_connective", P_TOKEN("LBRACE ", $<ival>1), $<pval>2, P_TOKEN("LPAREN ", $<ival>3), $<pval>4, P_TOKEN("RPAREN ", $<ival>5), P_TOKEN("RBRACE ", $<ival>6),NULL,NULL,NULL,NULL);}
                     ;
 
-ntf_connective_name : def_or_sys_constant {$<pval>$ = P_BUILD("ntf_connective_name", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    ;
-
 nxf_parameter_list : nxf_parameter {$<pval>$ = P_BUILD("nxf_parameter_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | nxf_parameter COMMA nxf_parameter_list {$<pval>$ = P_BUILD("nxf_parameter_list", $<pval>1, P_TOKEN("COMMA ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
@@ -715,12 +712,16 @@ nxf_parameter : ntf_index {$<pval>$ = P_BUILD("nxf_parameter", $<pval>1,NULL,NUL
 nxf_key_pair : txf_definition {$<pval>$ = P_BUILD("nxf_key_pair", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-ntf_short_connective : LBRKT PERIOD RBRKT {$<pval>$ = P_BUILD("ntf_short_connective", P_TOKEN("LBRKT ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | less_sign PERIOD arrow {$<pval>$ = P_BUILD("ntf_short_connective", P_TOKEN("less_sign ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("arrow ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | LBRACE PERIOD RBRACE {$<pval>$ = P_BUILD("ntf_short_connective", P_TOKEN("LBRACE ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+ntf_connective_name : def_or_sys_constant {$<pval>$ = P_BUILD("ntf_connective_name", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 ntf_index : hash tff_unitary_term {$<pval>$ = P_BUILD("ntf_index", P_TOKEN("hash ", $<ival>1), $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    ;
+
+ntf_short_connective : LBRKT PERIOD RBRKT {$<pval>$ = P_BUILD("ntf_short_connective", P_TOKEN("LBRKT ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RBRKT ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | less_sign PERIOD arrow {$<pval>$ = P_BUILD("ntf_short_connective", P_TOKEN("less_sign ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("arrow ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LBRACE PERIOD RBRACE {$<pval>$ = P_BUILD("ntf_short_connective", P_TOKEN("LBRACE ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RBRACE ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | LPAREN PERIOD RPAREN {$<pval>$ = P_BUILD("ntf_short_connective", P_TOKEN("LPAREN ", $<ival>1), P_TOKEN("PERIOD ", $<ival>2), P_TOKEN("RPAREN ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tcf_formula : tcf_logic_formula {$<pval>$ = P_BUILD("tcf_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
