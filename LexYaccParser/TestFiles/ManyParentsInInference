@@ -1,0 +1,2 @@
+fof(1,plain,p,
+    inference(magic,[],[a,b,c])).

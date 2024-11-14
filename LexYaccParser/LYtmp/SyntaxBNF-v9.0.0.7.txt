@@ -1,0 +1,353 @@
+TPTP_file _GRR TPTP_input *
+TPTP_input _GRR annotated_formula | include
+annotated_formula _GRR thf_annotated | tff_annotated | tcf_annotated | fof_annotated | cnf_annotated | tpi_annotated
+tpi_annotated _GRR _LIT_tpi LPAREN name COMMA formula_role COMMA tpi_formula annotations RPAREN PERIOD
+tpi_formula _GRR fof_formula
+thf_annotated _GRR _LIT_thf LPAREN name COMMA formula_role COMMA thf_formula annotations RPAREN PERIOD
+tff_annotated _GRR _LIT_tff LPAREN name COMMA formula_role COMMA tff_formula annotations RPAREN PERIOD
+tcf_annotated _GRR _LIT_tcf LPAREN name COMMA formula_role COMMA tcf_formula annotations RPAREN PERIOD
+fof_annotated _GRR _LIT_fof LPAREN name COMMA formula_role COMMA fof_formula annotations RPAREN PERIOD
+cnf_annotated _GRR _LIT_cnf LPAREN name COMMA formula_role COMMA cnf_formula annotations RPAREN PERIOD
+annotations _GRR COMMA source optional_info | null
+formula_role _GRR lower_word | lower_word MINUS general_term
+formula_role _GRS _LIT_axiom | _LIT_hypothesis | _LIT_definition | _LIT_assumption | _LIT_lemma | _LIT_theorem | _LIT_corollary | _LIT_conjecture | _LIT_negated_conjecture | _LIT_plain | _LIT_type | _LIT_interpretation | _LIT_fi_domain | _LIT_fi_functors | _LIT_fi_predicates | _LIT_unknown
+thf_formula _GRR thf_logic_formula | thf_atom_typing | thf_subtype
+thf_logic_formula _GRR thf_unitary_formula | thf_unary_formula | thf_binary_formula | thf_defined_infix | thf_definition | thf_sequent
+thf_binary_formula _GRR thf_binary_nonassoc | thf_binary_assoc | thf_binary_type
+thf_binary_nonassoc _GRR thf_unit_formula nonassoc_connective thf_unit_formula
+thf_binary_assoc _GRR thf_or_formula | thf_and_formula | thf_apply_formula
+thf_or_formula _GRR thf_unit_formula VLINE thf_unit_formula | thf_or_formula VLINE thf_unit_formula
+thf_and_formula _GRR thf_unit_formula AMPERSAND thf_unit_formula | thf_and_formula AMPERSAND thf_unit_formula
+thf_apply_formula _GRR thf_unit_formula AT_SIGN thf_unit_formula | thf_apply_formula AT_SIGN thf_unit_formula
+thf_unit_formula _GRR thf_unitary_formula | thf_unary_formula | thf_defined_infix
+thf_preunit_formula _GRR thf_unitary_formula | thf_prefix_unary
+thf_unitary_formula _GRR thf_quantified_formula | thf_atomic_formula | variable | LPAREN thf_logic_formula RPAREN
+thf_quantified_formula _GRR thf_quantification thf_unit_formula
+thf_quantification _GRR thf_quantifier LBRKT thf_variable_list RBRKT COLON
+thf_variable_list _GRR thf_typed_variable | thf_typed_variable COMMA thf_variable_list
+thf_typed_variable _GRR variable COLON thf_top_level_type
+thf_unary_formula _GRR thf_prefix_unary | thf_infix_unary
+thf_prefix_unary _GRR thf_unary_connective thf_preunit_formula
+thf_infix_unary _GRR thf_unitary_term infix_inequality thf_unitary_term
+thf_atomic_formula _GRR thf_plain_atomic | thf_defined_atomic | thf_system_atomic | thf_fof_function
+thf_plain_atomic _GRR constant | thf_tuple
+thf_defined_atomic _GRR defined_constant | thf_defined_term | LPAREN thf_conn_term RPAREN | nhf_long_connective | thf_let
+thf_defined_term _GRR defined_term | th1_defined_term
+thf_defined_infix _GRR thf_unitary_term defined_infix_pred thf_unitary_term
+thf_system_atomic _GRR system_constant
+thf_let _GRR _DLR_let LPAREN thf_let_types COMMA thf_let_defns COMMA thf_logic_formula RPAREN
+thf_let_types _GRR thf_atom_typing | LBRKT thf_atom_typing_list RBRKT
+thf_atom_typing_list _GRR thf_atom_typing | thf_atom_typing COMMA thf_atom_typing_list
+thf_let_defns _GRR thf_let_defn | LBRKT thf_let_defn_list RBRKT
+thf_let_defn _GRR thf_logic_formula assignment thf_logic_formula
+thf_let_defn_list _GRR thf_let_defn | thf_let_defn COMMA thf_let_defn_list
+thf_unitary_term _GRR thf_atomic_formula | variable | LPAREN thf_logic_formula RPAREN
+thf_conn_term _GRR nonassoc_connective | assoc_connective | infix_equality | infix_inequality | thf_unary_connective
+thf_tuple _GRR LBRKT RBRKT | LBRKT thf_formula_list RBRKT
+thf_fof_function _GRR functor LPAREN thf_arguments RPAREN | defined_functor LPAREN thf_arguments RPAREN | system_functor LPAREN thf_arguments RPAREN
+thf_arguments _GRR thf_formula_list
+thf_formula_list _GRR thf_logic_formula comma_thf_logic_formula *
+comma_thf_logic_formula _GRR COMMA thf_logic_formula
+thf_atom_typing _GRR untyped_atom COLON thf_top_level_type | LPAREN thf_atom_typing RPAREN
+thf_top_level_type _GRR thf_unitary_type | thf_mapping_type | thf_apply_type
+thf_unitary_type _GRR thf_unitary_formula
+thf_unitary_type _GRS thf_atomic_type | th1_quantified_type
+thf_atomic_type _GRS type_constant | defined_type | variable | thf_mapping_type | LPAREN thf_atomic_type RPAREN
+th1_quantified_type _GRS EXCLAMATION_GREATER LBRKT thf_variable_list RBRKT COLON thf_unitary_type
+thf_apply_type _GRR thf_apply_formula
+thf_binary_type _GRR thf_mapping_type | thf_xprod_type | thf_union_type
+thf_mapping_type _GRR thf_unitary_type arrow thf_unitary_type | thf_unitary_type arrow thf_mapping_type
+thf_xprod_type _GRR thf_unitary_type STAR thf_unitary_type | thf_xprod_type STAR thf_unitary_type
+thf_union_type _GRR thf_unitary_type plus thf_unitary_type | thf_union_type plus thf_unitary_type
+thf_subtype _GRR untyped_atom subtype_sign atom
+thf_definition _GRR thf_atomic_formula identical thf_logic_formula
+thf_sequent _GRR thf_tuple gentzen_arrow thf_tuple
+tff_formula _GRR tff_logic_formula | tff_atom_typing | tff_subtype
+tff_logic_formula _GRR tff_unitary_formula | tff_unary_formula | tff_binary_formula | tff_defined_infix | txf_definition | txf_sequent
+tff_binary_formula _GRR tff_binary_nonassoc | tff_binary_assoc
+tff_binary_nonassoc _GRR tff_unit_formula nonassoc_connective tff_unit_formula
+tff_binary_assoc _GRR tff_or_formula | tff_and_formula
+tff_or_formula _GRR tff_unit_formula VLINE tff_unit_formula | tff_or_formula VLINE tff_unit_formula
+tff_and_formula _GRR tff_unit_formula AMPERSAND tff_unit_formula | tff_and_formula AMPERSAND tff_unit_formula
+tff_unit_formula _GRR tff_unitary_formula | tff_unary_formula | tff_defined_infix
+tff_preunit_formula _GRR tff_unitary_formula | tff_prefix_unary
+tff_unitary_formula _GRR tff_quantified_formula | tff_atomic_formula | txf_unitary_formula | LPAREN tff_logic_formula RPAREN
+txf_unitary_formula _GRR variable
+tff_quantified_formula _GRR tff_quantifier LBRKT tff_variable_list RBRKT COLON tff_unit_formula
+tff_variable_list _GRR tff_variable | tff_variable COMMA tff_variable_list
+tff_variable _GRR tff_typed_variable | variable
+tff_typed_variable _GRR variable COLON tff_atomic_type
+tff_unary_formula _GRR tff_prefix_unary | tff_infix_unary
+tff_prefix_unary _GRR tff_unary_connective tff_preunit_formula
+tff_infix_unary _GRR tff_unitary_term infix_inequality tff_unitary_term
+tff_atomic_formula _GRR tff_plain_atomic | tff_defined_atomic | tff_system_atomic
+tff_plain_atomic _GRR constant | functor LPAREN tff_arguments RPAREN
+tff_plain_atomic _GRS proposition | predicate LPAREN tff_arguments RPAREN
+tff_defined_atomic _GRR tff_defined_plain
+tff_defined_plain _GRR defined_constant | defined_functor LPAREN tff_arguments RPAREN | nxf_atom | txf_let
+tff_defined_plain _GRS defined_proposition | defined_predicate LPAREN tff_arguments RPAREN | nxf_atom | txf_conditional | txf_let
+tff_defined_infix _GRR tff_unitary_term defined_infix_pred tff_unitary_term
+tff_system_atomic _GRR system_constant | system_functor LPAREN tff_arguments RPAREN
+tff_system_atomic _GRS system_proposition | system_predicate LPAREN tff_arguments RPAREN
+txf_conditional _GRS _DLR_ite LPAREN tff_logic_formula COMMA tff_term COMMA tff_term RPAREN
+txf_let _GRR _DLR_let LPAREN txf_let_types COMMA txf_let_defns COMMA tff_term RPAREN
+txf_let_types _GRR tff_atom_typing | LBRKT tff_atom_typing_list RBRKT
+tff_atom_typing_list _GRR tff_atom_typing | tff_atom_typing COMMA tff_atom_typing_list
+txf_let_defns _GRR txf_let_defn | LBRKT txf_let_defn_list RBRKT
+txf_let_defn _GRR txf_let_LHS assignment tff_term
+txf_let_LHS _GRR tff_plain_atomic | txf_tuple
+txf_let_defn_list _GRR txf_let_defn | txf_let_defn COMMA txf_let_defn_list
+nxf_atom _GRR nxf_long_connective AT_SIGN LPAREN tff_arguments RPAREN
+tff_term _GRR tff_logic_formula | defined_term | txf_tuple
+tff_unitary_term _GRR tff_atomic_formula | defined_term | txf_tuple | variable | LPAREN tff_logic_formula RPAREN
+txf_tuple _GRR LBRKT RBRKT | LBRKT tff_arguments RBRKT
+tff_arguments _GRR tff_term comma_tff_term *
+comma_tff_term _GRR COMMA tff_term
+tff_atom_typing _GRR untyped_atom COLON tff_top_level_type | LPAREN tff_atom_typing RPAREN
+tff_top_level_type _GRR tff_atomic_type | tff_non_atomic_type
+tff_non_atomic_type _GRR tff_mapping_type | tf1_quantified_type | LPAREN tff_non_atomic_type RPAREN
+tf1_quantified_type _GRR EXCLAMATION_GREATER LBRKT tff_variable_list RBRKT COLON tff_monotype
+tff_monotype _GRR tff_atomic_type | LPAREN tff_mapping_type RPAREN | tf1_quantified_type
+tff_unitary_type _GRR tff_atomic_type | LPAREN tff_xprod_type RPAREN
+tff_atomic_type _GRR type_constant | defined_type | variable | type_functor LPAREN tff_type_arguments RPAREN | LPAREN tff_atomic_type RPAREN | txf_tuple_type
+tff_type_arguments _GRR tff_atomic_type | tff_atomic_type COMMA tff_type_arguments
+tff_mapping_type _GRR tff_unitary_type arrow tff_atomic_type
+tff_xprod_type _GRR tff_unitary_type STAR tff_atomic_type | tff_xprod_type STAR tff_atomic_type
+txf_tuple_type _GRR LBRKT tff_type_list RBRKT
+tff_type_list _GRR tff_top_level_type | tff_top_level_type COMMA tff_type_list
+tff_subtype _GRR untyped_atom subtype_sign atom
+txf_definition _GRR tff_atomic_formula identical tff_term
+txf_sequent _GRR txf_tuple gentzen_arrow txf_tuple
+nhf_long_connective _GRR LBRACE ntf_connective_name RBRACE | LBRACE ntf_connective_name LPAREN nhf_parameter_list RPAREN RBRACE
+nhf_parameter_list _GRR nhf_parameter | nhf_parameter COMMA nhf_parameter_list
+nhf_parameter _GRR ntf_index | nhf_key_pair
+nhf_key_pair _GRR thf_definition
+nxf_long_connective _GRR LBRACE ntf_connective_name RBRACE | LBRACE ntf_connective_name LPAREN nxf_parameter_list RPAREN RBRACE
+nxf_parameter_list _GRR nxf_parameter | nxf_parameter COMMA nxf_parameter_list
+nxf_parameter _GRR ntf_index | nxf_key_pair
+nxf_key_pair _GRR txf_definition
+ntf_connective_name _GRR def_or_sys_constant
+ntf_index _GRR hash tff_unitary_term
+ntf_short_connective _GRR LBRKT PERIOD RBRKT | less_sign PERIOD arrow | LBRACE PERIOD RBRACE | LPAREN PERIOD RPAREN
+ntf_semantics_spec _GRS ntf_logic_name identical LBRKT ntf_logic_spec_list RBRKT
+ntf_logic_name _GRS _DLR_modal | _DLR_alethic_modal | _DLR_deontic_modal | _DLR_epistemic_modal | _DLR_doxastic_modal | _DLR_temporal_instant
+ntf_logic_spec_list _GRS ntf_logic_spec | ntf_logic_spec COMMA ntf_logic_spec_list
+ntf_logic_spec _GRS ntf_domains_spec | ntf_designation_spec | ntf_terms_spec | ntf_modalities_spec | ntf_time_spec
+ntf_domains_spec _GRS _DLR_domains identical ntf_domains_value
+ntf_domains_value _GRS ntf_domain_type | LBRKT ntf_domain_type_list RBRKT
+ntf_domain_type _GRS _DLR_constant | _DLR_varying | _DLR_cumulative | _DLR_decreasing | tff_atomic_type identical ntf_domains_value
+ntf_domains_type_list _GRS ntf_domain_type | ntf_domain_type COMMA ntf_domain_type_list
+ntf_designation_spec _GRS _DLR_designation identical ntf_designation_value
+ntf_designation_value _GRS ntf_designation_type | LBRKT ntf_designation_type_list RBRKT
+ntf_designation_type _GRS _DLR_rigid | _DLR_flexible | tff_atomic_type identical ntf_designation_value
+ntf_designation_type_list _GRS ntf_designation_type | ntf_designation_type COMMA ntf_designation_type_list
+ntf_terms_spec _GRS _DLR_terms identical ntf_terms_value
+ntf_terms_value _GRS ntf_terms_type | LBRKT ntf_terms_type_list RBRKT
+ntf_terms_type _GRS _DLR_local | _DLR_global | tff_atomic_type identical ntf_terms_value
+ntf_terms_type_list _GRS ntf_terms_type | ntf_terms_type COMMA ntf_terms_type_list
+ntf_modalities_spec _GRS _DLR_modalities identical ntf_modalities_value
+ntf_modalities_value _GRS ntf_modalities_type | LBRKT ntf_modalities_type_list RBRKT
+ntf_modalities_type _GRS ntf_modal_system | ntf_modal_axiom | tff_atomic_type identical ntf_modalities_value
+ntf_modalities_type_list _GRS ntf_modalities_type | ntf_modalities_type COMMA ntf_modalities_type_list
+ntf_time_spec _GRS _DLR_time identical ntf_time_value
+ntf_time_value _GRS ntf_time_type | LBRKT ntf_time_type_list RBRKT
+ntf_time_type _GRS _DLR_reflexivity | _DLR_irreflexivity | _DLR_transitivity | _DLR_asymmetry | _DLR_anti_symmetry | _DLR_linearity | _DLR_forward_linearity | _DLR_backward_linearity | _DLR_beginning | _DLR_end | _DLR_no_beginning | _DLR_no_end | _DLR_density | _DLR_forward_discreteness | _DLR_backward_discreteness | tff_atomic_type identical ntf_time_value
+ntf_time_type_list _GRS ntf_time_type | ntf_time_type COMMA ntf_time_type_list
+ntf_modal_system _GRS _DLR_modal_system_K | _DLR_modal_system_M | _DLR_modal_system_B | _DLR_modal_system_D | _DLR_modal_system_S4 | _DLR_modal_system_S5
+ntf_modal_axiom _GRS _DLR_modal_axiom_K | _DLR_modal_axiom_M | _DLR_modal_axiom_B | _DLR_modal_axiom_D | _DLR_modal_axiom_4 | _DLR_modal_axiom_5
+tcf_formula _GRR tcf_logic_formula | tff_atom_typing
+tcf_logic_formula _GRR tcf_quantified_formula | cnf_formula
+tcf_quantified_formula _GRR EXCLAMATION LBRKT tff_variable_list RBRKT COLON tcf_logic_formula
+fof_formula _GRR fof_logic_formula | fof_sequent
+fof_logic_formula _GRR fof_binary_formula | fof_unary_formula | fof_unitary_formula
+fof_binary_formula _GRR fof_binary_nonassoc | fof_binary_assoc
+fof_binary_nonassoc _GRR fof_unit_formula nonassoc_connective fof_unit_formula
+fof_binary_assoc _GRR fof_or_formula | fof_and_formula
+fof_or_formula _GRR fof_unit_formula VLINE fof_unit_formula | fof_or_formula VLINE fof_unit_formula
+fof_and_formula _GRR fof_unit_formula AMPERSAND fof_unit_formula | fof_and_formula AMPERSAND fof_unit_formula
+fof_unary_formula _GRR unary_connective fof_unit_formula | fof_infix_unary
+fof_infix_unary _GRR fof_term infix_inequality fof_term
+fof_unit_formula _GRR fof_unitary_formula | fof_unary_formula
+fof_unitary_formula _GRR fof_quantified_formula | fof_atomic_formula | LPAREN fof_logic_formula RPAREN
+fof_quantified_formula _GRR fof_quantifier LBRKT fof_variable_list RBRKT COLON fof_unit_formula
+fof_variable_list _GRR variable | variable COMMA fof_variable_list
+fof_atomic_formula _GRR fof_plain_atomic_formula | fof_defined_atomic_formula | fof_system_atomic_formula
+fof_plain_atomic_formula _GRR fof_plain_term
+fof_plain_atomic_formula _GRS proposition | predicate LPAREN fof_arguments RPAREN
+fof_defined_atomic_formula _GRR fof_defined_plain_formula | fof_defined_infix_formula
+fof_defined_plain_formula _GRR fof_defined_plain_term
+fof_defined_plain_formula _GRS defined_proposition | defined_predicate LPAREN fof_arguments RPAREN
+fof_defined_infix_formula _GRR fof_term defined_infix_pred fof_term
+fof_system_atomic_formula _GRR fof_system_term
+fof_plain_term _GRR constant | functor LPAREN fof_arguments RPAREN
+fof_defined_term _GRR defined_term | fof_defined_atomic_term
+fof_defined_atomic_term _GRR fof_defined_plain_term
+fof_defined_plain_term _GRR defined_constant | defined_functor LPAREN fof_arguments RPAREN
+fof_system_term _GRR system_constant | system_functor LPAREN fof_arguments RPAREN
+fof_arguments _GRR fof_term | fof_term COMMA fof_arguments
+fof_term _GRR fof_function_term | variable
+fof_function_term _GRR fof_plain_term | fof_defined_term | fof_system_term
+fof_sequent _GRR fof_formula_tuple gentzen_arrow fof_formula_tuple | LPAREN fof_sequent RPAREN
+fof_formula_tuple _GRR LBRKT RBRKT | LBRKT fof_formula_tuple_list RBRKT
+fof_formula_tuple_list _GRR fof_logic_formula comma_fof_logic_formula *
+comma_fof_logic_formula _GRR COMMA fof_logic_formula
+cnf_formula _GRR cnf_disjunction | LPAREN cnf_formula RPAREN
+cnf_disjunction _GRR cnf_literal | cnf_disjunction VLINE cnf_literal
+cnf_literal _GRR fof_atomic_formula | TILDE fof_atomic_formula | TILDE LPAREN fof_atomic_formula RPAREN | fof_infix_unary
+thf_quantifier _GRR fof_quantifier | th0_quantifier | th1_quantifier
+thf_unary_connective _GRR unary_connective | ntf_short_connective
+th1_quantifier _GRR EXCLAMATION_GREATER | QUESTION_STAR
+th0_quantifier _GRR CARET | AT_SIGN_PLUS | AT_SIGN_MINUS
+subtype_sign _GRR LESS_LESS
+tff_unary_connective _GRR unary_connective | ntf_short_connective
+tff_quantifier _GRR fof_quantifier
+fof_quantifier _GRR EXCLAMATION | QUESTION | hash
+nonassoc_connective _GRR LESS_EQUALS_GREATER | EQUALS_GREATER | LESS_EQUALS | LESS_TILDE_GREATER | TILDE_VLINE | TILDE_AMPERSAND
+assoc_connective _GRR VLINE | AMPERSAND
+unary_connective _GRR TILDE
+gentzen_arrow _GRR MINUS_MINUS_GREATER
+assignment _GRR COLON_EQUALS
+identical _GRR EQUALS_EQUALS
+type_constant _GRR type_functor
+type_functor _GRR atomic_word
+defined_type _GRR atomic_defined_word
+defined_type _GRS _DLR_oType | _DLR_o | _DLR_iType | _DLR_i | _DLR_tType | _DLR_real | _DLR_rat | _DLR_int
+system_type _GRS atomic_system_word
+atom _GRR untyped_atom | defined_constant
+untyped_atom _GRR constant | system_constant
+proposition _GRS predicate
+predicate _GRS atomic_word
+defined_proposition _GRS defined_predicate
+defined_proposition _GRS _DLR_true | _DLR_false
+defined_predicate _GRS atomic_defined_word
+defined_predicate _GRS _DLR_distinct | _DLR_less | _DLR_lesseq | _DLR_greater | _DLR_greatereq | _DLR_is_int | _DLR_is_rat | _DLR_box | _DLR_dia
+defined_infix_pred _GRR infix_equality
+system_proposition _GRS system_predicate
+system_predicate _GRS atomic_system_word
+infix_equality _GRR EQUALS
+infix_inequality _GRR EXCLAMATION_EQUALS
+constant _GRR functor
+functor _GRR atomic_word
+defined_constant _GRR defined_functor
+defined_functor _GRR atomic_defined_word
+defined_functor _GRS _DLR_uminus | _DLR_sum | _DLR_difference | _DLR_product | _DLR_quotient | _DLR_quotient_e | _DLR_quotient_t | _DLR_quotient_f | _DLR_remainder_e | _DLR_remainder_t | _DLR_remainder_f | _DLR_floor | _DLR_ceiling | _DLR_truncate | _DLR_round | _DLR_to_int | _DLR_to_rat | _DLR_to_real
+system_constant _GRR system_functor
+system_functor _GRR atomic_system_word
+def_or_sys_constant _GRR defined_constant | system_constant
+th1_defined_term _GRR EXCLAMATION_EXCLAMATION | QUESTION_QUESTION | AT_AT_SIGN_PLUS | AT_AT_SIGN_MINUS | AT_SIGN_EQUALS
+defined_term _GRR number | distinct_object
+variable _GRR upper_word
+source _GRR dag_source | internal_source | external_source | _LIT_unknown | LBRKT sources RBRKT
+sources _GRR source | source COMMA sources
+dag_source _GRR name | inference_record
+inference_record _GRR _LIT_inference LPAREN inference_rule COMMA useful_info COMMA parents RPAREN
+inference_rule _GRR atomic_word
+internal_source _GRR _LIT_introduced LPAREN intro_type COMMA useful_info COMMA parents RPAREN
+intro_type _GRR atomic_word
+intro_type _GRS _LIT_definition | _LIT_tautology | _LIT_assumption
+external_source _GRR file_source | theory | creator_source
+file_source _GRR _LIT_file LPAREN file_name file_info RPAREN
+file_info _GRR COMMA name | null
+theory _GRR _LIT_theory LPAREN theory_name optional_info RPAREN
+theory_name _GRR atomic_word
+theory_name _GRS _LIT_equality | _LIT_ac
+creator_source _GRR _LIT_creator LPAREN creator_name COMMA useful_info COMMA parents RPAREN
+creator_name _GRR atomic_word
+parents _GRR LBRKT RBRKT | LBRKT parent_list RBRKT
+parent_list _GRR parent_info comma_parent_info *
+comma_parent_info _GRR COMMA parent_info
+parent_info _GRR source parent_details
+parent_details _GRR COLON general_list | null
+optional_info _GRR COMMA useful_info | null
+useful_info _GRR general_list
+useful_info _GRS LBRKT RBRKT | LBRKT info_items RBRKT
+info_items _GRS info_item comma_info_item *
+comma_info_items _GRS COMMA info_item
+info_item _GRS formula_item | inference_item | general_function
+formula_item _GRS description_item | iquote_item
+description_item _GRS _LIT_description LPAREN atomic_word RPAREN
+iquote_item _GRS _LIT_iquote LPAREN atomic_word RPAREN
+inference_item _GRS inference_status | assumptions_record | new_symbol_record | refutation
+inference_status _GRS _LIT_status LPAREN status_value RPAREN | inference_info
+status_value _GRS _LIT_suc | _LIT_unp | _LIT_sap | _LIT_esa | _LIT_sat | _LIT_fsa | _LIT_thm | _LIT_eqv | _LIT_tac | _LIT_wec | _LIT_eth | _LIT_tau | _LIT_wtc | _LIT_wth | _LIT_cax | _LIT_sca | _LIT_tca | _LIT_wca | _LIT_cup | _LIT_csp | _LIT_ecs | _LIT_csa | _LIT_cth | _LIT_ceq | _LIT_unc | _LIT_wcc | _LIT_ect | _LIT_fun | _LIT_uns | _LIT_wuc | _LIT_wct | _LIT_scc | _LIT_uca | _LIT_noc
+inference_info _GRS inference_rule LPAREN atomic_word COMMA general_list RPAREN
+assumptions_record _GRS _LIT_assumptions LPAREN LBRKT name_list RBRKT RPAREN
+refutation _GRS _LIT_refutation LPAREN file_source RPAREN
+new_symbol_record _GRS _LIT_new_symbols LPAREN atomic_word COMMA LBRKT new_symbol_list RBRKT RPAREN
+new_symbol_list _GRS principal_symbol | principal_symbol COMMA new_symbol_list
+principal_symbol _GRS functor | variable
+include _GRR _LIT_include LPAREN file_name include_optionals RPAREN PERIOD
+include_optionals _GRR null | COMMA formula_selection | COMMA formula_selection COMMA space_name
+formula_selection _GRR LBRKT name_list RBRKT | STAR
+name_list _GRR name | name COMMA name_list
+space_name _GRR name
+general_term _GRR general_data | general_data COLON general_term | general_list
+general_data _GRR atomic_word | general_function | variable | number | distinct_object | formula_data
+general_function _GRR atomic_word LPAREN general_terms RPAREN
+general_data _GRS _LIT_bind LPAREN variable COMMA formula_data RPAREN | _LIT_bind_type LPAREN variable COMMA bound_type RPAREN
+bound_type _GRS _DLR_thf LPAREN thf_top_level_type RPAREN | _DLR_tff LPAREN tff_top_level_type RPAREN
+formula_data _GRR _DLR_thf LPAREN thf_formula RPAREN | _DLR_tff LPAREN tff_formula RPAREN | _DLR_fof LPAREN fof_formula RPAREN | _DLR_cnf LPAREN cnf_formula RPAREN | _DLR_fot LPAREN fof_term RPAREN
+general_list _GRR LBRKT RBRKT | LBRKT general_terms RBRKT
+general_terms _GRR general_term comma_general_term *
+comma_general_term _GRR COMMA general_term
+name _GRR atomic_word | integer
+atomic_word _GRR lower_word | single_quoted
+atomic_defined_word _GRR dollar_word
+atomic_system_word _GRR dollar_dollar_word
+number _GRR integer | rational | real
+file_name _GRR atomic_word
+null _GRR
+{comment} _TRT {comment_line}|{comment_block}
+{comment_line} _TRT [%]{printable_char}*
+{comment_block} _TRM [/][*]{not_star_slash}[*][*]*[/]
+{not_star_slash} _TRM ([^*]*[*][*]*[^/*])*[^*]*
+{single_quoted} _TRT {single_quote}{sq_char}{sq_char}*{single_quote}
+{distinct_object} _TRT {double_quote}{do_char}*{double_quote}
+{dollar_word} _TRT {dollar}{alpha_numeric}*
+{dollar_dollar_word} _TRT {dollar}{dollar}{alpha_numeric}*
+{upper_word} _TRT {upper_alpha}{alpha_numeric}*
+{lower_word} _TRT {lower_alpha}{alpha_numeric}*
+{vline} _TRT [|]
+{star} _TRT [*]
+{plus} _TRT [+]
+{arrow} _TRT [>]
+{less_sign} _TRT [<]
+{hash} _TRT [#]
+{real} _TRT ({signed_real}|{unsigned_real})
+{signed_real} _TRT {sign}{unsigned_real}
+{unsigned_real} _TRT ({decimal_fraction}|{decimal_exponent})
+{rational} _TRT ({signed_rational}|{unsigned_rational})
+{signed_rational} _TRT {sign}{unsigned_rational}
+{unsigned_rational} _TRT {decimal}{slash}{positive_decimal}
+{integer} _TRT ({signed_integer}|{unsigned_integer})
+{signed_integer} _TRT {sign}{unsigned_integer}
+{unsigned_integer} _TRT {decimal}
+{decimal} _TRT ({zero_numeric}|{positive_decimal})
+{positive_decimal} _TRT {non_zero_numeric}{numeric}*
+{decimal_exponent} _TRT ({decimal}|{decimal_fraction}){exponent}{exp_integer}
+{decimal_fraction} _TRT {decimal}{dot_decimal}
+{dot_decimal} _TRT {dot}{numeric}{numeric}*
+{exp_integer} _TRT ({signed_exp_integer}|{unsigned_exp_integer})
+{signed_exp_integer} _TRT {sign}{unsigned_exp_integer}
+{unsigned_exp_integer} _TRT {numeric}{numeric}*
+{slash} _TRT {slash_char}
+{slosh} _TRT {slosh_char}
+{percentage_sign} _TRM [%]
+{double_quote} _TRM ["]
+{do_char} _TRM ([\40-\41\43-\133\135-\176]|[\\]["\\])
+{single_quote} _TRM [']
+{sq_char} _TRM ([\40-\46\50-\133\135-\176]|[\\]['\\])
+{sign} _TRM [+-]
+{dot} _TRM [.]
+{exponent} _TRM [Ee]
+{slash_char} _TRM [/]
+{slosh_char} _TRM [\\]
+{zero_numeric} _TRM [0]
+{non_zero_numeric} _TRM [1-9]
+{numeric} _TRM [0-9]
+{lower_alpha} _TRM [a-z]
+{upper_alpha} _TRM [A-Z]
+{alpha_numeric} _TRM ({lower_alpha}|{upper_alpha}|{numeric}|[_])
+{dollar} _TRM [$]
+{printable_char} _TRM .
+{viewable_char} _TRM [.\n]

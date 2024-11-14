@@ -1,0 +1,5 @@
+fof(pel55_4,axiom,
+    ! [X1,X2] :
+      ( killed(X1,X2)
+     => hates(X1,X2) ),
+unknown).

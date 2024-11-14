@@ -1,0 +1,17 @@
+tff(person_type,type,person : $tType).
+tff(cat_type,type,cat: $tType).
+tff(loves_decl,type,loves: (person * cat) > $o).
+
+tff(needs_skolemizing,axiom,
+    ! [P: person] :
+    ? [C: cat] :
+      loves(P,C) ).
+
+tff(skolemized,plain,
+    ! [P: person] :
+      loves(P,the_loved_cat(P)) ).
+
+tff(epsilon,plain,
+    ! [P: person] :
+      ( the_loved_cat(P)
+      = (# [C: cat] : loves(P,C) ) ) ).
