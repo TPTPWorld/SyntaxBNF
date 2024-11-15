@@ -8,7 +8,7 @@ endif
 setenv LANG C
 set BNFDir=`dirname $1`
 set BNFName=`basename $1`
-set TMPDir="$BNFDir/LYtmp"
+set TMPDir="../LYtmp"
 mkdir $TMPDir >& /dev/null
 
 #----Clean the BNF for processing

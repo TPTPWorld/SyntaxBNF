@@ -14,7 +14,7 @@ LYLIBS= -ly -ll
 # LEX=flex
 # YACC=bison
 # LYLIBS=-ll -lfl
-CFLAGS= -Wall -I/usr/include/x86_64-linux-gnu
+CFLAGS= -Wall -I/usr/include/x86_64-linux-gnu -no-pie -Wno-unused-function
 #--- -g for debugging
 
 all: SyntaxBNF-yl-parser SyntaxBNF-yl-parser-verbose SyntaxBNF-yl-parser-double SyntaxBNF-yl-parser-clickable clean
@@ -47,9 +47,8 @@ SyntaxBNF.y: LYFiles
 
 LYFiles: $(BNF)
 	cd $(LY_SCRIPT_DIR);$(LY_SCRIPT) ../$(BNF);cd ..
-	mv $(TMPDIR)/$(BNF).l SyntaxBNF.l
-	mv $(TMPDIR)/$(BNF).y SyntaxBNF.y
+	mv $(TMPDIR)/`basename $(BNF)`.l SyntaxBNF.l
+	mv $(TMPDIR)/`basename $(BNF)`.y SyntaxBNF.y
 
 clean:
-	mv y.output $(TMPDIR)
-	mv SyntaxBNF.l SyntaxBNF.y lex.yy.c y.tab.c y.tab.h $(SRCDIR)
+	echo "Nothing to do these days"
