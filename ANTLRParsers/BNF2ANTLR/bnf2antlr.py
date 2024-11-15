@@ -1,7 +1,6 @@
 
 import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(script_dir, "bnf", "SyntaxBNF")
 import re
 
 import sys
@@ -17,7 +16,7 @@ lexer_rules = {'Or': '|', 'And': '&', 'Iff': '<=>', 'Impl': '=>', 'If': '<=', 'N
 
 
 def get_optional_rules():
-    file = open("bnf/SyntaxBNF", "r")
+    file = open(file_path, "r")
     text = file.readlines()
     file.close()
 
