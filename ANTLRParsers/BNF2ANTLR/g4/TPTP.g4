@@ -80,6 +80,7 @@ Viewable_char : '.\n';
 //%----         Changed <file_name> to <atomic_word>, to allow non-quoted filenames. 
 //%----v9.0.0.7 Linearised <thf_formula_list>, <tff_arguments>, <fof_formula_tuple_list>, 
 //%----         <parent_list>, <info_items>, <general_terms>. 
+//%----v9.0.0.8 Replaced <null> by <nothing> to avoid conflicts in Java parsers 
 //%-------------------------------------------------------------------------------------------------- 
 //%----README ... this header provides important meta- and usage information 
 //%---- 
@@ -119,7 +120,7 @@ tff_annotated : 'tff('name','formula_role','tff_formula annotations').';
 tcf_annotated : 'tcf('name','formula_role','tcf_formula annotations').';
 fof_annotated : 'fof('name','formula_role','fof_formula annotations').';
 cnf_annotated : 'cnf('name','formula_role','cnf_formula annotations').';
-annotations : ','source optional_info  |  null;
+annotations : ','source optional_info  |  nothing;
 //%----In derivations the annotated formulae names must be unique, so that parent references (see 
 //%----<inference_record>) are unambiguous. 
 //%----Types for problems. 
@@ -505,7 +506,7 @@ intro_type : atomic_word;
 //%----for the axiom of choice 
 external_source : file_source  |  theory  |  creator_source;
 file_source : 'file('file_name file_info')';
-file_info : ','name  |  null;
+file_info : ','name  |  nothing;
 theory : 'theory('theory_name optional_info')';
 theory_name : atomic_word;
 //<theory_name>          :== equality | ac 
@@ -521,9 +522,9 @@ parents : '[]'  |  '['parent_list']';
 parent_list : parent_info comma_parent_info'*';
 comma_parent_info : ','parent_info;
 parent_info : source parent_details;
-parent_details : ':'general_list  |  null;
+parent_details : ':'general_list  |  nothing;
 //%----Useful info fields 
-optional_info : ','useful_info  |  null;
+optional_info : ','useful_info  |  nothing;
 useful_info : general_list;
 //<useful_info>          :== [] | [<info_items>] 
 //<info_items>           :== <info_item> <comma_info_item>* 
@@ -568,7 +569,7 @@ useful_info : general_list;
 //<principal_symbol>     :== <functor> | <variable> 
 //%----Include directives 
 include : 'include('file_name include_optionals').';
-include_optionals : null  |  ','formula_selection  |  ','formula_selection','space_name;
+include_optionals : nothing  |  ','formula_selection  |  ','formula_selection','space_name;
 formula_selection : '['name_list']'  |  Star;
 name_list : name  |  name','name_list;
 space_name : name;
@@ -600,7 +601,7 @@ number : Integer  |  Rational  |  Real;
 //%----distinct if they have different values, e.g., 1 != 2 is an implicit axiom. 
 //%----All numbers are base 10 at the moment. 
 file_name : atomic_word;
-null : ;
+nothing : ;
 //%-------------------------------------------------------------------------------------------------- 
 //%----Rules from here on down are for defining tokens (terminal symbols) of the grammar, assuming 
 //%----they will be recognized by a lexical scanner. 

@@ -1,4 +1,4 @@
-// Generated from TPTP.g4 by ANTLR 4.13.2
+// Generated from ../BNF2ANTLR/g4/TPTP.g4 by ANTLR 4.13.2
 // jshint ignore: start
 import antlr4 from 'antlr4';
 import TPTPListener from './TPTPListener.js';
@@ -716,7 +716,7 @@ export default class TPTPParser extends antlr4.Parser {
                          "general_term", "general_data", "general_function", 
                          "formula_data", "general_list", "general_terms", 
                          "comma_general_term", "name", "atomic_word", "atomic_defined_word", 
-                         "atomic_system_word", "number", "file_name", "null" ];
+                         "atomic_system_word", "number", "file_name", "nothing" ];
 
     constructor(input) {
         super(input);
@@ -1252,7 +1252,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 3:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 544;
-	            this.null_();
+	            this.nothing();
 	            break;
 	        default:
 	            throw new antlr4.error.NoViableAltException(this);
@@ -8474,7 +8474,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 13:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1602;
-	            this.null_();
+	            this.nothing();
 	            break;
 	        default:
 	            throw new antlr4.error.NoViableAltException(this);
@@ -8740,7 +8740,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 73:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1641;
-	            this.null_();
+	            this.nothing();
 	            break;
 	        default:
 	            throw new antlr4.error.NoViableAltException(this);
@@ -8779,7 +8779,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 13:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1646;
-	            this.null_();
+	            this.nothing();
 	            break;
 	        default:
 	            throw new antlr4.error.NoViableAltException(this);
@@ -8863,7 +8863,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 1:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1656;
-	            this.null_();
+	            this.nothing();
 	            break;
 
 	        case 2:
@@ -9475,9 +9475,9 @@ export default class TPTPParser extends antlr4.Parser {
 
 
 
-	null_() {
-	    let localctx = new NullContext(this, this._ctx, this.state);
-	    this.enterRule(localctx, 462, TPTPParser.RULE_null);
+	nothing() {
+	    let localctx = new NothingContext(this, this._ctx, this.state);
+	    this.enterRule(localctx, 462, TPTPParser.RULE_nothing);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
 
@@ -9837,7 +9837,7 @@ TPTPParser.RULE_atomic_defined_word = 227;
 TPTPParser.RULE_atomic_system_word = 228;
 TPTPParser.RULE_number = 229;
 TPTPParser.RULE_file_name = 230;
-TPTPParser.RULE_null = 231;
+TPTPParser.RULE_nothing = 231;
 
 class Tptp_fileContext extends antlr4.ParserRuleContext {
 
@@ -10318,8 +10318,8 @@ class AnnotationsContext extends antlr4.ParserRuleContext {
 	    return this.getTypedRuleContext(Optional_infoContext,0);
 	};
 
-	null_() {
-	    return this.getTypedRuleContext(NullContext,0);
+	nothing() {
+	    return this.getTypedRuleContext(NothingContext,0);
 	};
 
 	enterRule(listener) {
@@ -18058,8 +18058,8 @@ class File_infoContext extends antlr4.ParserRuleContext {
 	    return this.getTypedRuleContext(NameContext,0);
 	};
 
-	null_() {
-	    return this.getTypedRuleContext(NullContext,0);
+	nothing() {
+	    return this.getTypedRuleContext(NothingContext,0);
 	};
 
 	enterRule(listener) {
@@ -18401,8 +18401,8 @@ class Parent_detailsContext extends antlr4.ParserRuleContext {
 	    return this.getTypedRuleContext(General_listContext,0);
 	};
 
-	null_() {
-	    return this.getTypedRuleContext(NullContext,0);
+	nothing() {
+	    return this.getTypedRuleContext(NothingContext,0);
 	};
 
 	enterRule(listener) {
@@ -18440,8 +18440,8 @@ class Optional_infoContext extends antlr4.ParserRuleContext {
 	    return this.getTypedRuleContext(Useful_infoContext,0);
 	};
 
-	null_() {
-	    return this.getTypedRuleContext(NullContext,0);
+	nothing() {
+	    return this.getTypedRuleContext(NothingContext,0);
 	};
 
 	enterRule(listener) {
@@ -18549,8 +18549,8 @@ class Include_optionalsContext extends antlr4.ParserRuleContext {
         this.ruleIndex = TPTPParser.RULE_include_optionals;
     }
 
-	null_() {
-	    return this.getTypedRuleContext(NullContext,0);
+	nothing() {
+	    return this.getTypedRuleContext(NothingContext,0);
 	};
 
 	formula_selection() {
@@ -19218,7 +19218,7 @@ class File_nameContext extends antlr4.ParserRuleContext {
 
 
 
-class NullContext extends antlr4.ParserRuleContext {
+class NothingContext extends antlr4.ParserRuleContext {
 
     constructor(parser, parent, invokingState) {
         if(parent===undefined) {
@@ -19229,19 +19229,19 @@ class NullContext extends antlr4.ParserRuleContext {
         }
         super(parent, invokingState);
         this.parser = parser;
-        this.ruleIndex = TPTPParser.RULE_null;
+        this.ruleIndex = TPTPParser.RULE_nothing;
     }
 
 
 	enterRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.enterNull(this);
+	        listener.enterNothing(this);
 		}
 	}
 
 	exitRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.exitNull(this);
+	        listener.exitNothing(this);
 		}
 	}
 
@@ -19482,4 +19482,4 @@ TPTPParser.Atomic_defined_wordContext = Atomic_defined_wordContext;
 TPTPParser.Atomic_system_wordContext = Atomic_system_wordContext; 
 TPTPParser.NumberContext = NumberContext; 
 TPTPParser.File_nameContext = File_nameContext; 
-TPTPParser.NullContext = NullContext; 
+TPTPParser.NothingContext = NothingContext; 

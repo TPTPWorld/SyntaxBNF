@@ -5,12 +5,13 @@ import re
 
 import sys
 
-if len(sys.argv) <= 1:
-    print("Please provide the path to the BNF file")
+if len(sys.argv) <= 2:
+    print("Please provide the path to the BNF file and path to output directory")
     sys.exit()
 
 file_path = sys.argv[1]
 version = file_path.split("/")[-1].split("v")[-1].replace(".", "_")
+antlr_path = sys.argv[2]
 
 lexer_rules = {'Or': '|', 'And': '&', 'Iff': '<=>', 'Impl': '=>', 'If': '<=', 'Niff': '<~>', 'Nor': '~|', 'Nand': '~&', 'Not': '~', 'ForallComb': '!!', 'TyForall': '!>', 'Infix_inequality': '!=', 'Infix_equality': '=', 'Forall': '!', 'ExistsComb': '??', 'TyExists': '?*', 'Exists': '?', 'Lambda': '^', 'ChoiceComb': '@@+', 'Choice': '@+', 'DescriptionComb': '@@-', 'Description': '@-', 'EqComb': '@=', 'App': '@', 'Assignment': '', 'Identical': '==', 'Arrow': '>', 'Star': '*', 'Plus': '+', 'Hash': '#', 'Subtype_sign': '<<', 'Gentzen_arrow': '-->'}
 
@@ -37,8 +38,10 @@ def read_bnf_file(file_path):
     return lines
 
 
-def write_antlr_file(antlr_lines, filename):
-    file = open(f"g4/{filename}.g4", "w")
+def write_antlr_file(antlr_lines):
+    # filename = f"TPTP_v{version}"
+    filename = f"TPTP"
+    file = open(f"{antlr_path}/{filename}.g4", "w")
     
     new_lines = []
     
@@ -444,8 +447,9 @@ def main():
     else:
         antlr_lines = replace_capitals(["//# HERE ARE THE LEXER RULES\n"] + token_rules + ["\n//# END THE LEXER RULES\n\n"] + antlr_lines)
         # antlr_lines = replace_capitals(antlr_lines)
-        write_antlr_file(antlr_lines, f"TPTP_v{version}")
-        write_antlr_file(antlr_lines, f"TPTP")
+        # write_antlr_file(antlr_lines, f"TPTP_v{version}")
+        write_antlr_file(antlr_lines)
+        # write_antlr_file(antlr_lines, f"TPTP")
         print("bnf to antlr conversion complete")
         
 def is_empty_line(line):

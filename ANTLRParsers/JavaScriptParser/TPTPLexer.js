@@ -1,4 +1,4 @@
-// Generated from TPTP.g4 by ANTLR 4.13.2
+// Generated from ../BNF2ANTLR/g4/TPTP.g4 by ANTLR 4.13.2
 // jshint ignore: start
 import antlr4 from 'antlr4';
 

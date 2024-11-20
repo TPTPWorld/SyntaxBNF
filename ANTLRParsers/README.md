@@ -1,4 +1,4 @@
-- To compile a Java parser
+- To compile a Java parser  NEEDS UPDATING
 cd TPTP-ANTLR4-Grammar
 mkdir JavaParser
 cd JavaParser
@@ -9,3 +9,6 @@ cd JavaParser
 javac -cp "antlr-4.13.2-complete.jar:$CLASSPATH" *.java
 java -cp "antlr-4.13.2-complete.jar:$CLASSPATH" org.antlr.v4.gui.TestRig TPTPv8 tptp_file -tree FILENAME
 
+- To produce a JavaScript parser
+cd JavaScriptParser
+antlr4 -Dlanguage=JavaScript path_to_grammar.g4 -o path_to_output -Xexact-output-dir

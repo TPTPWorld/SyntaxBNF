@@ -448,7 +448,7 @@ atomic_defined_word
 atomic_system_word
 number
 file_name
-null
+nothing
 
 
 atn:
