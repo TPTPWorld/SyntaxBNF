@@ -1,4 +1,4 @@
-// Generated from /Users/daniel/Documents/coding_stuff/IDVDir/BNF2ANTLR/g4/TPTP.g4 by ANTLR 4.13.1
+// Generated from /Users/daniel/Documents/coding_stuff/TPTPWorld/SyntaxBNF/ANTLRParsers/BNF2ANTLR/g4/TPTP.g4 by ANTLR 4.13.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -328,18 +328,6 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterThf_variable(TPTPParser.Thf_variableContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitThf_variable(TPTPParser.Thf_variableContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterThf_typed_variable(TPTPParser.Thf_typed_variableContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -599,6 +587,18 @@ public class TPTPBaseListener implements TPTPListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitThf_formula_list(TPTPParser.Thf_formula_listContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterComma_thf_logic_formula(TPTPParser.Comma_thf_logic_formulaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComma_thf_logic_formula(TPTPParser.Comma_thf_logic_formulaContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1108,13 +1108,13 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTxf_ntf_atom(TPTPParser.Txf_ntf_atomContext ctx) { }
+	@Override public void enterNxf_atom(TPTPParser.Nxf_atomContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTxf_ntf_atom(TPTPParser.Txf_ntf_atomContext ctx) { }
+	@Override public void exitNxf_atom(TPTPParser.Nxf_atomContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1163,6 +1163,18 @@ public class TPTPBaseListener implements TPTPListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitTff_arguments(TPTPParser.Tff_argumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterComma_tff_term(TPTPParser.Comma_tff_termContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComma_tff_term(TPTPParser.Comma_tff_termContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1348,37 +1360,97 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNtf_connective(TPTPParser.Ntf_connectiveContext ctx) { }
+	@Override public void enterNhf_long_connective(TPTPParser.Nhf_long_connectiveContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNtf_connective(TPTPParser.Ntf_connectiveContext ctx) { }
+	@Override public void exitNhf_long_connective(TPTPParser.Nhf_long_connectiveContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNtf_short_connective(TPTPParser.Ntf_short_connectiveContext ctx) { }
+	@Override public void enterNhf_parameter_list(TPTPParser.Nhf_parameter_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNtf_short_connective(TPTPParser.Ntf_short_connectiveContext ctx) { }
+	@Override public void exitNhf_parameter_list(TPTPParser.Nhf_parameter_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNtf_long_connective(TPTPParser.Ntf_long_connectiveContext ctx) { }
+	@Override public void enterNhf_parameter(TPTPParser.Nhf_parameterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNtf_long_connective(TPTPParser.Ntf_long_connectiveContext ctx) { }
+	@Override public void exitNhf_parameter(TPTPParser.Nhf_parameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNhf_key_pair(TPTPParser.Nhf_key_pairContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNhf_key_pair(TPTPParser.Nhf_key_pairContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNxf_long_connective(TPTPParser.Nxf_long_connectiveContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNxf_long_connective(TPTPParser.Nxf_long_connectiveContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNxf_parameter_list(TPTPParser.Nxf_parameter_listContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNxf_parameter_list(TPTPParser.Nxf_parameter_listContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNxf_parameter(TPTPParser.Nxf_parameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNxf_parameter(TPTPParser.Nxf_parameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNxf_key_pair(TPTPParser.Nxf_key_pairContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNxf_key_pair(TPTPParser.Nxf_key_pairContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1396,30 +1468,6 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNtf_parameter_list(TPTPParser.Ntf_parameter_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNtf_parameter_list(TPTPParser.Ntf_parameter_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNtf_parameter(TPTPParser.Ntf_parameterContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNtf_parameter(TPTPParser.Ntf_parameterContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterNtf_index(TPTPParser.Ntf_indexContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1432,49 +1480,13 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNtf_key_pair(TPTPParser.Ntf_key_pairContext ctx) { }
+	@Override public void enterNtf_short_connective(TPTPParser.Ntf_short_connectiveContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNtf_key_pair(TPTPParser.Ntf_key_pairContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLogic_defn_rule(TPTPParser.Logic_defn_ruleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLogic_defn_rule(TPTPParser.Logic_defn_ruleContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLogic_defn_LHS(TPTPParser.Logic_defn_LHSContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLogic_defn_LHS(TPTPParser.Logic_defn_LHSContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLogic_defn_RHS(TPTPParser.Logic_defn_RHSContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLogic_defn_RHS(TPTPParser.Logic_defn_RHSContext ctx) { }
+	@Override public void exitNtf_short_connective(TPTPParser.Ntf_short_connectiveContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1876,6 +1888,18 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterComma_fof_logic_formula(TPTPParser.Comma_fof_logic_formulaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComma_fof_logic_formula(TPTPParser.Comma_fof_logic_formulaContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCnf_formula(TPTPParser.Cnf_formulaContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1924,6 +1948,18 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterThf_unary_connective(TPTPParser.Thf_unary_connectiveContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitThf_unary_connective(TPTPParser.Thf_unary_connectiveContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterTh1_quantifier(TPTPParser.Th1_quantifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1943,6 +1979,42 @@ public class TPTPBaseListener implements TPTPListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitTh0_quantifier(TPTPParser.Th0_quantifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSubtype_sign(TPTPParser.Subtype_signContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSubtype_sign(TPTPParser.Subtype_signContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTff_unary_connective(TPTPParser.Tff_unary_connectiveContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTff_unary_connective(TPTPParser.Tff_unary_connectiveContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTff_quantifier(TPTPParser.Tff_quantifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTff_quantifier(TPTPParser.Tff_quantifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1996,6 +2068,42 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterGentzen_arrow(TPTPParser.Gentzen_arrowContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGentzen_arrow(TPTPParser.Gentzen_arrowContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAssignment(TPTPParser.AssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAssignment(TPTPParser.AssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdentical(TPTPParser.IdenticalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentical(TPTPParser.IdenticalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterType_constant(TPTPParser.Type_constantContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -2032,18 +2140,6 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSystem_type(TPTPParser.System_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSystem_type(TPTPParser.System_typeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterAtom(TPTPParser.AtomContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -2068,30 +2164,6 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefined_proposition(TPTPParser.Defined_propositionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefined_proposition(TPTPParser.Defined_propositionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDefined_predicate(TPTPParser.Defined_predicateContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefined_predicate(TPTPParser.Defined_predicateContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterDefined_infix_pred(TPTPParser.Defined_infix_predContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -2099,6 +2171,30 @@ public class TPTPBaseListener implements TPTPListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDefined_infix_pred(TPTPParser.Defined_infix_predContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInfix_equality(TPTPParser.Infix_equalityContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInfix_equality(TPTPParser.Infix_equalityContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInfix_inequality(TPTPParser.Infix_inequalityContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInfix_inequality(TPTPParser.Infix_inequalityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2284,54 +2380,6 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInference_parents(TPTPParser.Inference_parentsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInference_parents(TPTPParser.Inference_parentsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterParent_list(TPTPParser.Parent_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitParent_list(TPTPParser.Parent_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterParent_info(TPTPParser.Parent_infoContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitParent_info(TPTPParser.Parent_infoContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterParent_details(TPTPParser.Parent_detailsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitParent_details(TPTPParser.Parent_detailsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterInternal_source(TPTPParser.Internal_sourceContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -2440,6 +2488,66 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterParents(TPTPParser.ParentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParents(TPTPParser.ParentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParent_list(TPTPParser.Parent_listContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParent_list(TPTPParser.Parent_listContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterComma_parent_info(TPTPParser.Comma_parent_infoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComma_parent_info(TPTPParser.Comma_parent_infoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParent_info(TPTPParser.Parent_infoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParent_info(TPTPParser.Parent_infoContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterParent_details(TPTPParser.Parent_detailsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitParent_details(TPTPParser.Parent_detailsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterOptional_info(TPTPParser.Optional_infoContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -2464,174 +2572,6 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInfo_items(TPTPParser.Info_itemsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInfo_items(TPTPParser.Info_itemsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterInfo_item(TPTPParser.Info_itemContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInfo_item(TPTPParser.Info_itemContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterFormula_item(TPTPParser.Formula_itemContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitFormula_item(TPTPParser.Formula_itemContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDescription_item(TPTPParser.Description_itemContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDescription_item(TPTPParser.Description_itemContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterIquote_item(TPTPParser.Iquote_itemContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIquote_item(TPTPParser.Iquote_itemContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterInference_item(TPTPParser.Inference_itemContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInference_item(TPTPParser.Inference_itemContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterInference_status(TPTPParser.Inference_statusContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInference_status(TPTPParser.Inference_statusContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterStatus_value(TPTPParser.Status_valueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStatus_value(TPTPParser.Status_valueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterInference_info(TPTPParser.Inference_infoContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitInference_info(TPTPParser.Inference_infoContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssumptions_record(TPTPParser.Assumptions_recordContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssumptions_record(TPTPParser.Assumptions_recordContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterRefutation(TPTPParser.RefutationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitRefutation(TPTPParser.RefutationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNew_symbol_record(TPTPParser.New_symbol_recordContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNew_symbol_record(TPTPParser.New_symbol_recordContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNew_symbol_list(TPTPParser.New_symbol_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNew_symbol_list(TPTPParser.New_symbol_listContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPrincipal_symbol(TPTPParser.Principal_symbolContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPrincipal_symbol(TPTPParser.Principal_symbolContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterInclude(TPTPParser.IncludeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -2639,6 +2579,18 @@ public class TPTPBaseListener implements TPTPListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitInclude(TPTPParser.IncludeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInclude_optionals(TPTPParser.Include_optionalsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInclude_optionals(TPTPParser.Include_optionalsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2663,6 +2615,18 @@ public class TPTPBaseListener implements TPTPListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitName_list(TPTPParser.Name_listContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSpace_name(TPTPParser.Space_nameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSpace_name(TPTPParser.Space_nameContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -2740,6 +2704,18 @@ public class TPTPBaseListener implements TPTPListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterComma_general_term(TPTPParser.Comma_general_termContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComma_general_term(TPTPParser.Comma_general_termContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterName(TPTPParser.NameContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -2807,6 +2783,18 @@ public class TPTPBaseListener implements TPTPListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFile_name(TPTPParser.File_nameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNothing(TPTPParser.NothingContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNothing(TPTPParser.NothingContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

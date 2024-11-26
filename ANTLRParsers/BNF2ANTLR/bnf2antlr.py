@@ -244,7 +244,10 @@ def convert_grammar_rule(line, append_EOF=False):
         index += 1
     
             
-    return before_line + " : " + remove_quotes(result_str) + ";"
+    result_str = remove_quotes(result_str)
+    result_str = result_str.replace("'*'", "*")
+            
+    return before_line + " : " + result_str + ";"
 
 
 # token rule is ::-

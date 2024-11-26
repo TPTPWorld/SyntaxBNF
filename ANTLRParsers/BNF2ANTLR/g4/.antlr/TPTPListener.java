@@ -1,4 +1,4 @@
-// Generated from /Users/daniel/Documents/coding_stuff/IDVDir/BNF2ANTLR/g4/TPTP.g4 by ANTLR 4.13.1
+// Generated from /Users/daniel/Documents/coding_stuff/TPTPWorld/SyntaxBNF/ANTLRParsers/BNF2ANTLR/g4/TPTP.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -267,16 +267,6 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitThf_variable_list(TPTPParser.Thf_variable_listContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TPTPParser#thf_variable}.
-	 * @param ctx the parse tree
-	 */
-	void enterThf_variable(TPTPParser.Thf_variableContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#thf_variable}.
-	 * @param ctx the parse tree
-	 */
-	void exitThf_variable(TPTPParser.Thf_variableContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link TPTPParser#thf_typed_variable}.
 	 * @param ctx the parse tree
 	 */
@@ -496,6 +486,16 @@ public interface TPTPListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitThf_formula_list(TPTPParser.Thf_formula_listContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#comma_thf_logic_formula}.
+	 * @param ctx the parse tree
+	 */
+	void enterComma_thf_logic_formula(TPTPParser.Comma_thf_logic_formulaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#comma_thf_logic_formula}.
+	 * @param ctx the parse tree
+	 */
+	void exitComma_thf_logic_formula(TPTPParser.Comma_thf_logic_formulaContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TPTPParser#thf_atom_typing}.
 	 * @param ctx the parse tree
@@ -917,15 +917,15 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitTxf_let_defn_list(TPTPParser.Txf_let_defn_listContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TPTPParser#txf_ntf_atom}.
+	 * Enter a parse tree produced by {@link TPTPParser#nxf_atom}.
 	 * @param ctx the parse tree
 	 */
-	void enterTxf_ntf_atom(TPTPParser.Txf_ntf_atomContext ctx);
+	void enterNxf_atom(TPTPParser.Nxf_atomContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TPTPParser#txf_ntf_atom}.
+	 * Exit a parse tree produced by {@link TPTPParser#nxf_atom}.
 	 * @param ctx the parse tree
 	 */
-	void exitTxf_ntf_atom(TPTPParser.Txf_ntf_atomContext ctx);
+	void exitNxf_atom(TPTPParser.Nxf_atomContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TPTPParser#tff_term}.
 	 * @param ctx the parse tree
@@ -966,6 +966,16 @@ public interface TPTPListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTff_arguments(TPTPParser.Tff_argumentsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#comma_tff_term}.
+	 * @param ctx the parse tree
+	 */
+	void enterComma_tff_term(TPTPParser.Comma_tff_termContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#comma_tff_term}.
+	 * @param ctx the parse tree
+	 */
+	void exitComma_tff_term(TPTPParser.Comma_tff_termContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TPTPParser#tff_atom_typing}.
 	 * @param ctx the parse tree
@@ -1117,35 +1127,85 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitTxf_sequent(TPTPParser.Txf_sequentContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TPTPParser#ntf_connective}.
+	 * Enter a parse tree produced by {@link TPTPParser#nhf_long_connective}.
 	 * @param ctx the parse tree
 	 */
-	void enterNtf_connective(TPTPParser.Ntf_connectiveContext ctx);
+	void enterNhf_long_connective(TPTPParser.Nhf_long_connectiveContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TPTPParser#ntf_connective}.
+	 * Exit a parse tree produced by {@link TPTPParser#nhf_long_connective}.
 	 * @param ctx the parse tree
 	 */
-	void exitNtf_connective(TPTPParser.Ntf_connectiveContext ctx);
+	void exitNhf_long_connective(TPTPParser.Nhf_long_connectiveContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TPTPParser#ntf_short_connective}.
+	 * Enter a parse tree produced by {@link TPTPParser#nhf_parameter_list}.
 	 * @param ctx the parse tree
 	 */
-	void enterNtf_short_connective(TPTPParser.Ntf_short_connectiveContext ctx);
+	void enterNhf_parameter_list(TPTPParser.Nhf_parameter_listContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TPTPParser#ntf_short_connective}.
+	 * Exit a parse tree produced by {@link TPTPParser#nhf_parameter_list}.
 	 * @param ctx the parse tree
 	 */
-	void exitNtf_short_connective(TPTPParser.Ntf_short_connectiveContext ctx);
+	void exitNhf_parameter_list(TPTPParser.Nhf_parameter_listContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TPTPParser#ntf_long_connective}.
+	 * Enter a parse tree produced by {@link TPTPParser#nhf_parameter}.
 	 * @param ctx the parse tree
 	 */
-	void enterNtf_long_connective(TPTPParser.Ntf_long_connectiveContext ctx);
+	void enterNhf_parameter(TPTPParser.Nhf_parameterContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TPTPParser#ntf_long_connective}.
+	 * Exit a parse tree produced by {@link TPTPParser#nhf_parameter}.
 	 * @param ctx the parse tree
 	 */
-	void exitNtf_long_connective(TPTPParser.Ntf_long_connectiveContext ctx);
+	void exitNhf_parameter(TPTPParser.Nhf_parameterContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#nhf_key_pair}.
+	 * @param ctx the parse tree
+	 */
+	void enterNhf_key_pair(TPTPParser.Nhf_key_pairContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#nhf_key_pair}.
+	 * @param ctx the parse tree
+	 */
+	void exitNhf_key_pair(TPTPParser.Nhf_key_pairContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#nxf_long_connective}.
+	 * @param ctx the parse tree
+	 */
+	void enterNxf_long_connective(TPTPParser.Nxf_long_connectiveContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#nxf_long_connective}.
+	 * @param ctx the parse tree
+	 */
+	void exitNxf_long_connective(TPTPParser.Nxf_long_connectiveContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#nxf_parameter_list}.
+	 * @param ctx the parse tree
+	 */
+	void enterNxf_parameter_list(TPTPParser.Nxf_parameter_listContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#nxf_parameter_list}.
+	 * @param ctx the parse tree
+	 */
+	void exitNxf_parameter_list(TPTPParser.Nxf_parameter_listContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#nxf_parameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterNxf_parameter(TPTPParser.Nxf_parameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#nxf_parameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitNxf_parameter(TPTPParser.Nxf_parameterContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#nxf_key_pair}.
+	 * @param ctx the parse tree
+	 */
+	void enterNxf_key_pair(TPTPParser.Nxf_key_pairContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#nxf_key_pair}.
+	 * @param ctx the parse tree
+	 */
+	void exitNxf_key_pair(TPTPParser.Nxf_key_pairContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TPTPParser#ntf_connective_name}.
 	 * @param ctx the parse tree
@@ -1157,26 +1217,6 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitNtf_connective_name(TPTPParser.Ntf_connective_nameContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TPTPParser#ntf_parameter_list}.
-	 * @param ctx the parse tree
-	 */
-	void enterNtf_parameter_list(TPTPParser.Ntf_parameter_listContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#ntf_parameter_list}.
-	 * @param ctx the parse tree
-	 */
-	void exitNtf_parameter_list(TPTPParser.Ntf_parameter_listContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#ntf_parameter}.
-	 * @param ctx the parse tree
-	 */
-	void enterNtf_parameter(TPTPParser.Ntf_parameterContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#ntf_parameter}.
-	 * @param ctx the parse tree
-	 */
-	void exitNtf_parameter(TPTPParser.Ntf_parameterContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link TPTPParser#ntf_index}.
 	 * @param ctx the parse tree
 	 */
@@ -1187,45 +1227,15 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitNtf_index(TPTPParser.Ntf_indexContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TPTPParser#ntf_key_pair}.
+	 * Enter a parse tree produced by {@link TPTPParser#ntf_short_connective}.
 	 * @param ctx the parse tree
 	 */
-	void enterNtf_key_pair(TPTPParser.Ntf_key_pairContext ctx);
+	void enterNtf_short_connective(TPTPParser.Ntf_short_connectiveContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link TPTPParser#ntf_key_pair}.
+	 * Exit a parse tree produced by {@link TPTPParser#ntf_short_connective}.
 	 * @param ctx the parse tree
 	 */
-	void exitNtf_key_pair(TPTPParser.Ntf_key_pairContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#logic_defn_rule}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogic_defn_rule(TPTPParser.Logic_defn_ruleContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#logic_defn_rule}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogic_defn_rule(TPTPParser.Logic_defn_ruleContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#logic_defn_LHS}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogic_defn_LHS(TPTPParser.Logic_defn_LHSContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#logic_defn_LHS}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogic_defn_LHS(TPTPParser.Logic_defn_LHSContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#logic_defn_RHS}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogic_defn_RHS(TPTPParser.Logic_defn_RHSContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#logic_defn_RHS}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogic_defn_RHS(TPTPParser.Logic_defn_RHSContext ctx);
+	void exitNtf_short_connective(TPTPParser.Ntf_short_connectiveContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TPTPParser#tcf_formula}.
 	 * @param ctx the parse tree
@@ -1557,6 +1567,16 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitFof_formula_tuple_list(TPTPParser.Fof_formula_tuple_listContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link TPTPParser#comma_fof_logic_formula}.
+	 * @param ctx the parse tree
+	 */
+	void enterComma_fof_logic_formula(TPTPParser.Comma_fof_logic_formulaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#comma_fof_logic_formula}.
+	 * @param ctx the parse tree
+	 */
+	void exitComma_fof_logic_formula(TPTPParser.Comma_fof_logic_formulaContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link TPTPParser#cnf_formula}.
 	 * @param ctx the parse tree
 	 */
@@ -1597,6 +1617,16 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitThf_quantifier(TPTPParser.Thf_quantifierContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link TPTPParser#thf_unary_connective}.
+	 * @param ctx the parse tree
+	 */
+	void enterThf_unary_connective(TPTPParser.Thf_unary_connectiveContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#thf_unary_connective}.
+	 * @param ctx the parse tree
+	 */
+	void exitThf_unary_connective(TPTPParser.Thf_unary_connectiveContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link TPTPParser#th1_quantifier}.
 	 * @param ctx the parse tree
 	 */
@@ -1616,6 +1646,36 @@ public interface TPTPListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTh0_quantifier(TPTPParser.Th0_quantifierContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#subtype_sign}.
+	 * @param ctx the parse tree
+	 */
+	void enterSubtype_sign(TPTPParser.Subtype_signContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#subtype_sign}.
+	 * @param ctx the parse tree
+	 */
+	void exitSubtype_sign(TPTPParser.Subtype_signContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#tff_unary_connective}.
+	 * @param ctx the parse tree
+	 */
+	void enterTff_unary_connective(TPTPParser.Tff_unary_connectiveContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#tff_unary_connective}.
+	 * @param ctx the parse tree
+	 */
+	void exitTff_unary_connective(TPTPParser.Tff_unary_connectiveContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#tff_quantifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterTff_quantifier(TPTPParser.Tff_quantifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#tff_quantifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitTff_quantifier(TPTPParser.Tff_quantifierContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TPTPParser#fof_quantifier}.
 	 * @param ctx the parse tree
@@ -1657,6 +1717,36 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitUnary_connective(TPTPParser.Unary_connectiveContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link TPTPParser#gentzen_arrow}.
+	 * @param ctx the parse tree
+	 */
+	void enterGentzen_arrow(TPTPParser.Gentzen_arrowContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#gentzen_arrow}.
+	 * @param ctx the parse tree
+	 */
+	void exitGentzen_arrow(TPTPParser.Gentzen_arrowContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignment(TPTPParser.AssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignment(TPTPParser.AssignmentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#identical}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentical(TPTPParser.IdenticalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#identical}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentical(TPTPParser.IdenticalContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link TPTPParser#type_constant}.
 	 * @param ctx the parse tree
 	 */
@@ -1687,16 +1777,6 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitDefined_type(TPTPParser.Defined_typeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TPTPParser#system_type}.
-	 * @param ctx the parse tree
-	 */
-	void enterSystem_type(TPTPParser.System_typeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#system_type}.
-	 * @param ctx the parse tree
-	 */
-	void exitSystem_type(TPTPParser.System_typeContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link TPTPParser#atom}.
 	 * @param ctx the parse tree
 	 */
@@ -1717,26 +1797,6 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitUntyped_atom(TPTPParser.Untyped_atomContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TPTPParser#defined_proposition}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefined_proposition(TPTPParser.Defined_propositionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#defined_proposition}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefined_proposition(TPTPParser.Defined_propositionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#defined_predicate}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefined_predicate(TPTPParser.Defined_predicateContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#defined_predicate}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefined_predicate(TPTPParser.Defined_predicateContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link TPTPParser#defined_infix_pred}.
 	 * @param ctx the parse tree
 	 */
@@ -1746,6 +1806,26 @@ public interface TPTPListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDefined_infix_pred(TPTPParser.Defined_infix_predContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#infix_equality}.
+	 * @param ctx the parse tree
+	 */
+	void enterInfix_equality(TPTPParser.Infix_equalityContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#infix_equality}.
+	 * @param ctx the parse tree
+	 */
+	void exitInfix_equality(TPTPParser.Infix_equalityContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#infix_inequality}.
+	 * @param ctx the parse tree
+	 */
+	void enterInfix_inequality(TPTPParser.Infix_inequalityContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#infix_inequality}.
+	 * @param ctx the parse tree
+	 */
+	void exitInfix_inequality(TPTPParser.Infix_inequalityContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TPTPParser#constant}.
 	 * @param ctx the parse tree
@@ -1897,46 +1977,6 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitInference_rule(TPTPParser.Inference_ruleContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TPTPParser#inference_parents}.
-	 * @param ctx the parse tree
-	 */
-	void enterInference_parents(TPTPParser.Inference_parentsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#inference_parents}.
-	 * @param ctx the parse tree
-	 */
-	void exitInference_parents(TPTPParser.Inference_parentsContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#parent_list}.
-	 * @param ctx the parse tree
-	 */
-	void enterParent_list(TPTPParser.Parent_listContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#parent_list}.
-	 * @param ctx the parse tree
-	 */
-	void exitParent_list(TPTPParser.Parent_listContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#parent_info}.
-	 * @param ctx the parse tree
-	 */
-	void enterParent_info(TPTPParser.Parent_infoContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#parent_info}.
-	 * @param ctx the parse tree
-	 */
-	void exitParent_info(TPTPParser.Parent_infoContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#parent_details}.
-	 * @param ctx the parse tree
-	 */
-	void enterParent_details(TPTPParser.Parent_detailsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#parent_details}.
-	 * @param ctx the parse tree
-	 */
-	void exitParent_details(TPTPParser.Parent_detailsContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link TPTPParser#internal_source}.
 	 * @param ctx the parse tree
 	 */
@@ -2027,6 +2067,56 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitCreator_name(TPTPParser.Creator_nameContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link TPTPParser#parents}.
+	 * @param ctx the parse tree
+	 */
+	void enterParents(TPTPParser.ParentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#parents}.
+	 * @param ctx the parse tree
+	 */
+	void exitParents(TPTPParser.ParentsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#parent_list}.
+	 * @param ctx the parse tree
+	 */
+	void enterParent_list(TPTPParser.Parent_listContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#parent_list}.
+	 * @param ctx the parse tree
+	 */
+	void exitParent_list(TPTPParser.Parent_listContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#comma_parent_info}.
+	 * @param ctx the parse tree
+	 */
+	void enterComma_parent_info(TPTPParser.Comma_parent_infoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#comma_parent_info}.
+	 * @param ctx the parse tree
+	 */
+	void exitComma_parent_info(TPTPParser.Comma_parent_infoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#parent_info}.
+	 * @param ctx the parse tree
+	 */
+	void enterParent_info(TPTPParser.Parent_infoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#parent_info}.
+	 * @param ctx the parse tree
+	 */
+	void exitParent_info(TPTPParser.Parent_infoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#parent_details}.
+	 * @param ctx the parse tree
+	 */
+	void enterParent_details(TPTPParser.Parent_detailsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#parent_details}.
+	 * @param ctx the parse tree
+	 */
+	void exitParent_details(TPTPParser.Parent_detailsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link TPTPParser#optional_info}.
 	 * @param ctx the parse tree
 	 */
@@ -2047,146 +2137,6 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitUseful_info(TPTPParser.Useful_infoContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link TPTPParser#info_items}.
-	 * @param ctx the parse tree
-	 */
-	void enterInfo_items(TPTPParser.Info_itemsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#info_items}.
-	 * @param ctx the parse tree
-	 */
-	void exitInfo_items(TPTPParser.Info_itemsContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#info_item}.
-	 * @param ctx the parse tree
-	 */
-	void enterInfo_item(TPTPParser.Info_itemContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#info_item}.
-	 * @param ctx the parse tree
-	 */
-	void exitInfo_item(TPTPParser.Info_itemContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#formula_item}.
-	 * @param ctx the parse tree
-	 */
-	void enterFormula_item(TPTPParser.Formula_itemContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#formula_item}.
-	 * @param ctx the parse tree
-	 */
-	void exitFormula_item(TPTPParser.Formula_itemContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#description_item}.
-	 * @param ctx the parse tree
-	 */
-	void enterDescription_item(TPTPParser.Description_itemContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#description_item}.
-	 * @param ctx the parse tree
-	 */
-	void exitDescription_item(TPTPParser.Description_itemContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#iquote_item}.
-	 * @param ctx the parse tree
-	 */
-	void enterIquote_item(TPTPParser.Iquote_itemContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#iquote_item}.
-	 * @param ctx the parse tree
-	 */
-	void exitIquote_item(TPTPParser.Iquote_itemContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#inference_item}.
-	 * @param ctx the parse tree
-	 */
-	void enterInference_item(TPTPParser.Inference_itemContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#inference_item}.
-	 * @param ctx the parse tree
-	 */
-	void exitInference_item(TPTPParser.Inference_itemContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#inference_status}.
-	 * @param ctx the parse tree
-	 */
-	void enterInference_status(TPTPParser.Inference_statusContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#inference_status}.
-	 * @param ctx the parse tree
-	 */
-	void exitInference_status(TPTPParser.Inference_statusContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#status_value}.
-	 * @param ctx the parse tree
-	 */
-	void enterStatus_value(TPTPParser.Status_valueContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#status_value}.
-	 * @param ctx the parse tree
-	 */
-	void exitStatus_value(TPTPParser.Status_valueContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#inference_info}.
-	 * @param ctx the parse tree
-	 */
-	void enterInference_info(TPTPParser.Inference_infoContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#inference_info}.
-	 * @param ctx the parse tree
-	 */
-	void exitInference_info(TPTPParser.Inference_infoContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#assumptions_record}.
-	 * @param ctx the parse tree
-	 */
-	void enterAssumptions_record(TPTPParser.Assumptions_recordContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#assumptions_record}.
-	 * @param ctx the parse tree
-	 */
-	void exitAssumptions_record(TPTPParser.Assumptions_recordContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#refutation}.
-	 * @param ctx the parse tree
-	 */
-	void enterRefutation(TPTPParser.RefutationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#refutation}.
-	 * @param ctx the parse tree
-	 */
-	void exitRefutation(TPTPParser.RefutationContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#new_symbol_record}.
-	 * @param ctx the parse tree
-	 */
-	void enterNew_symbol_record(TPTPParser.New_symbol_recordContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#new_symbol_record}.
-	 * @param ctx the parse tree
-	 */
-	void exitNew_symbol_record(TPTPParser.New_symbol_recordContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#new_symbol_list}.
-	 * @param ctx the parse tree
-	 */
-	void enterNew_symbol_list(TPTPParser.New_symbol_listContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#new_symbol_list}.
-	 * @param ctx the parse tree
-	 */
-	void exitNew_symbol_list(TPTPParser.New_symbol_listContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link TPTPParser#principal_symbol}.
-	 * @param ctx the parse tree
-	 */
-	void enterPrincipal_symbol(TPTPParser.Principal_symbolContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link TPTPParser#principal_symbol}.
-	 * @param ctx the parse tree
-	 */
-	void exitPrincipal_symbol(TPTPParser.Principal_symbolContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link TPTPParser#include}.
 	 * @param ctx the parse tree
 	 */
@@ -2196,6 +2146,16 @@ public interface TPTPListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInclude(TPTPParser.IncludeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#include_optionals}.
+	 * @param ctx the parse tree
+	 */
+	void enterInclude_optionals(TPTPParser.Include_optionalsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#include_optionals}.
+	 * @param ctx the parse tree
+	 */
+	void exitInclude_optionals(TPTPParser.Include_optionalsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TPTPParser#formula_selection}.
 	 * @param ctx the parse tree
@@ -2216,6 +2176,16 @@ public interface TPTPListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitName_list(TPTPParser.Name_listContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#space_name}.
+	 * @param ctx the parse tree
+	 */
+	void enterSpace_name(TPTPParser.Space_nameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#space_name}.
+	 * @param ctx the parse tree
+	 */
+	void exitSpace_name(TPTPParser.Space_nameContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link TPTPParser#general_term}.
 	 * @param ctx the parse tree
@@ -2277,6 +2247,16 @@ public interface TPTPListener extends ParseTreeListener {
 	 */
 	void exitGeneral_terms(TPTPParser.General_termsContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link TPTPParser#comma_general_term}.
+	 * @param ctx the parse tree
+	 */
+	void enterComma_general_term(TPTPParser.Comma_general_termContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#comma_general_term}.
+	 * @param ctx the parse tree
+	 */
+	void exitComma_general_term(TPTPParser.Comma_general_termContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link TPTPParser#name}.
 	 * @param ctx the parse tree
 	 */
@@ -2336,4 +2316,14 @@ public interface TPTPListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFile_name(TPTPParser.File_nameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link TPTPParser#nothing}.
+	 * @param ctx the parse tree
+	 */
+	void enterNothing(TPTPParser.NothingContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link TPTPParser#nothing}.
+	 * @param ctx the parse tree
+	 */
+	void exitNothing(TPTPParser.NothingContext ctx);
 }
