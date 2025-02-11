@@ -857,7 +857,7 @@ cnf_literal : fof_atomic_formula {$<pval>$ = P_BUILD("cnf_literal", $<pval>1,NUL
                     | fof_infix_unary {$<pval>$ = P_BUILD("cnf_literal", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-thf_quantifier : fof_quantifier {$<pval>$ = P_BUILD("thf_quantifier", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+thf_quantifier : tff_quantifier {$<pval>$ = P_BUILD("thf_quantifier", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | th0_quantifier {$<pval>$ = P_BUILD("thf_quantifier", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | th1_quantifier {$<pval>$ = P_BUILD("thf_quantifier", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
@@ -883,11 +883,11 @@ tff_unary_connective : unary_connective {$<pval>$ = P_BUILD("tff_unary_connectiv
                     ;
 
 tff_quantifier : fof_quantifier {$<pval>$ = P_BUILD("tff_quantifier", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | hash {$<pval>$ = P_BUILD("tff_quantifier", P_TOKEN("hash ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 fof_quantifier : EXCLAMATION {$<pval>$ = P_BUILD("fof_quantifier", P_TOKEN("EXCLAMATION ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | QUESTION {$<pval>$ = P_BUILD("fof_quantifier", P_TOKEN("QUESTION ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | hash {$<pval>$ = P_BUILD("fof_quantifier", P_TOKEN("hash ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 nonassoc_connective : LESS_EQUALS_GREATER {$<pval>$ = P_BUILD("nonassoc_connective", P_TOKEN("LESS_EQUALS_GREATER ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}

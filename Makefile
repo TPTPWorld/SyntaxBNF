@@ -11,7 +11,7 @@ ifneq ($(TARGET),"install_html")
     endif
 endif 
 
-all: html lexyacc_parser
+all: html lexyacc_parser javascript_parser
 
 install: install_html
 

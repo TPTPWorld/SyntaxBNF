@@ -8,7 +8,7 @@
 %----         <internal_source>      :== introduced(<intro_type>,<useful_info>,<parents>)
 %----         <creator_source>       :== creator(<creator_name>,<useful_info>,<parents>)
 %----v9.0.0.3 Moved <hash> to <fof_quantifier> so it's available in all languages.
-%----v9.0.0.4 Removed ()s around <thf_defined_infix> and <thf_infix_unary> 
+%----v9.0.0.4 Removed ()s around <thf_defined_infix> and <thf_infix_unary>
 %----         Removed ()s around <tff_defined_infix> and <tff_infix_unary>
 %----v9.0.0.5 Fixed typo in <ntf_domain_type>
 %----v9.0.0.6 Converted <source> and it's descendents to grammar rules. That required adding
@@ -19,7 +19,10 @@
 %----v9.0.0.8 Replaced <null> by <nothing> to avoid conflicts in Java parsers
 %----v9.0.0.9 Allow only <unsigned_integer> in a <name>
 %----v9.0.0.10 Reordered numerics to make lex/yacc happy, including some renaming and factoring
-%----         Reverted <name> to allow <integer>, because lex/yacc stuff hurts
+%----         Reverted <name> to allow <integer>, because lex/yacc stuff hurts.
+%----v9.0.0.11 Moved <hash> to <tff_quantifier> and set <thf_quantifier> to use <tff_quantifier>.
+%             This means epsilon terms are quantified formulae (yak) available in only TFF (really
+%             TXF, which is cool).
 %--------------------------------------------------------------------------------------------------
 %----README ... this header provides important meta- and usage information
 %----
@@ -123,8 +126,7 @@
 <thf_atomic_formula>   ::= <thf_plain_atomic> | <thf_defined_atomic> | <thf_system_atomic> |
                            <thf_fof_function>
 <thf_plain_atomic>     ::= <constant> | <thf_tuple>
-%----<thf_plain_atomic> includes <thf_tuple> because tuples can be formulae
-%----in logic definitions
+%----<thf_plain_atomic> includes <thf_tuple> because tuples can be formulae in logic definitions
 <thf_defined_atomic>   ::= <defined_constant> | <thf_defined_term> | (<thf_conn_term>) |
                            <nhf_long_connective> | <thf_let>
 % <thf_conditional>
@@ -184,8 +186,8 @@
 %----Mapping is right-associative: o > o > o means o > (o > o).
 <thf_mapping_type>     ::= <thf_unitary_type> <arrow> <thf_unitary_type> |
                            <thf_unitary_type> <arrow> <thf_mapping_type>
-%----Xproduct is left-associative: o * o * o means (o * o) * o. Xproduct
-%----can be replaced by tuple types.
+%----Xproduct is left-associative: o * o * o means (o * o) * o. Xproduct can be replaced by tuple
+%----types.
 <thf_xprod_type>       ::= <thf_unitary_type> <star> <thf_unitary_type> |
                            <thf_xprod_type> <star> <thf_unitary_type>
 %----Union is left-associative: o + o + o means (o + o) + o.
@@ -437,7 +439,7 @@
 
 %--------------------------------------------------------------------------------------------------
 %----Connectives - THF
-<thf_quantifier>       ::= <fof_quantifier> | <th0_quantifier> | <th1_quantifier>
+<thf_quantifier>       ::= <tff_quantifier> | <th0_quantifier> | <th1_quantifier>
 <thf_unary_connective> ::= <unary_connective> | <ntf_short_connective>
 %----TH0 quantifiers are also available in TH1
 <th1_quantifier>       ::= !> | ?*
@@ -446,9 +448,9 @@
 <subtype_sign>         ::= <<
 %----Connectives - TFF
 <tff_unary_connective> ::= <unary_connective> | <ntf_short_connective>
-<tff_quantifier>       ::= <fof_quantifier>
+<tff_quantifier>       ::= <fof_quantifier> | <hash>
 %----Connectives - FOF
-<fof_quantifier>       ::= ! | ? | <hash>
+<fof_quantifier>       ::= ! | ?
 <nonassoc_connective>  ::= <=> | => | <= | <~> | ~<vline> | ~&
 <assoc_connective>     ::= <vline> | &
 <unary_connective>     ::= ~
@@ -538,8 +540,8 @@
 <creator_source>       ::= creator(<creator_name>,<useful_info>,<parents>)
 <creator_name>         ::= <atomic_word>
 
-%----<parents> can be empty in cases when there is a justification for a tautologous theorem. In 
-%----cases when a tautology is introduced as a leaf, e.g., for splitting, then use an 
+%----<parents> can be empty in cases when there is a justification for a tautologous theorem. In
+%----cases when a tautology is introduced as a leaf, e.g., for splitting, then use an
 %----<internal_source>.
 <parents>              ::= [] | [<parent_list>]
 <parent_list>          ::= <parent_info><comma_parent_info>*
@@ -643,7 +645,7 @@
 %----(for uniformity this is done to all characters, not only those with special meanings).
 
 %----These are tokens that appear in the syntax rules above. No rules defined here because they
-%----appear explicitly in the syntax rules, except that <vline>, <star>, <plus>, <hash> denote 
+%----appear explicitly in the syntax rules, except that <vline>, <star>, <plus>, <hash> denote
 %----"|", "*", "+", "#", respectively.
 %----Keywords:    thf tff fof cnf include
 %----Punctuation: ( ) , . [ ] :

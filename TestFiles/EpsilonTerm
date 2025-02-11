@@ -11,7 +11,8 @@ tff(skolemized,plain,
     ! [P: person] :
       loves(P,the_loved_cat(P)) ).
 
-tff(epsilon,plain,
+thf(epsilon,plain,
     ! [P: person] :
       ( the_loved_cat(P)
       = (# [C: cat] : loves(P,C) ) ) ).
+

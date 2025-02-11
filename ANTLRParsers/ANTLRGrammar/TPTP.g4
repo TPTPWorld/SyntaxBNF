@@ -82,7 +82,10 @@ Viewable_char : '.\n';
 //%----v9.0.0.8 Replaced <null> by <nothing> to avoid conflicts in Java parsers 
 //%----v9.0.0.9 Allow only <Unsigned_integer> in a <name> 
 //%----v9.0.0.10 Reordered numerics to make lex/yacc happy, including some renaming and factoring 
-//%----         Reverted <name> to allow <Integer>, because lex/yacc stuff hurts 
+//%----         Reverted <name> to allow <Integer>, because lex/yacc stuff hurts. 
+//%----v9.0.0.11 Moved <Hash> to <tff_quantifier> and set <thf_quantifier> to use <tff_quantifier>. 
+//%             This means epsilon terms are quantified formulae (yak) available in only TFF (really 
+//%             TXF, which is cool). 
 //%-------------------------------------------------------------------------------------------------- 
 //%----README ... this header provides important meta- and usage information 
 //%---- 
@@ -175,8 +178,7 @@ thf_prefix_unary : thf_unary_connective thf_preunit_formula;
 thf_infix_unary : thf_unitary_term infix_inequality thf_unitary_term;
 thf_atomic_formula : thf_plain_atomic  |  thf_defined_atomic  |  thf_system_atomic  |  thf_fof_function;
 thf_plain_atomic : constant  |  thf_tuple;
-//%----<thf_plain_atomic> includes <thf_tuple> because tuples can be formulae 
-//%----in logic definitions 
+//%----<thf_plain_atomic> includes <thf_tuple> because tuples can be formulae in logic definitions 
 thf_defined_atomic : defined_constant  |  thf_defined_term  |  '('thf_conn_term')'  |  nhf_long_connective  |  thf_let;
 //% <thf_conditional> 
 //%----<thf_conditional> is omitted from <thf_defined_atomic> because $ite is 
@@ -226,8 +228,8 @@ thf_apply_type : thf_apply_formula;
 thf_binary_type : thf_mapping_type  |  thf_xprod_type  |  thf_union_type;
 //%----Mapping is right-associative: o > o > o means o > (o > o). 
 thf_mapping_type : thf_unitary_type Arrow thf_unitary_type  |  thf_unitary_type Arrow thf_mapping_type;
-//%----Xproduct is left-associative: o * o * o means (o * o) * o. Xproduct 
-//%----can be replaced by tuple types. 
+//%----Xproduct is left-associative: o * o * o means (o * o) * o. Xproduct can be replaced by tuple  
+//%----types. 
 thf_xprod_type : thf_unitary_type Star thf_unitary_type  |  thf_xprod_type Star thf_unitary_type;
 //%----Union is left-associative: o + o + o means (o + o) + o. 
 thf_union_type : thf_unitary_type Plus thf_unitary_type  |  thf_union_type Plus thf_unitary_type;
@@ -428,7 +430,7 @@ cnf_disjunction : cnf_literal  |  cnf_disjunction Vline cnf_literal;
 cnf_literal : fof_atomic_formula  |  '~' fof_atomic_formula  |  '~' '('fof_atomic_formula')'  |  fof_infix_unary;
 //%-------------------------------------------------------------------------------------------------- 
 //%----Connectives - THF 
-thf_quantifier : fof_quantifier  |  th0_quantifier  |  th1_quantifier;
+thf_quantifier : tff_quantifier  |  th0_quantifier  |  th1_quantifier;
 thf_unary_connective : unary_connective  |  ntf_short_connective;
 //%----TH0 quantifiers are also available in TH1 
 th1_quantifier : '!>'  |  '?*';
@@ -437,9 +439,9 @@ th0_quantifier : '^'  |  '@+'  |  '@-';
 subtype_sign : '<<';
 //%----Connectives - TFF 
 tff_unary_connective : unary_connective  |  ntf_short_connective;
-tff_quantifier : fof_quantifier;
+tff_quantifier : fof_quantifier  |  Hash;
 //%----Connectives - FOF 
-fof_quantifier : '!'  |  '?'  |  Hash;
+fof_quantifier : '!'  |  '?';
 nonassoc_connective : '<=>'  |  '=>'  |  '<='  |  '<~>'  |  '~'Vline  |  '~&';
 assoc_connective : Vline  |  '&';
 unary_connective : '~';

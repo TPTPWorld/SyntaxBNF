@@ -482,7 +482,7 @@ Grammar
   315            | TILDE LPAREN fof_atomic_formula RPAREN
   316            | fof_infix_unary
 
-  317 thf_quantifier: fof_quantifier
+  317 thf_quantifier: tff_quantifier
   318               | th0_quantifier
   319               | th1_quantifier
 
@@ -502,10 +502,10 @@ Grammar
   329                     | ntf_short_connective
 
   330 tff_quantifier: fof_quantifier
+  331               | hash
 
-  331 fof_quantifier: EXCLAMATION
-  332               | QUESTION
-  333               | hash
+  332 fof_quantifier: EXCLAMATION
+  333               | QUESTION
 
   334 nonassoc_connective: LESS_EQUALS_GREATER
   335                    | EQUALS_GREATER
@@ -698,7 +698,7 @@ Terminals, with rules where they appear
     EQUALS <ival> (269) 354
     EQUALS_EQUALS <ival> (270) 345
     EQUALS_GREATER <ival> (271) 335
-    EXCLAMATION <ival> (272) 252 331
+    EXCLAMATION <ival> (272) 252 332
     EXCLAMATION_EQUALS <ival> (273) 355
     EXCLAMATION_EXCLAMATION <ival> (274) 364
     EXCLAMATION_GREATER <ival> (275) 205 322
@@ -712,7 +712,7 @@ Terminals, with rules where they appear
     MINUS <ival> (283) 21
     MINUS_MINUS_GREATER <ival> (284) 343
     PERIOD <ival> (285) 11 13 14 15 16 17 244 245 246 247 405
-    QUESTION <ival> (286) 332
+    QUESTION <ival> (286) 333
     QUESTION_QUESTION <ival> (287) 365
     QUESTION_STAR <ival> (288) 323
     RBRACE <ival> (289) 228 229 235 236 246
@@ -746,7 +746,7 @@ Terminals, with rules where they appear
     distinct_object <ival> (317) 370 421
     dollar_dollar_word <ival> (318) 438
     dollar_word <ival> (319) 437
-    hash <ival> (320) 243 333
+    hash <ival> (320) 243 331
     integer <ival> (321) 434 439
     less_sign <ival> (322) 245
     lower_word <ival> (323) 20 21 435
@@ -1254,11 +1254,11 @@ Nonterminals, with rules where they appear
         on left: 328 329
         on right: 158
     tff_quantifier (241)
-        on left: 330
-        on right: 150
+        on left: 330 331
+        on right: 150 317
     fof_quantifier (242)
-        on left: 331 332 333
-        on right: 275 317 330
+        on left: 332 333
+        on right: 275 330
     nonassoc_connective (243)
         on left: 334 335 336 337 338 339
         on right: 34 90 133 260
@@ -2035,7 +2035,6 @@ State 61
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -2043,19 +2042,19 @@ State 61
     single_quoted       shift, and go to state 29
     upper_word          shift, and go to state 80
 
-    fof_formula                 go to state 129
-    fof_logic_formula           go to state 130
-    fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
-    fof_or_formula              go to state 134
-    fof_and_formula             go to state 135
-    fof_unary_formula           go to state 136
-    fof_infix_unary             go to state 137
-    fof_unit_formula            go to state 138
-    fof_unitary_formula         go to state 139
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_formula                 go to state 128
+    fof_logic_formula           go to state 129
+    fof_binary_formula          go to state 130
+    fof_binary_nonassoc         go to state 131
+    fof_binary_assoc            go to state 132
+    fof_or_formula              go to state 133
+    fof_and_formula             go to state 134
+    fof_unary_formula           go to state 135
+    fof_infix_unary             go to state 136
+    fof_unit_formula            go to state 137
+    fof_unitary_formula         go to state 138
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -2068,10 +2067,10 @@ State 61
     fof_system_term             go to state 105
     fof_term                    go to state 106
     fof_function_term           go to state 107
-    fof_sequent                 go to state 142
-    fof_formula_tuple           go to state 143
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_sequent                 go to state 141
+    fof_formula_tuple           go to state 142
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -2090,7 +2089,7 @@ State 62
 
   409 formula_selection: LBRKT name_list . RBRKT
 
-    RBRKT  shift, and go to state 146
+    RBRKT  shift, and go to state 145
 
 
 State 63
@@ -2098,7 +2097,7 @@ State 63
   411 name_list: name .
   412          | name . COMMA name_list
 
-    COMMA  shift, and go to state 147
+    COMMA  shift, and go to state 146
 
     $default  reduce using rule 411 (name_list)
 
@@ -2111,8 +2110,8 @@ State 64
     lower_word     shift, and go to state 28
     single_quoted  shift, and go to state 29
 
-    space_name   go to state 148
-    name         go to state 149
+    space_name   go to state 147
+    name         go to state 148
     atomic_word  go to state 31
 
 
@@ -2127,8 +2126,8 @@ State 66
 
    15 tcf_annotated: _LIT_tcf LPAREN name COMMA formula_role COMMA . tcf_formula annotations RPAREN PERIOD
 
-    EXCLAMATION         shift, and go to state 150
-    LPAREN              shift, and go to state 151
+    EXCLAMATION         shift, and go to state 149
+    LPAREN              shift, and go to state 150
     TILDE               shift, and go to state 90
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
@@ -2140,10 +2139,10 @@ State 66
     single_quoted       shift, and go to state 29
     upper_word          shift, and go to state 80
 
-    tff_atom_typing             go to state 152
-    tcf_formula                 go to state 153
-    tcf_logic_formula           go to state 154
-    tcf_quantified_formula      go to state 155
+    tff_atom_typing             go to state 151
+    tcf_formula                 go to state 152
+    tcf_logic_formula           go to state 153
+    tcf_quantified_formula      go to state 154
     fof_infix_unary             go to state 94
     fof_atomic_formula          go to state 95
     fof_plain_atomic_formula    go to state 96
@@ -2158,15 +2157,15 @@ State 66
     fof_system_term             go to state 105
     fof_term                    go to state 106
     fof_function_term           go to state 107
-    cnf_formula                 go to state 156
+    cnf_formula                 go to state 155
     cnf_disjunction             go to state 109
     cnf_literal                 go to state 110
-    untyped_atom                go to state 157
-    constant                    go to state 158
+    untyped_atom                go to state 156
+    constant                    go to state 157
     functor                     go to state 112
     defined_constant            go to state 113
     defined_functor             go to state 114
-    system_constant             go to state 159
+    system_constant             go to state 158
     system_functor              go to state 116
     defined_term                go to state 117
     variable                    go to state 118
@@ -2181,16 +2180,16 @@ State 67
    14 tff_annotated: _LIT_tff LPAREN name COMMA formula_role COMMA . tff_formula annotations RPAREN PERIOD
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
-    LPAREN              shift, and go to state 162
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
+    LPAREN              shift, and go to state 161
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -2272,7 +2271,7 @@ State 68
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -2321,7 +2320,8 @@ State 68
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     untyped_atom            go to state 264
     constant                go to state 265
@@ -2351,7 +2351,6 @@ State 69
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -2361,18 +2360,18 @@ State 69
 
     tpi_formula                 go to state 274
     fof_formula                 go to state 275
-    fof_logic_formula           go to state 130
-    fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
-    fof_or_formula              go to state 134
-    fof_and_formula             go to state 135
-    fof_unary_formula           go to state 136
-    fof_infix_unary             go to state 137
-    fof_unit_formula            go to state 138
-    fof_unitary_formula         go to state 139
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_logic_formula           go to state 129
+    fof_binary_formula          go to state 130
+    fof_binary_nonassoc         go to state 131
+    fof_binary_assoc            go to state 132
+    fof_or_formula              go to state 133
+    fof_and_formula             go to state 134
+    fof_unary_formula           go to state 135
+    fof_infix_unary             go to state 136
+    fof_unit_formula            go to state 137
+    fof_unitary_formula         go to state 138
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -2385,10 +2384,10 @@ State 69
     fof_system_term             go to state 105
     fof_term                    go to state 106
     fof_function_term           go to state 107
-    fof_sequent                 go to state 142
-    fof_formula_tuple           go to state 143
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_sequent                 go to state 141
+    fof_formula_tuple           go to state 142
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -2914,9 +2913,9 @@ State 122
 
 State 123
 
-  331 fof_quantifier: EXCLAMATION .
+  332 fof_quantifier: EXCLAMATION .
 
-    $default  reduce using rule 331 (fof_quantifier)
+    $default  reduce using rule 332 (fof_quantifier)
 
 
 State 124
@@ -2932,7 +2931,6 @@ State 124
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -2941,17 +2939,17 @@ State 124
     upper_word          shift, and go to state 80
 
     fof_logic_formula           go to state 304
-    fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
-    fof_or_formula              go to state 134
-    fof_and_formula             go to state 135
-    fof_unary_formula           go to state 136
-    fof_infix_unary             go to state 137
-    fof_unit_formula            go to state 138
-    fof_unitary_formula         go to state 139
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_binary_formula          go to state 130
+    fof_binary_nonassoc         go to state 131
+    fof_binary_assoc            go to state 132
+    fof_or_formula              go to state 133
+    fof_and_formula             go to state 134
+    fof_unary_formula           go to state 135
+    fof_infix_unary             go to state 136
+    fof_unit_formula            go to state 137
+    fof_unitary_formula         go to state 138
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -2965,8 +2963,8 @@ State 124
     fof_term                    go to state 106
     fof_function_term           go to state 107
     fof_formula_tuple_list      go to state 305
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -2994,7 +2992,6 @@ State 125
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -3003,17 +3000,17 @@ State 125
     upper_word          shift, and go to state 80
 
     fof_logic_formula           go to state 306
-    fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
-    fof_or_formula              go to state 134
-    fof_and_formula             go to state 135
-    fof_unary_formula           go to state 136
-    fof_infix_unary             go to state 137
-    fof_unit_formula            go to state 138
-    fof_unitary_formula         go to state 139
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_binary_formula          go to state 130
+    fof_binary_nonassoc         go to state 131
+    fof_binary_assoc            go to state 132
+    fof_or_formula              go to state 133
+    fof_and_formula             go to state 134
+    fof_unary_formula           go to state 135
+    fof_infix_unary             go to state 136
+    fof_unit_formula            go to state 137
+    fof_unitary_formula         go to state 138
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -3027,9 +3024,9 @@ State 125
     fof_term                    go to state 106
     fof_function_term           go to state 107
     fof_sequent                 go to state 307
-    fof_formula_tuple           go to state 143
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_formula_tuple           go to state 142
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -3046,9 +3043,9 @@ State 125
 
 State 126
 
-  332 fof_quantifier: QUESTION .
+  333 fof_quantifier: QUESTION .
 
-    $default  reduce using rule 332 (fof_quantifier)
+    $default  reduce using rule 333 (fof_quantifier)
 
 
 State 127
@@ -3060,13 +3057,6 @@ State 127
 
 State 128
 
-  333 fof_quantifier: hash .
-
-    $default  reduce using rule 333 (fof_quantifier)
-
-
-State 129
-
    16 fof_annotated: _LIT_fof LPAREN name COMMA formula_role COMMA fof_formula . annotations RPAREN PERIOD
 
     COMMA  shift, and go to state 295
@@ -3077,35 +3067,35 @@ State 129
     nothing      go to state 297
 
 
-State 130
+State 129
 
   253 fof_formula: fof_logic_formula .
 
     $default  reduce using rule 253 (fof_formula)
 
 
-State 131
+State 130
 
   255 fof_logic_formula: fof_binary_formula .
 
     $default  reduce using rule 255 (fof_logic_formula)
 
 
-State 132
+State 131
 
   258 fof_binary_formula: fof_binary_nonassoc .
 
     $default  reduce using rule 258 (fof_binary_formula)
 
 
-State 133
+State 132
 
   259 fof_binary_formula: fof_binary_assoc .
 
     $default  reduce using rule 259 (fof_binary_formula)
 
 
-State 134
+State 133
 
   261 fof_binary_assoc: fof_or_formula .
   264 fof_or_formula: fof_or_formula . VLINE fof_unit_formula
@@ -3115,7 +3105,7 @@ State 134
     $default  reduce using rule 261 (fof_binary_assoc)
 
 
-State 135
+State 134
 
   262 fof_binary_assoc: fof_and_formula .
   266 fof_and_formula: fof_and_formula . AMPERSAND fof_unit_formula
@@ -3125,7 +3115,7 @@ State 135
     $default  reduce using rule 262 (fof_binary_assoc)
 
 
-State 136
+State 135
 
   256 fof_logic_formula: fof_unary_formula .
   271 fof_unit_formula: fof_unary_formula .
@@ -3136,14 +3126,14 @@ State 136
     $default  reduce using rule 271 (fof_unit_formula)
 
 
-State 137
+State 136
 
   268 fof_unary_formula: fof_infix_unary .
 
     $default  reduce using rule 268 (fof_unary_formula)
 
 
-State 138
+State 137
 
   260 fof_binary_nonassoc: fof_unit_formula . nonassoc_connective fof_unit_formula
   263 fof_or_formula: fof_unit_formula . VLINE fof_unit_formula
@@ -3161,7 +3151,7 @@ State 138
     nonassoc_connective  go to state 319
 
 
-State 139
+State 138
 
   257 fof_logic_formula: fof_unitary_formula .
   270 fof_unit_formula: fof_unitary_formula .
@@ -3172,28 +3162,28 @@ State 139
     $default  reduce using rule 270 (fof_unit_formula)
 
 
-State 140
+State 139
 
   272 fof_unitary_formula: fof_quantified_formula .
 
     $default  reduce using rule 272 (fof_unitary_formula)
 
 
-State 141
+State 140
 
   273 fof_unitary_formula: fof_atomic_formula .
 
     $default  reduce using rule 273 (fof_unitary_formula)
 
 
-State 142
+State 141
 
   254 fof_formula: fof_sequent .
 
     $default  reduce using rule 254 (fof_formula)
 
 
-State 143
+State 142
 
   303 fof_sequent: fof_formula_tuple . gentzen_arrow fof_formula_tuple
 
@@ -3202,14 +3192,14 @@ State 143
     gentzen_arrow  go to state 321
 
 
-State 144
+State 143
 
   275 fof_quantified_formula: fof_quantifier . LBRKT fof_variable_list RBRKT COLON fof_unit_formula
 
     LBRKT  shift, and go to state 322
 
 
-State 145
+State 144
 
   267 fof_unary_formula: unary_connective . fof_unit_formula
 
@@ -3220,7 +3210,6 @@ State 145
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -3229,11 +3218,11 @@ State 145
     upper_word          shift, and go to state 80
 
     fof_unary_formula           go to state 323
-    fof_infix_unary             go to state 137
+    fof_infix_unary             go to state 136
     fof_unit_formula            go to state 324
     fof_unitary_formula         go to state 325
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -3246,8 +3235,8 @@ State 145
     fof_system_term             go to state 105
     fof_term                    go to state 106
     fof_function_term           go to state 107
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -3262,14 +3251,14 @@ State 145
     number                      go to state 122
 
 
-State 146
+State 145
 
   409 formula_selection: LBRKT name_list RBRKT .
 
     $default  reduce using rule 409 (formula_selection)
 
 
-State 147
+State 146
 
   412 name_list: name COMMA . name_list
 
@@ -3282,33 +3271,33 @@ State 147
     atomic_word  go to state 31
 
 
-State 148
+State 147
 
   408 include_optionals: COMMA formula_selection COMMA space_name .
 
     $default  reduce using rule 408 (include_optionals)
 
 
-State 149
+State 148
 
   413 space_name: name .
 
     $default  reduce using rule 413 (space_name)
 
 
-State 150
+State 149
 
   252 tcf_quantified_formula: EXCLAMATION . LBRKT tff_variable_list RBRKT COLON tcf_logic_formula
 
     LBRKT  shift, and go to state 327
 
 
-State 151
+State 150
 
   199 tff_atom_typing: LPAREN . tff_atom_typing RPAREN
   310 cnf_formula: LPAREN . cnf_formula RPAREN
 
-    LPAREN              shift, and go to state 151
+    LPAREN              shift, and go to state 150
     TILDE               shift, and go to state 90
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
@@ -3338,12 +3327,12 @@ State 151
     cnf_formula                 go to state 286
     cnf_disjunction             go to state 109
     cnf_literal                 go to state 110
-    untyped_atom                go to state 157
-    constant                    go to state 158
+    untyped_atom                go to state 156
+    constant                    go to state 157
     functor                     go to state 112
     defined_constant            go to state 113
     defined_functor             go to state 114
-    system_constant             go to state 159
+    system_constant             go to state 158
     system_functor              go to state 116
     defined_term                go to state 117
     variable                    go to state 118
@@ -3353,14 +3342,14 @@ State 151
     number                      go to state 122
 
 
-State 152
+State 151
 
   249 tcf_formula: tff_atom_typing .
 
     $default  reduce using rule 249 (tcf_formula)
 
 
-State 153
+State 152
 
    15 tcf_annotated: _LIT_tcf LPAREN name COMMA formula_role COMMA tcf_formula . annotations RPAREN PERIOD
 
@@ -3372,35 +3361,35 @@ State 153
     nothing      go to state 297
 
 
-State 154
+State 153
 
   248 tcf_formula: tcf_logic_formula .
 
     $default  reduce using rule 248 (tcf_formula)
 
 
-State 155
+State 154
 
   250 tcf_logic_formula: tcf_quantified_formula .
 
     $default  reduce using rule 250 (tcf_logic_formula)
 
 
-State 156
+State 155
 
   251 tcf_logic_formula: cnf_formula .
 
     $default  reduce using rule 251 (tcf_logic_formula)
 
 
-State 157
+State 156
 
   198 tff_atom_typing: untyped_atom . COLON tff_top_level_type
 
     COLON  shift, and go to state 330
 
 
-State 158
+State 157
 
   287 fof_plain_term: constant .
   351 untyped_atom: constant .
@@ -3409,7 +3398,7 @@ State 158
     $default  reduce using rule 287 (fof_plain_term)
 
 
-State 159
+State 158
 
   294 fof_system_term: system_constant .
   352 untyped_atom: system_constant .
@@ -3418,7 +3407,7 @@ State 159
     $default  reduce using rule 294 (fof_system_term)
 
 
-State 160
+State 159
 
   235 nxf_long_connective: LBRACE . ntf_connective_name RBRACE
   236                    | LBRACE . ntf_connective_name LPAREN nxf_parameter_list RPAREN RBRACE
@@ -3438,25 +3427,25 @@ State 160
     atomic_system_word   go to state 121
 
 
-State 161
+State 160
 
   194 txf_tuple: LBRKT . RBRKT
   195          | LBRKT . tff_arguments RBRKT
   244 ntf_short_connective: LBRKT . PERIOD RBRKT
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     PERIOD              shift, and go to state 339
     QUESTION            shift, and go to state 126
     RBRKT               shift, and go to state 340
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -3512,7 +3501,7 @@ State 161
     number                  go to state 122
 
 
-State 162
+State 161
 
   148 tff_unitary_formula: LPAREN . tff_logic_formula RPAREN
   193 tff_unitary_term: LPAREN . tff_logic_formula RPAREN
@@ -3520,17 +3509,17 @@ State 162
   247 ntf_short_connective: LPAREN . PERIOD RPAREN
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
-    LPAREN              shift, and go to state 162
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
+    LPAREN              shift, and go to state 161
     PERIOD              shift, and go to state 348
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -3571,7 +3560,7 @@ State 162
     tff_quantifier          go to state 196
     fof_quantifier          go to state 197
     unary_connective        go to state 198
-    untyped_atom            go to state 157
+    untyped_atom            go to state 156
     constant                go to state 200
     functor                 go to state 201
     defined_constant        go to state 202
@@ -3586,11 +3575,18 @@ State 162
     number                  go to state 122
 
 
-State 163
+State 162
 
   173 txf_let: _DLR_let . LPAREN txf_let_types COMMA txf_let_defns COMMA tff_term RPAREN
 
     LPAREN  shift, and go to state 350
+
+
+State 163
+
+  331 tff_quantifier: hash .
+
+    $default  reduce using rule 331 (tff_quantifier)
 
 
 State 164
@@ -3868,15 +3864,15 @@ State 195
   158 tff_prefix_unary: tff_unary_connective . tff_preunit_formula
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
+    LBRACE              shift, and go to state 159
     LBRKT               shift, and go to state 364
     LPAREN              shift, and go to state 365
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
     single_quoted       shift, and go to state 29
@@ -4122,7 +4118,7 @@ State 217
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -4169,7 +4165,8 @@ State 217
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -4225,7 +4222,7 @@ State 218
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -4273,7 +4270,8 @@ State 218
     thf_unary_connective    go to state 389
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     nonassoc_connective     go to state 390
     assoc_connective        go to state 391
     unary_connective        go to state 263
@@ -4453,7 +4451,7 @@ State 233
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -4485,7 +4483,8 @@ State 233
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -4741,7 +4740,7 @@ State 259
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -4769,7 +4768,8 @@ State 259
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -4802,7 +4802,7 @@ State 261
 
 State 262
 
-  317 thf_quantifier: fof_quantifier .
+  317 thf_quantifier: tff_quantifier .
 
     $default  reduce using rule 317 (thf_quantifier)
 
@@ -5008,7 +5008,6 @@ State 280
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -5017,18 +5016,18 @@ State 280
     upper_word          shift, and go to state 80
 
     fof_formula                 go to state 435
-    fof_logic_formula           go to state 130
-    fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
-    fof_or_formula              go to state 134
-    fof_and_formula             go to state 135
-    fof_unary_formula           go to state 136
-    fof_infix_unary             go to state 137
-    fof_unit_formula            go to state 138
-    fof_unitary_formula         go to state 139
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_logic_formula           go to state 129
+    fof_binary_formula          go to state 130
+    fof_binary_nonassoc         go to state 131
+    fof_binary_assoc            go to state 132
+    fof_or_formula              go to state 133
+    fof_and_formula             go to state 134
+    fof_unary_formula           go to state 135
+    fof_infix_unary             go to state 136
+    fof_unit_formula            go to state 137
+    fof_unitary_formula         go to state 138
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -5041,10 +5040,10 @@ State 280
     fof_system_term             go to state 105
     fof_term                    go to state 106
     fof_function_term           go to state 107
-    fof_sequent                 go to state 142
-    fof_formula_tuple           go to state 143
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_sequent                 go to state 141
+    fof_formula_tuple           go to state 142
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -5099,16 +5098,16 @@ State 282
   425 formula_data: _DLR_tff LPAREN . tff_formula RPAREN
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
-    LPAREN              shift, and go to state 162
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
+    LPAREN              shift, and go to state 161
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -5190,7 +5189,7 @@ State 283
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -5239,7 +5238,8 @@ State 283
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     untyped_atom            go to state 264
     constant                go to state 265
@@ -5674,7 +5674,6 @@ State 302
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -5683,17 +5682,17 @@ State 302
     upper_word          shift, and go to state 80
 
     fof_logic_formula           go to state 306
-    fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
-    fof_or_formula              go to state 134
-    fof_and_formula             go to state 135
-    fof_unary_formula           go to state 136
-    fof_infix_unary             go to state 137
-    fof_unit_formula            go to state 138
-    fof_unitary_formula         go to state 139
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_binary_formula          go to state 130
+    fof_binary_nonassoc         go to state 131
+    fof_binary_assoc            go to state 132
+    fof_or_formula              go to state 133
+    fof_and_formula             go to state 134
+    fof_unary_formula           go to state 135
+    fof_infix_unary             go to state 136
+    fof_unit_formula            go to state 137
+    fof_unitary_formula         go to state 138
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -5706,8 +5705,8 @@ State 302
     fof_system_term             go to state 105
     fof_term                    go to state 106
     fof_function_term           go to state 107
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -5778,7 +5777,6 @@ State 309
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -5787,11 +5785,11 @@ State 309
     upper_word          shift, and go to state 80
 
     fof_unary_formula           go to state 323
-    fof_infix_unary             go to state 137
+    fof_infix_unary             go to state 136
     fof_unit_formula            go to state 475
     fof_unitary_formula         go to state 325
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -5804,8 +5802,8 @@ State 309
     fof_system_term             go to state 105
     fof_term                    go to state 106
     fof_function_term           go to state 107
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -5831,7 +5829,6 @@ State 310
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -5840,11 +5837,11 @@ State 310
     upper_word          shift, and go to state 80
 
     fof_unary_formula           go to state 323
-    fof_infix_unary             go to state 137
+    fof_infix_unary             go to state 136
     fof_unit_formula            go to state 476
     fof_unitary_formula         go to state 325
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -5857,8 +5854,8 @@ State 310
     fof_system_term             go to state 105
     fof_term                    go to state 106
     fof_function_term           go to state 107
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -5884,7 +5881,6 @@ State 311
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -5893,11 +5889,11 @@ State 311
     upper_word          shift, and go to state 80
 
     fof_unary_formula           go to state 323
-    fof_infix_unary             go to state 137
+    fof_infix_unary             go to state 136
     fof_unit_formula            go to state 477
     fof_unitary_formula         go to state 325
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -5910,8 +5906,8 @@ State 311
     fof_system_term             go to state 105
     fof_term                    go to state 106
     fof_function_term           go to state 107
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -5979,7 +5975,6 @@ State 318
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -5988,11 +5983,11 @@ State 318
     upper_word          shift, and go to state 80
 
     fof_unary_formula           go to state 323
-    fof_infix_unary             go to state 137
+    fof_infix_unary             go to state 136
     fof_unit_formula            go to state 478
     fof_unitary_formula         go to state 325
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -6005,8 +6000,8 @@ State 318
     fof_system_term             go to state 105
     fof_term                    go to state 106
     fof_function_term           go to state 107
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -6032,7 +6027,6 @@ State 319
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -6041,11 +6035,11 @@ State 319
     upper_word          shift, and go to state 80
 
     fof_unary_formula           go to state 323
-    fof_infix_unary             go to state 137
+    fof_infix_unary             go to state 136
     fof_unit_formula            go to state 479
     fof_unitary_formula         go to state 325
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -6058,8 +6052,8 @@ State 319
     fof_system_term             go to state 105
     fof_term                    go to state 106
     fof_function_term           go to state 107
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -6239,17 +6233,17 @@ State 338
   247 ntf_short_connective: LPAREN . PERIOD RPAREN
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     PERIOD              shift, and go to state 348
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -6407,7 +6401,7 @@ State 350
 
     txf_let_types       go to state 515
     tff_atom_typing     go to state 516
-    untyped_atom        go to state 157
+    untyped_atom        go to state 156
     constant            go to state 517
     functor             go to state 518
     system_constant     go to state 519
@@ -6435,16 +6429,16 @@ State 353
   137 tff_or_formula: tff_or_formula VLINE . tff_unit_formula
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -6495,16 +6489,16 @@ State 354
   139 tff_and_formula: tff_and_formula AMPERSAND . tff_unit_formula
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -6555,16 +6549,16 @@ State 355
   138 tff_and_formula: tff_unit_formula AMPERSAND . tff_unit_formula
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -6615,16 +6609,16 @@ State 356
   136 tff_or_formula: tff_unit_formula VLINE . tff_unit_formula
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -6675,16 +6669,16 @@ State 357
   133 tff_binary_nonassoc: tff_unit_formula nonassoc_connective . tff_unit_formula
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -6742,16 +6736,16 @@ State 359
   226 txf_definition: tff_atomic_formula identical . tff_term
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -6813,7 +6807,7 @@ State 360
     LBRACE              shift, and go to state 533
     LBRKT               shift, and go to state 534
     LPAREN              shift, and go to state 535
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
@@ -6855,7 +6849,7 @@ State 361
     LBRACE              shift, and go to state 533
     LBRKT               shift, and go to state 534
     LPAREN              shift, and go to state 535
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
@@ -6919,17 +6913,17 @@ State 365
   247 ntf_short_connective: LPAREN . PERIOD RPAREN
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     PERIOD              shift, and go to state 348
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -7064,16 +7058,16 @@ State 374
   164 tff_plain_atomic: functor LPAREN . tff_arguments RPAREN
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -7134,16 +7128,16 @@ State 375
   167 tff_defined_plain: defined_functor LPAREN . tff_arguments RPAREN
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -7204,16 +7198,16 @@ State 376
   172 tff_system_atomic: system_functor LPAREN . tff_arguments RPAREN
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -7316,7 +7310,7 @@ State 378
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -7363,7 +7357,8 @@ State 378
     thf_unary_connective    go to state 389
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     nonassoc_connective     go to state 390
     assoc_connective        go to state 391
     unary_connective        go to state 263
@@ -7483,7 +7478,7 @@ State 389
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -7513,7 +7508,8 @@ State 389
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -7617,7 +7613,7 @@ State 397
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -7649,7 +7645,8 @@ State 397
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -7690,7 +7687,7 @@ State 398
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -7722,7 +7719,8 @@ State 398
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -7763,7 +7761,7 @@ State 399
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -7795,7 +7793,8 @@ State 399
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -7836,7 +7835,7 @@ State 400
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -7868,7 +7867,8 @@ State 400
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -7909,7 +7909,7 @@ State 401
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -7941,7 +7941,8 @@ State 401
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -7982,7 +7983,7 @@ State 402
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -8014,7 +8015,8 @@ State 402
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -8055,7 +8057,7 @@ State 403
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -8087,7 +8089,8 @@ State 403
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -8173,7 +8176,7 @@ State 410
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -8219,7 +8222,8 @@ State 410
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -8364,7 +8368,7 @@ State 414
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     lower_word               shift, and go to state 28
     rational                 shift, and go to state 78
@@ -8388,7 +8392,8 @@ State 414
     thf_quantifier          go to state 258
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     constant                go to state 382
     functor                 go to state 266
     defined_constant        go to state 267
@@ -8428,7 +8433,7 @@ State 415
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     lower_word               shift, and go to state 28
     rational                 shift, and go to state 78
@@ -8453,7 +8458,8 @@ State 415
     thf_quantifier          go to state 258
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     constant                go to state 382
     functor                 go to state 266
     defined_constant        go to state 267
@@ -8492,7 +8498,7 @@ State 416
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     lower_word               shift, and go to state 28
     rational                 shift, and go to state 78
@@ -8516,7 +8522,8 @@ State 416
     thf_quantifier          go to state 258
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     constant                go to state 382
     functor                 go to state 266
     defined_constant        go to state 267
@@ -8555,7 +8562,7 @@ State 417
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     lower_word               shift, and go to state 28
     rational                 shift, and go to state 78
@@ -8579,7 +8586,8 @@ State 417
     thf_quantifier          go to state 258
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     constant                go to state 382
     functor                 go to state 266
     defined_constant        go to state 267
@@ -8618,7 +8626,7 @@ State 418
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     lower_word               shift, and go to state 28
     rational                 shift, and go to state 78
@@ -8642,7 +8650,8 @@ State 418
     thf_quantifier          go to state 258
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     constant                go to state 382
     functor                 go to state 266
     defined_constant        go to state 267
@@ -8706,7 +8715,7 @@ State 420
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -8753,7 +8762,8 @@ State 420
     thf_unary_connective    go to state 389
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     nonassoc_connective     go to state 390
     assoc_connective        go to state 391
     unary_connective        go to state 263
@@ -8833,7 +8843,7 @@ State 426
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -8870,7 +8880,8 @@ State 426
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -8933,7 +8944,7 @@ State 428
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -8981,7 +8992,8 @@ State 428
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -9022,7 +9034,7 @@ State 429
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -9070,7 +9082,8 @@ State 429
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -9111,7 +9124,7 @@ State 430
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -9159,7 +9172,8 @@ State 430
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -9511,7 +9525,6 @@ State 470
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -9520,17 +9533,17 @@ State 470
     upper_word          shift, and go to state 80
 
     fof_logic_formula           go to state 304
-    fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
-    fof_or_formula              go to state 134
-    fof_and_formula             go to state 135
-    fof_unary_formula           go to state 136
-    fof_infix_unary             go to state 137
-    fof_unit_formula            go to state 138
-    fof_unitary_formula         go to state 139
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_binary_formula          go to state 130
+    fof_binary_nonassoc         go to state 131
+    fof_binary_assoc            go to state 132
+    fof_or_formula              go to state 133
+    fof_and_formula             go to state 134
+    fof_unary_formula           go to state 135
+    fof_infix_unary             go to state 136
+    fof_unit_formula            go to state 137
+    fof_unitary_formula         go to state 138
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -9544,8 +9557,8 @@ State 470
     fof_term                    go to state 106
     fof_function_term           go to state 107
     fof_formula_tuple_list      go to state 626
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -9867,7 +9880,7 @@ State 506
   236 nxf_long_connective: LBRACE ntf_connective_name LPAREN . nxf_parameter_list RPAREN RBRACE
 
     LBRACE              shift, and go to state 533
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
     hash                shift, and go to state 643
@@ -9917,16 +9930,16 @@ State 509
   197 tff_arguments: tff_term COMMA . tff_arguments
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -10017,7 +10030,7 @@ State 513
 
     tff_atom_typing_list  go to state 651
     tff_atom_typing       go to state 652
-    untyped_atom          go to state 157
+    untyped_atom          go to state 156
     constant              go to state 517
     functor               go to state 518
     system_constant       go to state 519
@@ -10036,7 +10049,7 @@ State 514
     single_quoted       shift, and go to state 29
 
     tff_atom_typing     go to state 328
-    untyped_atom        go to state 157
+    untyped_atom        go to state 156
     constant            go to state 517
     functor             go to state 518
     system_constant     go to state 519
@@ -10198,17 +10211,17 @@ State 534
   195          | LBRKT . tff_arguments RBRKT
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     RBRKT               shift, and go to state 340
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -10269,16 +10282,16 @@ State 535
   193 tff_unitary_term: LPAREN . tff_logic_formula RPAREN
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -10372,16 +10385,16 @@ State 541
   185 nxf_atom: nxf_long_connective AT_SIGN LPAREN . tff_arguments RPAREN
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -10575,7 +10588,7 @@ State 552
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -10622,7 +10635,8 @@ State 552
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -10830,7 +10844,7 @@ State 571
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -10877,7 +10891,8 @@ State 571
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -10929,7 +10944,7 @@ State 572
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -10976,7 +10991,8 @@ State 572
     thf_unary_connective    go to state 389
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     nonassoc_connective     go to state 390
     assoc_connective        go to state 391
     unary_connective        go to state 263
@@ -11067,7 +11083,7 @@ State 578
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -11114,7 +11130,8 @@ State 578
     thf_unary_connective    go to state 389
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     nonassoc_connective     go to state 390
     assoc_connective        go to state 391
     unary_connective        go to state 263
@@ -11727,7 +11744,7 @@ State 643
     LBRACE              shift, and go to state 533
     LBRKT               shift, and go to state 534
     LPAREN              shift, and go to state 535
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
@@ -12032,7 +12049,7 @@ State 672
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -12080,7 +12097,8 @@ State 672
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -12153,7 +12171,7 @@ State 677
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -12190,7 +12208,8 @@ State 677
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -12382,7 +12401,6 @@ State 697
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
     integer             shift, and go to state 77
     lower_word          shift, and go to state 28
     rational            shift, and go to state 78
@@ -12391,11 +12409,11 @@ State 697
     upper_word          shift, and go to state 80
 
     fof_unary_formula           go to state 323
-    fof_infix_unary             go to state 137
+    fof_infix_unary             go to state 136
     fof_unit_formula            go to state 751
     fof_unitary_formula         go to state 325
-    fof_quantified_formula      go to state 140
-    fof_atomic_formula          go to state 141
+    fof_quantified_formula      go to state 139
+    fof_atomic_formula          go to state 140
     fof_plain_atomic_formula    go to state 96
     fof_defined_atomic_formula  go to state 97
     fof_defined_plain_formula   go to state 98
@@ -12408,8 +12426,8 @@ State 697
     fof_system_term             go to state 105
     fof_term                    go to state 106
     fof_function_term           go to state 107
-    fof_quantifier              go to state 144
-    unary_connective            go to state 145
+    fof_quantifier              go to state 143
+    unary_connective            go to state 144
     constant                    go to state 111
     functor                     go to state 112
     defined_constant            go to state 113
@@ -12435,7 +12453,7 @@ State 699
 
   252 tcf_quantified_formula: EXCLAMATION LBRKT tff_variable_list RBRKT COLON . tcf_logic_formula
 
-    EXCLAMATION         shift, and go to state 150
+    EXCLAMATION         shift, and go to state 149
     LPAREN              shift, and go to state 89
     TILDE               shift, and go to state 90
     distinct_object     shift, and go to state 91
@@ -12449,7 +12467,7 @@ State 699
     upper_word          shift, and go to state 80
 
     tcf_logic_formula           go to state 752
-    tcf_quantified_formula      go to state 155
+    tcf_quantified_formula      go to state 154
     fof_infix_unary             go to state 94
     fof_atomic_formula          go to state 95
     fof_plain_atomic_formula    go to state 96
@@ -12464,7 +12482,7 @@ State 699
     fof_system_term             go to state 105
     fof_term                    go to state 106
     fof_function_term           go to state 107
-    cnf_formula                 go to state 156
+    cnf_formula                 go to state 155
     cnf_disjunction             go to state 109
     cnf_literal                 go to state 110
     constant                    go to state 111
@@ -12664,7 +12682,7 @@ State 716
   238 nxf_parameter_list: nxf_parameter COMMA . nxf_parameter_list
 
     LBRACE              shift, and go to state 533
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
     hash                shift, and go to state 643
@@ -12713,7 +12731,7 @@ State 718
 
     tff_atom_typing_list  go to state 762
     tff_atom_typing       go to state 652
-    untyped_atom          go to state 157
+    untyped_atom          go to state 156
     constant              go to state 517
     functor               go to state 518
     system_constant       go to state 519
@@ -12729,17 +12747,17 @@ State 719
   195          | LBRKT . tff_arguments RBRKT
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     RBRKT               shift, and go to state 340
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -12854,16 +12872,16 @@ State 727
   150 tff_quantified_formula: tff_quantifier LBRKT tff_variable_list RBRKT COLON . tff_unit_formula
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -13044,7 +13062,7 @@ State 735
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -13093,7 +13111,8 @@ State 735
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -13378,16 +13397,16 @@ State 767
   173 txf_let: _DLR_let LPAREN txf_let_types COMMA txf_let_defns COMMA . tff_term RPAREN
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -13454,16 +13473,16 @@ State 769
   180 txf_let_defn: txf_let_LHS assignment . tff_term
 
     EXCLAMATION         shift, and go to state 123
-    LBRACE              shift, and go to state 160
-    LBRKT               shift, and go to state 161
+    LBRACE              shift, and go to state 159
+    LBRKT               shift, and go to state 160
     LPAREN              shift, and go to state 338
     QUESTION            shift, and go to state 126
     TILDE               shift, and go to state 127
-    _DLR_let            shift, and go to state 163
+    _DLR_let            shift, and go to state 162
     distinct_object     shift, and go to state 91
     dollar_dollar_word  shift, and go to state 92
     dollar_word         shift, and go to state 93
-    hash                shift, and go to state 128
+    hash                shift, and go to state 163
     integer             shift, and go to state 77
     less_sign           shift, and go to state 164
     lower_word          shift, and go to state 28
@@ -13601,7 +13620,7 @@ State 777
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -13647,7 +13666,8 @@ State 777
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -13688,7 +13708,7 @@ State 778
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -13734,7 +13754,8 @@ State 778
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
@@ -13887,7 +13908,7 @@ State 791
     distinct_object          shift, and go to state 91
     dollar_dollar_word       shift, and go to state 92
     dollar_word              shift, and go to state 93
-    hash                     shift, and go to state 128
+    hash                     shift, and go to state 163
     integer                  shift, and go to state 77
     less_sign                shift, and go to state 164
     lower_word               shift, and go to state 28
@@ -13935,7 +13956,8 @@ State 791
     thf_unary_connective    go to state 259
     th1_quantifier          go to state 260
     th0_quantifier          go to state 261
-    fof_quantifier          go to state 262
+    tff_quantifier          go to state 262
+    fof_quantifier          go to state 197
     unary_connective        go to state 263
     constant                go to state 382
     functor                 go to state 266
