@@ -1,31 +1,15 @@
 Terminals unused in grammar
 
-    decimal
-    decimal_exponent
-    decimal_fraction
-    dot_decimal
-    exp_integer
-    positive_decimal
-    signed_exp_integer
-    signed_integer
-    signed_rational
-    signed_real
     slash
     slosh
-    star
     unrecognized
-    unsigned_exp_integer
-    unsigned_integer
-    unsigned_rational
-    unsigned_real
-    vline
 
 
 Grammar
 
     0 $accept: TPTP_file $end
 
-    1 TPTP_file: null
+    1 TPTP_file: nothing
     2          | TPTP_file TPTP_input
 
     3 TPTP_input: annotated_formula
@@ -53,7 +37,7 @@ Grammar
    17 cnf_annotated: _LIT_cnf LPAREN name COMMA formula_role COMMA cnf_formula annotations RPAREN PERIOD
 
    18 annotations: COMMA source optional_info
-   19            | null
+   19            | nothing
 
    20 formula_role: lower_word
    21             | lower_word MINUS general_term
@@ -612,7 +596,7 @@ Grammar
   388 file_source: _LIT_file LPAREN file_name file_info RPAREN
 
   389 file_info: COMMA name
-  390          | null
+  390          | nothing
 
   391 theory: _LIT_theory LPAREN theory_name optional_info RPAREN
 
@@ -631,16 +615,16 @@ Grammar
   399 parent_info: source parent_details
 
   400 parent_details: COLON general_list
-  401               | null
+  401               | nothing
 
   402 optional_info: COMMA useful_info
-  403              | null
+  403              | nothing
 
   404 useful_info: general_list
 
   405 include: _LIT_include LPAREN file_name include_optionals RPAREN PERIOD
 
-  406 include_optionals: null
+  406 include_optionals: nothing
   407                  | COMMA formula_selection
   408                  | COMMA formula_selection COMMA space_name
 
@@ -693,7 +677,7 @@ Grammar
 
   442 file_name: atomic_word
 
-  443 null: %empty
+  443 nothing: %empty
 
 
 Terminals, with rules where they appear
@@ -759,722 +743,706 @@ Terminals, with rules where they appear
     _LIT_tpi <ival> (314) 11
     _LIT_unknown <ival> (315) 375
     arrow <ival> (316) 113 114 219 245
-    decimal <ival> (317)
-    decimal_exponent <ival> (318)
-    decimal_fraction <ival> (319)
-    distinct_object <ival> (320) 370 421
-    dollar_dollar_word <ival> (321) 438
-    dollar_word <ival> (322) 437
-    dot_decimal <ival> (323)
-    exp_integer <ival> (324)
-    hash <ival> (325) 243 333
-    integer <ival> (326) 434 439
-    less_sign <ival> (327) 245
-    lower_word <ival> (328) 20 21 435
-    plus <ival> (329) 117 118
-    positive_decimal <ival> (330)
-    rational <ival> (331) 440
-    real <ival> (332) 441
-    signed_exp_integer <ival> (333)
-    signed_integer <ival> (334)
-    signed_rational <ival> (335)
-    signed_real <ival> (336)
-    single_quoted <ival> (337) 436
-    slash <ival> (338)
-    slosh <ival> (339)
-    star <ival> (340)
-    unrecognized <ival> (341)
-    unsigned_exp_integer <ival> (342)
-    unsigned_integer <ival> (343)
-    unsigned_rational <ival> (344)
-    unsigned_real <ival> (345)
-    upper_word <ival> (346) 371
-    vline <ival> (347)
+    distinct_object <ival> (317) 370 421
+    dollar_dollar_word <ival> (318) 438
+    dollar_word <ival> (319) 437
+    hash <ival> (320) 243 333
+    integer <ival> (321) 434 439
+    less_sign <ival> (322) 245
+    lower_word <ival> (323) 20 21 435
+    plus <ival> (324) 117 118
+    rational <ival> (325) 440
+    real <ival> (326) 441
+    single_quoted <ival> (327) 436
+    slash <ival> (328)
+    slosh <ival> (329)
+    unrecognized <ival> (330)
+    upper_word <ival> (331) 371
 
 
 Nonterminals, with rules where they appear
 
-    $accept (93)
+    $accept (77)
         on left: 0
-    TPTP_file (94)
+    TPTP_file (78)
         on left: 1 2
         on right: 0 2
-    TPTP_input (95)
+    TPTP_input (79)
         on left: 3 4
         on right: 2
-    annotated_formula (96)
+    annotated_formula (80)
         on left: 5 6 7 8 9 10
         on right: 3
-    tpi_annotated (97)
+    tpi_annotated (81)
         on left: 11
         on right: 10
-    tpi_formula (98)
+    tpi_formula (82)
         on left: 12
         on right: 11
-    thf_annotated (99)
+    thf_annotated (83)
         on left: 13
         on right: 5
-    tff_annotated (100)
+    tff_annotated (84)
         on left: 14
         on right: 6
-    tcf_annotated (101)
+    tcf_annotated (85)
         on left: 15
         on right: 7
-    fof_annotated (102)
+    fof_annotated (86)
         on left: 16
         on right: 8
-    cnf_annotated (103)
+    cnf_annotated (87)
         on left: 17
         on right: 9
-    annotations (104)
+    annotations (88)
         on left: 18 19
         on right: 11 13 14 15 16 17
-    formula_role (105)
+    formula_role (89)
         on left: 20 21
         on right: 11 13 14 15 16 17
-    thf_formula (106)
+    thf_formula (90)
         on left: 22 23 24
         on right: 13 424
-    thf_logic_formula (107)
+    thf_logic_formula (91)
         on left: 25 26 27 28 29 30
         on right: 22 52 77 84 89 101 102 120
-    thf_binary_formula (108)
+    thf_binary_formula (92)
         on left: 31 32 33
         on right: 27
-    thf_binary_nonassoc (109)
+    thf_binary_nonassoc (93)
         on left: 34
         on right: 31
-    thf_binary_assoc (110)
+    thf_binary_assoc (94)
         on left: 35 36 37
         on right: 32
-    thf_or_formula (111)
+    thf_or_formula (95)
         on left: 38 39
         on right: 35 39
-    thf_and_formula (112)
+    thf_and_formula (96)
         on left: 40 41
         on right: 36 41
-    thf_apply_formula (113)
+    thf_apply_formula (97)
         on left: 42 43
         on right: 37 43 109
-    thf_unit_formula (114)
+    thf_unit_formula (98)
         on left: 44 45 46
         on right: 34 38 39 40 41 42 43 53
-    thf_preunit_formula (115)
+    thf_preunit_formula (99)
         on left: 47 48
         on right: 60
-    thf_unitary_formula (116)
+    thf_unitary_formula (100)
         on left: 49 50 51 52
         on right: 25 44 47 108
-    thf_quantified_formula (117)
+    thf_quantified_formula (101)
         on left: 53
         on right: 49
-    thf_quantification (118)
+    thf_quantification (102)
         on left: 54
         on right: 53
-    thf_variable_list (119)
+    thf_variable_list (103)
         on left: 55 56
         on right: 54 56
-    thf_typed_variable (120)
+    thf_typed_variable (104)
         on left: 57
         on right: 55 56
-    thf_unary_formula (121)
+    thf_unary_formula (105)
         on left: 58 59
         on right: 26 45
-    thf_prefix_unary (122)
+    thf_prefix_unary (106)
         on left: 60
         on right: 48 58
-    thf_infix_unary (123)
+    thf_infix_unary (107)
         on left: 61
         on right: 59
-    thf_atomic_formula (124)
+    thf_atomic_formula (108)
         on left: 62 63 64 65
         on right: 50 87 120
-    thf_plain_atomic (125)
+    thf_plain_atomic (109)
         on left: 66 67
         on right: 62
-    thf_defined_atomic (126)
+    thf_defined_atomic (110)
         on left: 68 69 70 71 72
         on right: 63
-    thf_defined_term (127)
+    thf_defined_term (111)
         on left: 73 74
         on right: 69
-    thf_defined_infix (128)
+    thf_defined_infix (112)
         on left: 75
         on right: 28 46
-    thf_system_atomic (129)
+    thf_system_atomic (113)
         on left: 76
         on right: 64
-    thf_let (130)
+    thf_let (114)
         on left: 77
         on right: 72
-    thf_let_types (131)
+    thf_let_types (115)
         on left: 78 79
         on right: 77
-    thf_atom_typing_list (132)
+    thf_atom_typing_list (116)
         on left: 80 81
         on right: 79 81
-    thf_let_defns (133)
+    thf_let_defns (117)
         on left: 82 83
         on right: 77
-    thf_let_defn (134)
+    thf_let_defn (118)
         on left: 84
         on right: 82 85 86
-    thf_let_defn_list (135)
+    thf_let_defn_list (119)
         on left: 85 86
         on right: 83 86
-    thf_unitary_term (136)
+    thf_unitary_term (120)
         on left: 87 88 89
         on right: 61 75
-    thf_conn_term (137)
+    thf_conn_term (121)
         on left: 90 91 92 93 94
         on right: 70
-    thf_tuple (138)
+    thf_tuple (122)
         on left: 95 96
         on right: 67 121
-    thf_fof_function (139)
+    thf_fof_function (123)
         on left: 97 98 99
         on right: 65
-    thf_arguments (140)
+    thf_arguments (124)
         on left: 100
         on right: 97 98 99
-    thf_formula_list (141)
+    thf_formula_list (125)
         on left: 101 102
         on right: 96 100 102
-    thf_atom_typing (142)
+    thf_atom_typing (126)
         on left: 103 104
         on right: 23 78 80 81 104
-    thf_top_level_type (143)
+    thf_top_level_type (127)
         on left: 105 106 107
         on right: 57 103
-    thf_unitary_type (144)
+    thf_unitary_type (128)
         on left: 108
         on right: 105 113 114 115 116 117 118
-    thf_apply_type (145)
+    thf_apply_type (129)
         on left: 109
         on right: 107
-    thf_binary_type (146)
+    thf_binary_type (130)
         on left: 110 111 112
         on right: 33
-    thf_mapping_type (147)
+    thf_mapping_type (131)
         on left: 113 114
         on right: 106 110 114
-    thf_xprod_type (148)
+    thf_xprod_type (132)
         on left: 115 116
         on right: 111 116
-    thf_union_type (149)
+    thf_union_type (133)
         on left: 117 118
         on right: 112 118
-    thf_subtype (150)
+    thf_subtype (134)
         on left: 119
         on right: 24
-    thf_definition (151)
+    thf_definition (135)
         on left: 120
         on right: 29 234
-    thf_sequent (152)
+    thf_sequent (136)
         on left: 121
         on right: 30
-    tff_formula (153)
+    tff_formula (137)
         on left: 122 123 124
         on right: 14 425
-    tff_logic_formula (154)
+    tff_logic_formula (138)
         on left: 125 126 127 128 129 130
         on right: 122 148 186 193
-    tff_binary_formula (155)
+    tff_binary_formula (139)
         on left: 131 132
         on right: 127
-    tff_binary_nonassoc (156)
+    tff_binary_nonassoc (140)
         on left: 133
         on right: 131
-    tff_binary_assoc (157)
+    tff_binary_assoc (141)
         on left: 134 135
         on right: 132
-    tff_or_formula (158)
+    tff_or_formula (142)
         on left: 136 137
         on right: 134 137
-    tff_and_formula (159)
+    tff_and_formula (143)
         on left: 138 139
         on right: 135 139
-    tff_unit_formula (160)
+    tff_unit_formula (144)
         on left: 140 141 142
         on right: 133 136 137 138 139 150
-    tff_preunit_formula (161)
+    tff_preunit_formula (145)
         on left: 143 144
         on right: 158
-    tff_unitary_formula (162)
+    tff_unitary_formula (146)
         on left: 145 146 147 148
         on right: 125 140 143
-    txf_unitary_formula (163)
+    txf_unitary_formula (147)
         on left: 149
         on right: 147
-    tff_quantified_formula (164)
+    tff_quantified_formula (148)
         on left: 150
         on right: 145
-    tff_variable_list (165)
+    tff_variable_list (149)
         on left: 151 152
         on right: 150 152 205 252
-    tff_variable (166)
+    tff_variable (150)
         on left: 153 154
         on right: 151 152
-    tff_typed_variable (167)
+    tff_typed_variable (151)
         on left: 155
         on right: 153
-    tff_unary_formula (168)
+    tff_unary_formula (152)
         on left: 156 157
         on right: 126 141
-    tff_prefix_unary (169)
+    tff_prefix_unary (153)
         on left: 158
         on right: 144 156
-    tff_infix_unary (170)
+    tff_infix_unary (154)
         on left: 159
         on right: 157
-    tff_atomic_formula (171)
+    tff_atomic_formula (155)
         on left: 160 161 162
         on right: 146 189 226
-    tff_plain_atomic (172)
+    tff_plain_atomic (156)
         on left: 163 164
         on right: 160 181
-    tff_defined_atomic (173)
+    tff_defined_atomic (157)
         on left: 165
         on right: 161
-    tff_defined_plain (174)
+    tff_defined_plain (158)
         on left: 166 167 168 169
         on right: 165
-    tff_defined_infix (175)
+    tff_defined_infix (159)
         on left: 170
         on right: 128 142
-    tff_system_atomic (176)
+    tff_system_atomic (160)
         on left: 171 172
         on right: 162
-    txf_let (177)
+    txf_let (161)
         on left: 173
         on right: 169
-    txf_let_types (178)
+    txf_let_types (162)
         on left: 174 175
         on right: 173
-    tff_atom_typing_list (179)
+    tff_atom_typing_list (163)
         on left: 176 177
         on right: 175 177
-    txf_let_defns (180)
+    txf_let_defns (164)
         on left: 178 179
         on right: 173
-    txf_let_defn (181)
+    txf_let_defn (165)
         on left: 180
         on right: 178 183 184
-    txf_let_LHS (182)
+    txf_let_LHS (166)
         on left: 181 182
         on right: 180
-    txf_let_defn_list (183)
+    txf_let_defn_list (167)
         on left: 183 184
         on right: 179 184
-    nxf_atom (184)
+    nxf_atom (168)
         on left: 185
         on right: 168
-    tff_term (185)
+    tff_term (169)
         on left: 186 187 188
         on right: 173 180 196 197 226
-    tff_unitary_term (186)
+    tff_unitary_term (170)
         on left: 189 190 191 192 193
         on right: 159 170 243
-    txf_tuple (187)
+    txf_tuple (171)
         on left: 194 195
         on right: 182 188 191 227
-    tff_arguments (188)
+    tff_arguments (172)
         on left: 196 197
         on right: 164 167 172 185 195 197
-    tff_atom_typing (189)
+    tff_atom_typing (173)
         on left: 198 199
         on right: 123 174 176 177 199 249
-    tff_top_level_type (190)
+    tff_top_level_type (174)
         on left: 200 201
         on right: 198 223 224
-    tff_non_atomic_type (191)
+    tff_non_atomic_type (175)
         on left: 202 203 204
         on right: 201 204
-    tf1_quantified_type (192)
+    tf1_quantified_type (176)
         on left: 205
         on right: 203 208
-    tff_monotype (193)
+    tff_monotype (177)
         on left: 206 207 208
         on right: 205
-    tff_unitary_type (194)
+    tff_unitary_type (178)
         on left: 209 210
         on right: 219 220
-    tff_atomic_type (195)
+    tff_atomic_type (179)
         on left: 211 212 213 214 215 216
         on right: 155 200 206 209 215 217 218 219 220 221
-    tff_type_arguments (196)
+    tff_type_arguments (180)
         on left: 217 218
         on right: 214 218
-    tff_mapping_type (197)
+    tff_mapping_type (181)
         on left: 219
         on right: 202 207
-    tff_xprod_type (198)
+    tff_xprod_type (182)
         on left: 220 221
         on right: 210 221
-    txf_tuple_type (199)
+    txf_tuple_type (183)
         on left: 222
         on right: 216
-    tff_type_list (200)
+    tff_type_list (184)
         on left: 223 224
         on right: 222 224
-    tff_subtype (201)
+    tff_subtype (185)
         on left: 225
         on right: 124
-    txf_definition (202)
+    txf_definition (186)
         on left: 226
         on right: 129 241
-    txf_sequent (203)
+    txf_sequent (187)
         on left: 227
         on right: 130
-    nhf_long_connective (204)
+    nhf_long_connective (188)
         on left: 228 229
         on right: 71
-    nhf_parameter_list (205)
+    nhf_parameter_list (189)
         on left: 230 231
         on right: 229 231
-    nhf_parameter (206)
+    nhf_parameter (190)
         on left: 232 233
         on right: 230 231
-    nhf_key_pair (207)
+    nhf_key_pair (191)
         on left: 234
         on right: 233
-    nxf_long_connective (208)
+    nxf_long_connective (192)
         on left: 235 236
         on right: 185
-    nxf_parameter_list (209)
+    nxf_parameter_list (193)
         on left: 237 238
         on right: 236 238
-    nxf_parameter (210)
+    nxf_parameter (194)
         on left: 239 240
         on right: 237 238
-    nxf_key_pair (211)
+    nxf_key_pair (195)
         on left: 241
         on right: 240
-    ntf_connective_name (212)
+    ntf_connective_name (196)
         on left: 242
         on right: 228 229 235 236
-    ntf_index (213)
+    ntf_index (197)
         on left: 243
         on right: 232 239
-    ntf_short_connective (214)
+    ntf_short_connective (198)
         on left: 244 245 246 247
         on right: 321 329
-    tcf_formula (215)
+    tcf_formula (199)
         on left: 248 249
         on right: 15
-    tcf_logic_formula (216)
+    tcf_logic_formula (200)
         on left: 250 251
         on right: 248 252
-    tcf_quantified_formula (217)
+    tcf_quantified_formula (201)
         on left: 252
         on right: 250
-    fof_formula (218)
+    fof_formula (202)
         on left: 253 254
         on right: 12 16 426
-    fof_logic_formula (219)
+    fof_logic_formula (203)
         on left: 255 256 257
         on right: 253 274 307 308
-    fof_binary_formula (220)
+    fof_binary_formula (204)
         on left: 258 259
         on right: 255
-    fof_binary_nonassoc (221)
+    fof_binary_nonassoc (205)
         on left: 260
         on right: 258
-    fof_binary_assoc (222)
+    fof_binary_assoc (206)
         on left: 261 262
         on right: 259
-    fof_or_formula (223)
+    fof_or_formula (207)
         on left: 263 264
         on right: 261 264
-    fof_and_formula (224)
+    fof_and_formula (208)
         on left: 265 266
         on right: 262 266
-    fof_unary_formula (225)
+    fof_unary_formula (209)
         on left: 267 268
         on right: 256 271
-    fof_infix_unary (226)
+    fof_infix_unary (210)
         on left: 269
         on right: 268 316
-    fof_unit_formula (227)
+    fof_unit_formula (211)
         on left: 270 271
         on right: 260 263 264 265 266 267 275
-    fof_unitary_formula (228)
+    fof_unitary_formula (212)
         on left: 272 273 274
         on right: 257 270
-    fof_quantified_formula (229)
+    fof_quantified_formula (213)
         on left: 275
         on right: 272
-    fof_variable_list (230)
+    fof_variable_list (214)
         on left: 276 277
         on right: 275 277
-    fof_atomic_formula (231)
+    fof_atomic_formula (215)
         on left: 278 279 280
         on right: 273 313 314 315
-    fof_plain_atomic_formula (232)
+    fof_plain_atomic_formula (216)
         on left: 281
         on right: 278
-    fof_defined_atomic_formula (233)
+    fof_defined_atomic_formula (217)
         on left: 282 283
         on right: 279
-    fof_defined_plain_formula (234)
+    fof_defined_plain_formula (218)
         on left: 284
         on right: 282
-    fof_defined_infix_formula (235)
+    fof_defined_infix_formula (219)
         on left: 285
         on right: 283
-    fof_system_atomic_formula (236)
+    fof_system_atomic_formula (220)
         on left: 286
         on right: 280
-    fof_plain_term (237)
+    fof_plain_term (221)
         on left: 287 288
         on right: 281 300
-    fof_defined_term (238)
+    fof_defined_term (222)
         on left: 289 290
         on right: 301
-    fof_defined_atomic_term (239)
+    fof_defined_atomic_term (223)
         on left: 291
         on right: 290
-    fof_defined_plain_term (240)
+    fof_defined_plain_term (224)
         on left: 292 293
         on right: 284 291
-    fof_system_term (241)
+    fof_system_term (225)
         on left: 294 295
         on right: 286 302
-    fof_arguments (242)
+    fof_arguments (226)
         on left: 296 297
         on right: 288 293 295 297
-    fof_term (243)
+    fof_term (227)
         on left: 298 299
         on right: 269 285 296 297 428
-    fof_function_term (244)
+    fof_function_term (228)
         on left: 300 301 302
         on right: 298
-    fof_sequent (245)
+    fof_sequent (229)
         on left: 303 304
         on right: 254 304
-    fof_formula_tuple (246)
+    fof_formula_tuple (230)
         on left: 305 306
         on right: 303
-    fof_formula_tuple_list (247)
+    fof_formula_tuple_list (231)
         on left: 307 308
         on right: 306 308
-    cnf_formula (248)
+    cnf_formula (232)
         on left: 309 310
         on right: 17 251 310 427
-    cnf_disjunction (249)
+    cnf_disjunction (233)
         on left: 311 312
         on right: 309 312
-    cnf_literal (250)
+    cnf_literal (234)
         on left: 313 314 315 316
         on right: 311 312
-    thf_quantifier (251)
+    thf_quantifier (235)
         on left: 317 318 319
         on right: 54
-    thf_unary_connective (252)
+    thf_unary_connective (236)
         on left: 320 321
         on right: 60 94
-    th1_quantifier (253)
+    th1_quantifier (237)
         on left: 322 323
         on right: 319
-    th0_quantifier (254)
+    th0_quantifier (238)
         on left: 324 325 326
         on right: 318
-    subtype_sign (255)
+    subtype_sign (239)
         on left: 327
         on right: 119 225
-    tff_unary_connective (256)
+    tff_unary_connective (240)
         on left: 328 329
         on right: 158
-    tff_quantifier (257)
+    tff_quantifier (241)
         on left: 330
         on right: 150
-    fof_quantifier (258)
+    fof_quantifier (242)
         on left: 331 332 333
         on right: 275 317 330
-    nonassoc_connective (259)
+    nonassoc_connective (243)
         on left: 334 335 336 337 338 339
         on right: 34 90 133 260
-    assoc_connective (260)
+    assoc_connective (244)
         on left: 340 341
         on right: 91
-    unary_connective (261)
+    unary_connective (245)
         on left: 342
         on right: 267 320 328
-    gentzen_arrow (262)
+    gentzen_arrow (246)
         on left: 343
         on right: 121 227 303
-    assignment (263)
+    assignment (247)
         on left: 344
         on right: 84 180
-    identical (264)
+    identical (248)
         on left: 345
         on right: 120 226
-    type_constant (265)
+    type_constant (249)
         on left: 346
         on right: 211
-    type_functor (266)
+    type_functor (250)
         on left: 347
         on right: 214 346
-    defined_type (267)
+    defined_type (251)
         on left: 348
         on right: 212
-    atom (268)
+    atom (252)
         on left: 349 350
         on right: 119 225
-    untyped_atom (269)
+    untyped_atom (253)
         on left: 351 352
         on right: 103 119 198 225 349
-    defined_infix_pred (270)
+    defined_infix_pred (254)
         on left: 353
         on right: 75 170 285
-    infix_equality (271)
+    infix_equality (255)
         on left: 354
         on right: 92 353
-    infix_inequality (272)
+    infix_inequality (256)
         on left: 355
         on right: 61 93 159 269
-    constant (273)
+    constant (257)
         on left: 356
         on right: 66 163 287 351
-    functor (274)
+    functor (258)
         on left: 357
         on right: 97 164 288 356
-    defined_constant (275)
+    defined_constant (259)
         on left: 358
         on right: 68 166 292 350 362
-    defined_functor (276)
+    defined_functor (260)
         on left: 359
         on right: 98 167 293 358
-    system_constant (277)
+    system_constant (261)
         on left: 360
         on right: 76 171 294 352 363
-    system_functor (278)
+    system_functor (262)
         on left: 361
         on right: 99 172 295 360
-    def_or_sys_constant (279)
+    def_or_sys_constant (263)
         on left: 362 363
         on right: 242
-    th1_defined_term (280)
+    th1_defined_term (264)
         on left: 364 365 366 367 368
         on right: 74
-    defined_term (281)
+    defined_term (265)
         on left: 369 370
         on right: 73 187 190 289
-    variable (282)
+    variable (266)
         on left: 371
         on right: 51 57 88 149 154 155 192 213 276 277 299 419
-    source (283)
+    source (267)
         on left: 372 373 374 375 376
         on right: 18 377 378 399
-    sources (284)
+    sources (268)
         on left: 377 378
         on right: 376 378
-    dag_source (285)
+    dag_source (269)
         on left: 379 380
         on right: 372
-    inference_record (286)
+    inference_record (270)
         on left: 381
         on right: 380
-    inference_rule (287)
+    inference_rule (271)
         on left: 382
         on right: 381
-    internal_source (288)
+    internal_source (272)
         on left: 383
         on right: 373
-    intro_type (289)
+    intro_type (273)
         on left: 384
         on right: 383
-    external_source (290)
+    external_source (274)
         on left: 385 386 387
         on right: 374
-    file_source (291)
+    file_source (275)
         on left: 388
         on right: 385
-    file_info (292)
+    file_info (276)
         on left: 389 390
         on right: 388
-    theory (293)
+    theory (277)
         on left: 391
         on right: 386
-    theory_name (294)
+    theory_name (278)
         on left: 392
         on right: 391
-    creator_source (295)
+    creator_source (279)
         on left: 393
         on right: 387
-    creator_name (296)
+    creator_name (280)
         on left: 394
         on right: 393
-    parents (297)
+    parents (281)
         on left: 395 396
         on right: 381 383 393
-    parent_list (298)
+    parent_list (282)
         on left: 397 398
         on right: 396 398
-    parent_info (299)
+    parent_info (283)
         on left: 399
         on right: 397 398
-    parent_details (300)
+    parent_details (284)
         on left: 400 401
         on right: 399
-    optional_info (301)
+    optional_info (285)
         on left: 402 403
         on right: 18 391
-    useful_info (302)
+    useful_info (286)
         on left: 404
         on right: 381 383 393 402
-    include (303)
+    include (287)
         on left: 405
         on right: 4
-    include_optionals (304)
+    include_optionals (288)
         on left: 406 407 408
         on right: 405
-    formula_selection (305)
+    formula_selection (289)
         on left: 409 410
         on right: 407 408
-    name_list (306)
+    name_list (290)
         on left: 411 412
         on right: 409 412
-    space_name (307)
+    space_name (291)
         on left: 413
         on right: 408
-    general_term (308)
+    general_term (292)
         on left: 414 415 416
         on right: 21 415 431 432
-    general_data (309)
+    general_data (293)
         on left: 417 418 419 420 421 422
         on right: 414 415
-    general_function (310)
+    general_function (294)
         on left: 423
         on right: 418
-    formula_data (311)
+    formula_data (295)
         on left: 424 425 426 427 428
         on right: 422
-    general_list (312)
+    general_list (296)
         on left: 429 430
         on right: 400 404 416
-    general_terms (313)
+    general_terms (297)
         on left: 431 432
         on right: 423 430 432
-    name (314)
+    name (298)
         on left: 433 434
         on right: 11 13 14 15 16 17 379 389 411 412 413
-    atomic_word (315)
+    atomic_word (299)
         on left: 435 436
         on right: 347 357 382 384 392 394 417 423 433 442
-    atomic_defined_word (316)
+    atomic_defined_word (300)
         on left: 437
         on right: 348 359
-    atomic_system_word (317)
+    atomic_system_word (301)
         on left: 438
         on right: 361
-    number (318)
+    number (302)
         on left: 439 440 441
         on right: 369 420
-    file_name (319)
+    file_name (303)
         on left: 442
         on right: 388 405
-    null (320)
+    nothing (304)
         on left: 443
         on right: 1 19 390 401 403 406
 
@@ -1483,10 +1451,10 @@ State 0
 
     0 $accept: . TPTP_file $end
 
-    $default  reduce using rule 443 (null)
+    $default  reduce using rule 443 (nothing)
 
     TPTP_file  go to state 1
-    null       go to state 2
+    nothing    go to state 2
 
 
 State 1
@@ -1516,7 +1484,7 @@ State 1
 
 State 2
 
-    1 TPTP_file: null .
+    1 TPTP_file: nothing .
 
     $default  reduce using rule 1 (TPTP_file)
 
@@ -1778,10 +1746,10 @@ State 34
 
     COMMA  shift, and go to state 41
 
-    $default  reduce using rule 443 (null)
+    $default  reduce using rule 443 (nothing)
 
     include_optionals  go to state 42
-    null               go to state 43
+    nothing            go to state 43
 
 
 State 35
@@ -1850,7 +1818,7 @@ State 42
 
 State 43
 
-  406 include_optionals: null .
+  406 include_optionals: nothing .
 
     $default  reduce using rule 406 (include_optionals)
 
@@ -2828,10 +2796,10 @@ State 108
 
     COMMA  shift, and go to state 295
 
-    $default  reduce using rule 443 (null)
+    $default  reduce using rule 443 (nothing)
 
     annotations  go to state 296
-    null         go to state 297
+    nothing      go to state 297
 
 
 State 109
@@ -3103,10 +3071,10 @@ State 129
 
     COMMA  shift, and go to state 295
 
-    $default  reduce using rule 443 (null)
+    $default  reduce using rule 443 (nothing)
 
     annotations  go to state 308
-    null         go to state 297
+    nothing      go to state 297
 
 
 State 130
@@ -3398,10 +3366,10 @@ State 153
 
     COMMA  shift, and go to state 295
 
-    $default  reduce using rule 443 (null)
+    $default  reduce using rule 443 (nothing)
 
     annotations  go to state 329
-    null         go to state 297
+    nothing      go to state 297
 
 
 State 154
@@ -3638,10 +3606,10 @@ State 165
 
     COMMA  shift, and go to state 295
 
-    $default  reduce using rule 443 (null)
+    $default  reduce using rule 443 (nothing)
 
     annotations  go to state 352
-    null         go to state 297
+    nothing      go to state 297
 
 
 State 166
@@ -4354,10 +4322,10 @@ State 222
 
     COMMA  shift, and go to state 295
 
-    $default  reduce using rule 443 (null)
+    $default  reduce using rule 443 (nothing)
 
     annotations  go to state 396
-    null         go to state 297
+    nothing      go to state 297
 
 
 State 223
@@ -4944,10 +4912,10 @@ State 274
 
     COMMA  shift, and go to state 295
 
-    $default  reduce using rule 443 (null)
+    $default  reduce using rule 443 (nothing)
 
     annotations  go to state 431
-    null         go to state 297
+    nothing      go to state 297
 
 
 State 275
@@ -5538,7 +5506,7 @@ State 296
 
 State 297
 
-   19 annotations: null .
+   19 annotations: nothing .
 
     $default  reduce using rule 19 (annotations)
 
@@ -9425,10 +9393,10 @@ State 455
 
     COMMA  shift, and go to state 618
 
-    $default  reduce using rule 443 (null)
+    $default  reduce using rule 443 (nothing)
 
     optional_info  go to state 619
-    null           go to state 620
+    nothing        go to state 620
 
 
 State 456
@@ -11498,7 +11466,7 @@ State 619
 
 State 620
 
-  403 optional_info: null .
+  403 optional_info: nothing .
 
     $default  reduce using rule 403 (optional_info)
 
@@ -12329,10 +12297,10 @@ State 687
 
     COMMA  shift, and go to state 745
 
-    $default  reduce using rule 443 (null)
+    $default  reduce using rule 443 (nothing)
 
     file_info  go to state 746
-    null       go to state 747
+    nothing    go to state 747
 
 
 State 688
@@ -12369,10 +12337,10 @@ State 692
 
     COMMA  shift, and go to state 618
 
-    $default  reduce using rule 443 (null)
+    $default  reduce using rule 443 (nothing)
 
     optional_info  go to state 750
-    null           go to state 620
+    nothing        go to state 620
 
 
 State 693
@@ -13231,7 +13199,7 @@ State 746
 
 State 747
 
-  390 file_info: null .
+  390 file_info: nothing .
 
     $default  reduce using rule 390 (file_info)
 
@@ -14201,10 +14169,10 @@ State 813
 
     COLON  shift, and go to state 821
 
-    $default  reduce using rule 443 (null)
+    $default  reduce using rule 443 (nothing)
 
     parent_details  go to state 822
-    null            go to state 823
+    nothing         go to state 823
 
 
 State 814
@@ -14277,7 +14245,7 @@ State 822
 
 State 823
 
-  401 parent_details: null .
+  401 parent_details: nothing .
 
     $default  reduce using rule 401 (parent_details)
 

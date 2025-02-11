@@ -17,6 +17,9 @@
 %----v9.0.0.7 Linearised <thf_formula_list>, <tff_arguments>, <fof_formula_tuple_list>,
 %----         <parent_list>, <info_items>, <general_terms>.
 %----v9.0.0.8 Replaced <null> by <nothing> to avoid conflicts in Java parsers
+%----v9.0.0.9 Allow only <unsigned_integer> in a <name>
+%----v9.0.0.10 Reordered numerics to make lex/yacc happy, including some renaming and factoring
+%----         Reverted <name> to allow <integer>, because lex/yacc stuff hurts
 %--------------------------------------------------------------------------------------------------
 %----README ... this header provides important meta- and usage information
 %----
@@ -615,8 +618,9 @@
 <comma_general_term>   ::= ,<general_term>
 
 %----General purpose
+%----Integer names are expected to be unsigned, but lex stuff prevents this ..
+%----<name>                 ::= <atomic_word> | <unsigned_integer>
 <name>                 ::= <atomic_word> | <integer>
-%----Integer names are expected to be unsigned
 <atomic_word>          ::= <lower_word> | <single_quoted>
 %----<single_quoted>s are the enclosed <atomic_word> without the quotes. Therefore the <lower_word>
 %----<atomic_word> cat and the <single_quoted> <atomic_word> 'cat' are the same, but <numbers>s and
@@ -639,17 +643,62 @@
 %----(for uniformity this is done to all characters, not only those with special meanings).
 
 %----These are tokens that appear in the syntax rules above. No rules defined here because they
-%----appear explicitly in the syntax rules, except that <vline>, <star>, <plus> denote "|", "*",
-%----"+", respectively.
-%----Keywords:    fof cnf thf tff include
+%----appear explicitly in the syntax rules, except that <vline>, <star>, <plus>, <hash> denote 
+%----"|", "*", "+", "#", respectively.
+%----Keywords:    thf tff fof cnf include
 %----Punctuation: ( ) , . [ ] :
 %----Operators:   ! ? ~ & | <=> => <= <~> ~| ~& * +
-%----Predicates:  = != $true $false
+%----Predicates:  = != $true $false $arithmetic_stuff
+
+<single_quoted>        ::- <single_quote><sq_char><sq_char>*<single_quote>
+%----<single_quoted>s contain visible characters. \ is the escape character for ' and \, i.e.,
+%----\' is not the end of the <single_quoted>. The token does not include the outer quotes, e.g.,
+%----'cat' and cat are the same. See <atomic_word> for information about stripping the quotes.
+
+<distinct_object>      ::- <double_quote><do_char>*<double_quote>
+%---Space and visible characters upto ~, except " and \ distinct_object>s contain visible
+%----characters. \ is the escape character for " and \, i.e., \" is not the end of the
+%----<distinct_object>. <distinct_object>s are different from (but may be equal to) other tokens,
+%----e.g., "cat" is different from 'cat' and cat. Distinct objects are always interpreted as
+%----themselves, so if they are different they are unequal, e.g., "Apple" != "Microsoft" is
+%----implicit.
+
+<dollar_word>          ::- <dollar><alpha_numeric>*
+<dollar_dollar_word>   ::- <dollar><dollar><alpha_numeric>*
+<upper_word>           ::- <upper_alpha><alpha_numeric>*
+<lower_word>           ::- <lower_alpha><alpha_numeric>*
+
+%----Numbers. Note only the <real>, <rational>, and <integer> are accessible.
+<real>                 ::- (<signed_real>|<unsigned_real>)
+<signed_real>          ::: <sign><unsigned_real>
+<unsigned_real>        ::: (<decimal_fraction>|<decimal_exponent>)
+<decimal_exponent>     ::: (<integer_digits>|<decimal_fraction>)<exponent><exp_integer>
+<decimal_fraction>     ::: <unsigned_integer><dot><integer_digits>
+<exp_integer>          ::: (<signed_exp_integer>|<integer_digits>)
+<signed_exp_integer>   ::: <sign><integer_digits>
+<rational>             ::- (<signed_rational>|<unsigned_rational>)
+<signed_rational>      ::: <sign><unsigned_rational>
+<unsigned_rational>    ::: <unsigned_integer><slash><positive_integer>
+<integer>              ::- (<signed_integer>|<unsigned_integer>)
+<signed_integer>       ::: <sign><unsigned_integer>
+<unsigned_integer>     ::: (<zero_numeric>|<positive_integer>)
+<positive_integer>     ::: <non_zero_numeric><numeric>*
+<integer_digits>       ::: <numeric><numeric>*
+<slash>                ::- <slash_char>
+<slosh>                ::- <slosh_char>
+
+%----Tokens used in syntax, and cannot be character classes
+<vline>                ::: [|]
+<star>                 ::: [*]
+<plus>                 ::- [+]
+<arrow>                ::- [>]
+<less_sign>            ::- [<]
+<hash>                 ::- [#]
 
 %----For lex/yacc there cannot be spaces on either side of the | here
 <comment>              ::- <comment_line>|<comment_block>
-<comment_line>         ::- [%]<printable_char>*
-<comment_block>        ::: [/][*]<not_star_slash>[*][*]*[/]
+<comment_line>         ::- <percentage_sign><printable_char>*
+<comment_block>        ::: {slash_char}{star}<not_star_slash>{star}{star}*{slash_char}
 <not_star_slash>       ::: ([^*]*[*][*]*[^/*])*[^*]*
 %----Defined comments are a convention used for annotations that are used as additional input for
 %----systems. They look like comments, but start with %$ or /*$. A wily user of the syntax can
@@ -674,73 +723,25 @@
 %----A string that matches both <system_comment> and <defined_comment> should
 %----be recognized as <system_comment>, so put these before <defined_comment>.
 
-<single_quoted>        ::- <single_quote><sq_char><sq_char>*<single_quote>
-%----<single_quoted>s contain visible characters. \ is the escape character for ' and \, i.e.,
-%----\' is not the end of the <single_quoted>. The token does not include the outer quotes, e.g.,
-%----'cat' and cat are the same. See <atomic_word> for information about stripping the quotes.
-
-<distinct_object>      ::- <double_quote><do_char>*<double_quote>
-%---Space and visible characters upto ~, except " and \ distinct_object>s contain visible
-%----characters. \ is the escape character for " and \, i.e., \" is not the end of the
-%----<distinct_object>. <distinct_object>s are different from (but may be equal to) other tokens,
-%----e.g., "cat" is different from 'cat' and cat. Distinct objects are always interpreted as
-%----themselves, so if they are different they are unequal, e.g., "Apple" != "Microsoft" is
-%----implicit.
-
-<dollar_word>          ::- <dollar><alpha_numeric>*
-<dollar_dollar_word>   ::- <dollar><dollar><alpha_numeric>*
-<upper_word>           ::- <upper_alpha><alpha_numeric>*
-<lower_word>           ::- <lower_alpha><alpha_numeric>*
-
-%----Tokens used in syntax, and cannot be character classes
-<vline>                ::- [|]
-<star>                 ::- [*]
-<plus>                 ::- [+]
-<arrow>                ::- [>]
-<less_sign>            ::- [<]
-<hash>                 ::- [#]
-
-%----Numbers. Signs are made part of the same token here.
-<real>                 ::- (<signed_real>|<unsigned_real>)
-<signed_real>          ::- <sign><unsigned_real>
-<unsigned_real>        ::- (<decimal_fraction>|<decimal_exponent>)
-<rational>             ::- (<signed_rational>|<unsigned_rational>)
-<signed_rational>      ::- <sign><unsigned_rational>
-<unsigned_rational>    ::- <decimal><slash><positive_decimal>
-<integer>              ::- (<signed_integer>|<unsigned_integer>)
-<signed_integer>       ::- <sign><unsigned_integer>
-<unsigned_integer>     ::- <decimal>
-<decimal>              ::- (<zero_numeric>|<positive_decimal>)
-<positive_decimal>     ::- <non_zero_numeric><numeric>*
-<decimal_exponent>     ::- (<decimal>|<decimal_fraction>)<exponent><exp_integer>
-<decimal_fraction>     ::- <decimal><dot_decimal>
-<dot_decimal>          ::- <dot><numeric><numeric>*
-<exp_integer>          ::- (<signed_exp_integer>|<unsigned_exp_integer>)
-<signed_exp_integer>   ::- <sign><unsigned_exp_integer>
-<unsigned_exp_integer> ::- <numeric><numeric>*
-
-<slash>                ::- <slash_char>
-<slosh>                ::- <slosh_char>
-
 %----Character classes
 <percentage_sign>      ::: [%]
 <double_quote>         ::: ["]
-<do_char>              ::: ([\40-\41\43-\133\135-\176]|[\\]["\\])
+<do_char>              ::: ([\40-\41\43-\133\135-\176]|([\\]["\\]))
 <single_quote>         ::: [']
 %---Space and visible characters upto ~, except ' and \
-<sq_char>              ::: ([\40-\46\50-\133\135-\176]|[\\]['\\])
+<sq_char>              ::: ([\40-\46\50-\133\135-\176]|([\\]['\\]))
 <sign>                 ::: [+-]
 <dot>                  ::: [.]
 <exponent>             ::: [Ee]
 <slash_char>           ::: [/]
 <slosh_char>           ::: [\\]
-%% <bar>                  ::: [|]
 <zero_numeric>         ::: [0]
 <non_zero_numeric>     ::: [1-9]
 <numeric>              ::: [0-9]
 <lower_alpha>          ::: [a-z]
 <upper_alpha>          ::: [A-Z]
-<alpha_numeric>        ::: (<lower_alpha>|<upper_alpha>|<numeric>|[_])
+<underscore>           ::: [_]
+<alpha_numeric>        ::: (<lower_alpha>|<upper_alpha>|<numeric>|<underscore>)
 <dollar>               ::: [$]
 <printable_char>       ::: .
 %----<printable_char> is any printable ASCII character, codes 32 (space) to 126 (tilde).

@@ -10,7 +10,7 @@ all to antlr grammar, and then outputs it to g4/TPTP.g4
 - To convert files, run this command:
 
 ```bash
-python3 bnf2antlr.py SyntaxBNF-vR.E.P.F TPTP-vR.E.P.F.g4
+python3 bnf2antlr.py SyntaxBNF-vR.E.P.F output_directory_eg_../ANTLRGrammar
 ```
 
 - If this fails run this:

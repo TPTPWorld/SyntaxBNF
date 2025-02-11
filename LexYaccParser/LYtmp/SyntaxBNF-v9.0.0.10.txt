@@ -8,7 +8,7 @@ tff_annotated _GRR _LIT_tff LPAREN name COMMA formula_role COMMA tff_formula ann
 tcf_annotated _GRR _LIT_tcf LPAREN name COMMA formula_role COMMA tcf_formula annotations RPAREN PERIOD
 fof_annotated _GRR _LIT_fof LPAREN name COMMA formula_role COMMA fof_formula annotations RPAREN PERIOD
 cnf_annotated _GRR _LIT_cnf LPAREN name COMMA formula_role COMMA cnf_formula annotations RPAREN PERIOD
-annotations _GRR COMMA source optional_info | null
+annotations _GRR COMMA source optional_info | nothing
 formula_role _GRR lower_word | lower_word MINUS general_term
 formula_role _GRS _LIT_axiom | _LIT_hypothesis | _LIT_definition | _LIT_assumption | _LIT_lemma | _LIT_theorem | _LIT_corollary | _LIT_conjecture | _LIT_negated_conjecture | _LIT_plain | _LIT_type | _LIT_interpretation | _LIT_fi_domain | _LIT_fi_functors | _LIT_fi_predicates | _LIT_unknown
 thf_formula _GRR thf_logic_formula | thf_atom_typing | thf_subtype
@@ -247,7 +247,7 @@ intro_type _GRR atomic_word
 intro_type _GRS _LIT_definition | _LIT_tautology | _LIT_assumption
 external_source _GRR file_source | theory | creator_source
 file_source _GRR _LIT_file LPAREN file_name file_info RPAREN
-file_info _GRR COMMA name | null
+file_info _GRR COMMA name | nothing
 theory _GRR _LIT_theory LPAREN theory_name optional_info RPAREN
 theory_name _GRR atomic_word
 theory_name _GRS _LIT_equality | _LIT_ac
@@ -257,8 +257,8 @@ parents _GRR LBRKT RBRKT | LBRKT parent_list RBRKT
 parent_list _GRR parent_info comma_parent_info *
 comma_parent_info _GRR COMMA parent_info
 parent_info _GRR source parent_details
-parent_details _GRR COLON general_list | null
-optional_info _GRR COMMA useful_info | null
+parent_details _GRR COLON general_list | nothing
+optional_info _GRR COMMA useful_info | nothing
 useful_info _GRR general_list
 useful_info _GRS LBRKT RBRKT | LBRKT info_items RBRKT
 info_items _GRS info_item comma_info_item *
@@ -277,7 +277,7 @@ new_symbol_record _GRS _LIT_new_symbols LPAREN atomic_word COMMA LBRKT new_symbo
 new_symbol_list _GRS principal_symbol | principal_symbol COMMA new_symbol_list
 principal_symbol _GRS functor | variable
 include _GRR _LIT_include LPAREN file_name include_optionals RPAREN PERIOD
-include_optionals _GRR null | COMMA formula_selection | COMMA formula_selection COMMA space_name
+include_optionals _GRR nothing | COMMA formula_selection | COMMA formula_selection COMMA space_name
 formula_selection _GRR LBRKT name_list RBRKT | STAR
 name_list _GRR name | name COMMA name_list
 space_name _GRR name
@@ -296,47 +296,45 @@ atomic_defined_word _GRR dollar_word
 atomic_system_word _GRR dollar_dollar_word
 number _GRR integer | rational | real
 file_name _GRR atomic_word
-null _GRR
-{comment} _TRT {comment_line}|{comment_block}
-{comment_line} _TRT [%]{printable_char}*
-{comment_block} _TRM [/][*]{not_star_slash}[*][*]*[/]
-{not_star_slash} _TRM ([^*]*[*][*]*[^/*])*[^*]*
+nothing _GRR
 {single_quoted} _TRT {single_quote}{sq_char}{sq_char}*{single_quote}
 {distinct_object} _TRT {double_quote}{do_char}*{double_quote}
 {dollar_word} _TRT {dollar}{alpha_numeric}*
 {dollar_dollar_word} _TRT {dollar}{dollar}{alpha_numeric}*
 {upper_word} _TRT {upper_alpha}{alpha_numeric}*
 {lower_word} _TRT {lower_alpha}{alpha_numeric}*
-{vline} _TRT [|]
-{star} _TRT [*]
+{real} _TRT ({signed_real}|{unsigned_real})
+{signed_real} _TRM {sign}{unsigned_real}
+{unsigned_real} _TRM ({decimal_fraction}|{decimal_exponent})
+{decimal_exponent} _TRM ({integer_digits}|{decimal_fraction}){exponent}{exp_integer}
+{decimal_fraction} _TRM {unsigned_integer}{dot}{integer_digits}
+{exp_integer} _TRM ({signed_exp_integer}|{integer_digits})
+{signed_exp_integer} _TRM {sign}{integer_digits}
+{rational} _TRT ({signed_rational}|{unsigned_rational})
+{signed_rational} _TRM {sign}{unsigned_rational}
+{unsigned_rational} _TRM {unsigned_integer}{slash}{positive_integer}
+{integer} _TRT ({signed_integer}|{unsigned_integer})
+{signed_integer} _TRM {sign}{unsigned_integer}
+{unsigned_integer} _TRM ({zero_numeric}|{positive_integer})
+{positive_integer} _TRM {non_zero_numeric}{numeric}*
+{integer_digits} _TRM {numeric}{numeric}*
+{slash} _TRT {slash_char}
+{slosh} _TRT {slosh_char}
+{vline} _TRM [|]
+{star} _TRM [*]
 {plus} _TRT [+]
 {arrow} _TRT [>]
 {less_sign} _TRT [<]
 {hash} _TRT [#]
-{real} _TRT ({signed_real}|{unsigned_real})
-{signed_real} _TRT {sign}{unsigned_real}
-{unsigned_real} _TRT ({decimal_fraction}|{decimal_exponent})
-{rational} _TRT ({signed_rational}|{unsigned_rational})
-{signed_rational} _TRT {sign}{unsigned_rational}
-{unsigned_rational} _TRT {decimal}{slash}{positive_decimal}
-{integer} _TRT ({signed_integer}|{unsigned_integer})
-{signed_integer} _TRT {sign}{unsigned_integer}
-{unsigned_integer} _TRT {decimal}
-{decimal} _TRT ({zero_numeric}|{positive_decimal})
-{positive_decimal} _TRT {non_zero_numeric}{numeric}*
-{decimal_exponent} _TRT ({decimal}|{decimal_fraction}){exponent}{exp_integer}
-{decimal_fraction} _TRT {decimal}{dot_decimal}
-{dot_decimal} _TRT {dot}{numeric}{numeric}*
-{exp_integer} _TRT ({signed_exp_integer}|{unsigned_exp_integer})
-{signed_exp_integer} _TRT {sign}{unsigned_exp_integer}
-{unsigned_exp_integer} _TRT {numeric}{numeric}*
-{slash} _TRT {slash_char}
-{slosh} _TRT {slosh_char}
+{comment} _TRT {comment_line}|{comment_block}
+{comment_line} _TRT {percentage_sign}{printable_char}*
+{comment_block} _TRM {slash_char}{star}{not_star_slash}{star}{star}*{slash_char}
+{not_star_slash} _TRM ([^*]*[*][*]*[^/*])*[^*]*
 {percentage_sign} _TRM [%]
 {double_quote} _TRM ["]
-{do_char} _TRM ([\40-\41\43-\133\135-\176]|[\\]["\\])
+{do_char} _TRM ([\40-\41\43-\133\135-\176]|([\\]["\\]))
 {single_quote} _TRM [']
-{sq_char} _TRM ([\40-\46\50-\133\135-\176]|[\\]['\\])
+{sq_char} _TRM ([\40-\46\50-\133\135-\176]|([\\]['\\]))
 {sign} _TRM [+-]
 {dot} _TRM [.]
 {exponent} _TRM [Ee]
@@ -347,7 +345,8 @@ null _GRR
 {numeric} _TRM [0-9]
 {lower_alpha} _TRM [a-z]
 {upper_alpha} _TRM [A-Z]
-{alpha_numeric} _TRM ({lower_alpha}|{upper_alpha}|{numeric}|[_])
+{underscore} _TRM [_]
+{alpha_numeric} _TRM ({lower_alpha}|{upper_alpha}|{numeric}|{underscore})
 {dollar} _TRM [$]
 {printable_char} _TRM .
 {viewable_char} _TRM [.\n]

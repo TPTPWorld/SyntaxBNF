@@ -1,5 +1,5 @@
 1i\
-<HTML><HEAD><TITLE>TPTP Syntax</TITLE><LINK REL="icon" HREF="TPTPBNF.png" type="image/png" /></HEAD><BODY><A NAME="TOPOFPAGE"></A><TT>
+<HTML><HEAD><TITLE>TPTP Syntax</TITLE><LINK REL="icon" HREF="https://tptp.org/Logos/TPTPBNF.png" type="image/png" /></HEAD><BODY><A NAME="TOPOFPAGE"></A><TT>
 s/</\&lt;/g
 s/>/\&gt;/g
 /^&lt;/s@^&lt;\([a-z0-9A-Z_]*\)@\&LT;<A_SPACE_NAME="\1">\1</A>@

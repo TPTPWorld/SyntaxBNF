@@ -17,7 +17,7 @@ LYLIBS= -ly -ll
 CFLAGS= -Wall -I/usr/include/x86_64-linux-gnu -no-pie -Wno-unused-function
 #--- -g for debugging
 
-all: SyntaxBNF-yl-parser SyntaxBNF-yl-parser-verbose SyntaxBNF-yl-parser-double SyntaxBNF-yl-parser-clickable clean
+all: SyntaxBNF-yl-parser SyntaxBNF-yl-parser-verbose SyntaxBNF-yl-parser-double SyntaxBNF-yl-parser-clickable
 
 SyntaxBNF-yl-parser: lex.yy.c y.tab.c
 	gcc $(CFLAGS) -o $@ lex.yy.c y.tab.c $(LYLIBS)
@@ -46,7 +46,7 @@ SyntaxBNF.l: LYFiles
 SyntaxBNF.y: LYFiles
 
 LYFiles: $(BNF)
-	cd $(LY_SCRIPT_DIR);$(LY_SCRIPT) ../$(BNF);cd ..
+	cd $(LY_SCRIPT_DIR);$(LY_SCRIPT) $(BNF);cd ..
 	mv $(TMPDIR)/`basename $(BNF)`.l SyntaxBNF.l
 	mv $(TMPDIR)/`basename $(BNF)`.y SyntaxBNF.y
 

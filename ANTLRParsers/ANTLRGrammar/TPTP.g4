@@ -4,41 +4,39 @@ Comment_line : '%' ~[\r\n]* -> skip;
 Comment_block : '/*' .*? '*/' -> skip;
 //# HERE ARE THE LEXER RULES
 
-///
-///
-///
-Not_star_slash : (~'*')* '**' ~('/' | '*')*;
 Single_quoted :  Single_quote   Sq_char   Sq_char * Single_quote ;
 Distinct_object :  Double_quote   Do_char * Double_quote ;
 Dollar_word :  Dollar   Alpha_numeric *;
 Dollar_dollar_word :  Dollar   Dollar   Alpha_numeric *;
 Upper_word :  Upper_alpha   Alpha_numeric *;
 Lower_word :  Lower_alpha   Alpha_numeric *;
-Vline : '|';
-Star : '*';
+Real : ( Signed_real | Unsigned_real );
+Signed_real :  Sign   Unsigned_real ;
+Unsigned_real : ( Decimal_fraction | Decimal_exponent );
+Decimal_exponent : ( Integer_digits | Decimal_fraction ) Exponent   Exp_integer ;
+Decimal_fraction :  Unsigned_integer   Dot   Integer_digits ;
+Exp_integer : ( Signed_exp_integer | Integer_digits );
+Signed_exp_integer :  Sign   Integer_digits ;
+Rational : ( Signed_rational | Unsigned_rational );
+Signed_rational :  Sign   Unsigned_rational ;
+Unsigned_rational :  Unsigned_integer   Slash   Positive_integer ;
+Integer : ( Signed_integer | Unsigned_integer );
+Signed_integer :  Sign   Unsigned_integer ;
+Unsigned_integer : ( Zero_numeric | Positive_integer );
+Positive_integer :  Non_zero_numeric   Numeric *;
+Integer_digits :  Numeric   Numeric *;
+Slash :  Slash_char ;
+Slosh :  Slosh_char ;
+Vline : [|];
+Star : [*];
 Plus : '+';
 Arrow : '>';
 Less_sign : '<';
 Hash : '#';
-Real : ( Signed_real | Unsigned_real );
-Signed_real :  Sign   Unsigned_real ;
-Unsigned_real : ( Decimal_fraction | Decimal_exponent );
-Rational : ( Signed_rational | Unsigned_rational );
-Signed_rational :  Sign   Unsigned_rational ;
-Unsigned_rational :  Decimal   Slash   Positive_decimal ;
-Integer : ( Signed_integer | Unsigned_integer );
-Signed_integer :  Sign   Unsigned_integer ;
-Unsigned_integer :  Decimal ;
-Decimal : ( Zero_numeric | Positive_decimal );
-Positive_decimal :  Non_zero_numeric   Numeric *;
-Decimal_exponent : ( Decimal | Decimal_fraction ) Exponent   Exp_integer ;
-Decimal_fraction :  Decimal   Dot_decimal ;
-Dot_decimal :  Dot   Numeric   Numeric *;
-Exp_integer : ( Signed_exp_integer | Unsigned_exp_integer );
-Signed_exp_integer :  Sign   Unsigned_exp_integer ;
-Unsigned_exp_integer :  Numeric   Numeric *;
-Slash :  Slash_char ;
-Slosh :  Slosh_char ;
+///
+///
+///
+Not_star_slash : (~'*')* '**' ~('/' | '*')*;
 Percentage_sign : [%];
 Double_quote : ["];
 fragment Do_char : [\u0020-\u0021\u0023-\u005B\u005D-\u007E] | '\\'["\\];
@@ -54,6 +52,7 @@ fragment Non_zero_numeric : [1-9];
 fragment Numeric : [0-9];
 fragment Lower_alpha : [a-z];
 fragment Upper_alpha : [A-Z];
+Underscore : [_];
 fragment Alpha_numeric : Lower_alpha | Upper_alpha | Numeric | '_';
 Dollar : [$];
 Printable_char : .;
@@ -81,6 +80,9 @@ Viewable_char : '.\n';
 //%----v9.0.0.7 Linearised <thf_formula_list>, <tff_arguments>, <fof_formula_tuple_list>, 
 //%----         <parent_list>, <info_items>, <general_terms>. 
 //%----v9.0.0.8 Replaced <null> by <nothing> to avoid conflicts in Java parsers 
+//%----v9.0.0.9 Allow only <Unsigned_integer> in a <name> 
+//%----v9.0.0.10 Reordered numerics to make lex/yacc happy, including some renaming and factoring 
+//%----         Reverted <name> to allow <Integer>, because lex/yacc stuff hurts 
 //%-------------------------------------------------------------------------------------------------- 
 //%----README ... this header provides important meta- and usage information 
 //%---- 
@@ -586,8 +588,9 @@ general_list : '[]'  |  '['general_terms']';
 general_terms : general_term comma_general_term*;
 comma_general_term : ','general_term;
 //%----General purpose 
+//%----Integer names are expected to be unsigned, but lex stuff prevents this .. 
+//%----<name>                 ::= <atomic_word> | <Unsigned_integer> 
 name : atomic_word  |  Integer;
-//%----Integer names are expected to be unsigned 
 atomic_word : Lower_word  |  Single_quoted;
 //%----<Single_quoted>s are the enclosed <atomic_word> without the quotes. Therefore the <Lower_word> 
 //%----<atomic_word> cat and the <Single_quoted> <atomic_word> 'cat' are the same, but <numbers>s and 
@@ -609,12 +612,23 @@ nothing : ;
 //%----notation is used. Single characters are always placed in []s to disable any special meanings 
 //%----(for uniformity this is done to all characters, not only those with special meanings). 
 //%----These are tokens that appear in the syntax rules above. No rules defined here because they 
-//%----appear explicitly in the syntax rules, except that <Vline>, <Star>, <Plus> denote "|", "*", 
-//%----"+", respectively. 
-//%----Keywords:    fof cnf thf tff include 
+//%----appear explicitly in the syntax rules, except that <Vline>, <Star>, <Plus>, <Hash> denote  
+//%----"|", "*", "+", "#", respectively. 
+//%----Keywords:    thf tff fof cnf include 
 //%----Punctuation: ( ) , . [ ] : 
 //%----Operators:   ! ? ~ & | <=> => <= <~> ~| ~& * + 
-//%----Predicates:  = != $true $false 
+//%----Predicates:  = != $true $false $arithmetic_stuff 
+//%----<Single_quoted>s contain visible characters. \ is the escape character for ' and \, i.e., 
+//%----\' is not the end of the <Single_quoted>. The token does not include the outer quotes, e.g., 
+//%----'cat' and cat are the same. See <atomic_word> for information about stripping the quotes. 
+//%---Space and visible characters upto ~, except " and \ Distinct_object>s contain visible 
+//%----characters. \ is the escape character for " and \, i.e., \" is not the end of the 
+//%----<Distinct_object>. <Distinct_object>s are different from (but may be equal to) other tokens, 
+//%----e.g., "cat" is different from 'cat' and cat. Distinct objects are always interpreted as 
+//%----themselves, so if they are different they are unequal, e.g., "Apple" != "Microsoft" is 
+//%----implicit. 
+//%----Numbers. Note only the <Real>, <Rational>, and <Integer> are accessible. 
+//%----Tokens used in syntax, and cannot be character classes 
 //%----For lex/yacc there cannot be spaces on either side of the | here 
 //%----Defined comments are a convention used for annotations that are used as additional input for 
 //%----systems. They look like comments, but start with %$ or /*$. A wily user of the syntax can 
@@ -638,20 +652,8 @@ nothing : ;
 //%----  <sys_comment_block>  ::: [/][*]<Dollar> <Dollar> <Not_star_slash>[*][*]*[/] 
 //%----A string that matches both <system_comment> and <defined_comment> should 
 //%----be recognized as <system_comment>, so put these before <defined_comment>. 
-//%----<Single_quoted>s contain visible characters. \ is the escape character for ' and \, i.e., 
-//%----\' is not the end of the <Single_quoted>. The token does not include the outer quotes, e.g., 
-//%----'cat' and cat are the same. See <atomic_word> for information about stripping the quotes. 
-//%---Space and visible characters upto ~, except " and \ Distinct_object>s contain visible 
-//%----characters. \ is the escape character for " and \, i.e., \" is not the end of the 
-//%----<Distinct_object>. <Distinct_object>s are different from (but may be equal to) other tokens, 
-//%----e.g., "cat" is different from 'cat' and cat. Distinct objects are always interpreted as 
-//%----themselves, so if they are different they are unequal, e.g., "Apple" != "Microsoft" is 
-//%----implicit. 
-//%----Tokens used in syntax, and cannot be character classes 
-//%----Numbers. Signs are made part of the same token here. 
 //%----Character classes 
 //%---Space and visible characters upto ~, except ' and \ 
-//%% <bar>                  ::: [|] 
 //%----<Printable_char> is any printable ASCII character, codes 32 (space) to 126 (tilde). 
 //%----<Printable_char> does not include tabs, newlines, bells, etc. The use of . does not not 
 //%----exclude tab, so this is a bit loose. 
