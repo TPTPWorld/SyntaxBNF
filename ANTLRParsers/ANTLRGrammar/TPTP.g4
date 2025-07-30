@@ -5,6 +5,7 @@ Comment_block : '/*' .*? '*/' -> skip;
 //# HERE ARE THE LEXER RULES
 
 Single_quoted :  Single_quote   Sq_char   Sq_char * Single_quote ;
+Back_quoted :  Back_quote   Upper_word ;
 Distinct_object :  Double_quote   Do_char * Double_quote ;
 Dollar_word :  Dollar   Alpha_numeric *;
 Dollar_dollar_word :  Dollar   Dollar   Alpha_numeric *;
@@ -41,6 +42,7 @@ Percentage_sign : [%];
 Double_quote : ["];
 fragment Do_char : [\u0020-\u0021\u0023-\u005B\u005D-\u007E] | '\\'["\\];
 Single_quote : '\'';
+Back_quote : [`];
 fragment Sq_char : [\u0020-\u0026\u0028-\u005B\u005D-\u007E] | '\\\\' | '\\\'';
 fragment Sign : [+-];
 Dot : [.];
@@ -53,6 +55,7 @@ fragment Numeric : [0-9];
 fragment Lower_alpha : [a-z];
 fragment Upper_alpha : [A-Z];
 Underscore : [_];
+Alpha : ( Lower_alpha | Upper_alpha );
 fragment Alpha_numeric : Lower_alpha | Upper_alpha | Numeric | '_';
 Dollar : [$];
 Printable_char : .;
@@ -61,31 +64,7 @@ Viewable_char : '.\n';
 //# END THE LEXER RULES
 
 
-//%----v9.0.0.0 (TPTP version.internal development number) 
-//%----v9.0.0.1 Added <tff_quantifier>. Added <Hash> (for epsilon terms) to <thf_quantifier> and 
-//%----         <tff_quantifier>. Changed <tff_quantified_formula> to use <tff_quantifier>. 
-//%----v9.0.0.2 Removed axiom_of_choice as an <intro_type> 
-//%----         Renamed <inference_parents> to <parents> 
-//%----         <inference_record>     :== inference(<inference_rule>,<useful_info>,<parents>) 
-//%----         Aligned introduced and creator with inferred 
-//%----         <internal_source>      :== introduced(<intro_type>,<useful_info>,<parents>) 
-//%----         <creator_source>       :== creator(<creator_name>,<useful_info>,<parents>) 
-//%----v9.0.0.3 Moved <Hash> to <fof_quantifier> so it's available in all languages. 
-//%----v9.0.0.4 Removed ()s around <thf_defined_infix> and <thf_infix_unary>  
-//%----         Removed ()s around <tff_defined_infix> and <tff_infix_unary> 
-//%----v9.0.0.5 Fixed typo in <ntf_domain_type> 
-//%----v9.0.0.6 Converted <source> and it's descendents to grammar rules. That required adding 
-//%----         a grammar rule for <intro_type>. 
-//%----         Changed <file_name> to <atomic_word>, to allow non-quoted filenames. 
-//%----v9.0.0.7 Linearised <thf_formula_list>, <tff_arguments>, <fof_formula_tuple_list>, 
-//%----         <parent_list>, <info_items>, <general_terms>. 
-//%----v9.0.0.8 Replaced <null> by <nothing> to avoid conflicts in Java parsers 
-//%----v9.0.0.9 Allow only <Unsigned_integer> in a <name> 
-//%----v9.0.0.10 Reordered numerics to make lex/yacc happy, including some renaming and factoring 
-//%----         Reverted <name> to allow <Integer>, because lex/yacc stuff hurts. 
-//%----v9.0.0.11 Moved <Hash> to <tff_quantifier> and set <thf_quantifier> to use <tff_quantifier>. 
-//%             This means epsilon terms are quantified formulae (yak) available in only TFF (really 
-//%             TXF, which is cool). 
+//%----v9.1.0.0 (TPTP version.internal development number) 
 //%-------------------------------------------------------------------------------------------------- 
 //%----README ... this header provides important meta- and usage information 
 //%---- 
@@ -228,7 +207,7 @@ thf_apply_type : thf_apply_formula;
 thf_binary_type : thf_mapping_type  |  thf_xprod_type  |  thf_union_type;
 //%----Mapping is right-associative: o > o > o means o > (o > o). 
 thf_mapping_type : thf_unitary_type Arrow thf_unitary_type  |  thf_unitary_type Arrow thf_mapping_type;
-//%----Xproduct is left-associative: o * o * o means (o * o) * o. Xproduct can be replaced by tuple  
+//%----Xproduct is left-associative: o * o * o means (o * o) * o. Xproduct can be replaced by tuple 
 //%----types. 
 thf_xprod_type : thf_unitary_type Star thf_unitary_type  |  thf_xprod_type Star thf_unitary_type;
 //%----Union is left-associative: o + o + o means (o + o) + o. 
@@ -519,14 +498,14 @@ theory_name : atomic_word;
 //%----e.g., theory(equality,[rst]). Standard format still to be decided. 
 creator_source : 'creator('creator_name','useful_info','parents')';
 creator_name : atomic_word;
-//%----<parents> can be empty in cases when there is a justification for a tautologous theorem. In  
-//%----cases when a tautology is introduced as a leaf, e.g., for splitting, then use an  
+//%----<parents> can be empty in cases when there is a justification for a tautologous theorem. In 
+//%----cases when a tautology is introduced as a leaf, e.g., for splitting, then use an 
 //%----<internal_source>. 
 parents : '[]'  |  '['parent_list']';
 parent_list : parent_info comma_parent_info*;
 comma_parent_info : ','parent_info;
 parent_info : source parent_details;
-parent_details : ':'general_list  |  nothing;
+parent_details : ':'general_term  |  nothing;
 //%----Useful info fields 
 optional_info : ','useful_info  |  nothing;
 useful_info : general_list;
@@ -593,7 +572,7 @@ comma_general_term : ','general_term;
 //%----Integer names are expected to be unsigned, but lex stuff prevents this .. 
 //%----<name>                 ::= <atomic_word> | <Unsigned_integer> 
 name : atomic_word  |  Integer;
-atomic_word : Lower_word  |  Single_quoted;
+atomic_word : Lower_word  |  Single_quoted  |  Back_quoted;
 //%----<Single_quoted>s are the enclosed <atomic_word> without the quotes. Therefore the <Lower_word> 
 //%----<atomic_word> cat and the <Single_quoted> <atomic_word> 'cat' are the same, but <numbers>s and 
 //%----<variable>s are not <Lower_word>s, so 123' and 123, and 'X' and X, are different. Quotes can 
@@ -614,7 +593,7 @@ nothing : ;
 //%----notation is used. Single characters are always placed in []s to disable any special meanings 
 //%----(for uniformity this is done to all characters, not only those with special meanings). 
 //%----These are tokens that appear in the syntax rules above. No rules defined here because they 
-//%----appear explicitly in the syntax rules, except that <Vline>, <Star>, <Plus>, <Hash> denote  
+//%----appear explicitly in the syntax rules, except that <Vline>, <Star>, <Plus>, <Hash> denote 
 //%----"|", "*", "+", "#", respectively. 
 //%----Keywords:    thf tff fof cnf include 
 //%----Punctuation: ( ) , . [ ] : 

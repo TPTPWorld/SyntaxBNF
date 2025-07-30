@@ -210,6 +210,7 @@ int yywrap(void) {
 %token <ival> _LIT_tpi
 %token <ival> _LIT_unknown
 %token <ival> arrow
+%token <ival> back_quoted
 %token <ival> distinct_object
 %token <ival> dollar_dollar_word
 %token <ival> dollar_word
@@ -1038,7 +1039,7 @@ parent_list         : parent_info {$<pval>$ = P_BUILD("parent_list", $<pval>1,NU
 parent_info : source parent_details {$<pval>$ = P_BUILD("parent_info", $<pval>1, $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-parent_details : COLON general_list {$<pval>$ = P_BUILD("parent_details", P_TOKEN("COLON ", $<ival>1), $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+parent_details : COLON general_term {$<pval>$ = P_BUILD("parent_details", P_TOKEN("COLON ", $<ival>1), $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | nothing {$<pval>$ = P_BUILD("parent_details", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
@@ -1105,6 +1106,7 @@ name : atomic_word {$<pval>$ = P_BUILD("name", $<pval>1,NULL,NULL,NULL,NULL,NULL
 
 atomic_word : lower_word {$<pval>$ = P_BUILD("atomic_word", P_TOKEN("lower_word ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | single_quoted {$<pval>$ = P_BUILD("atomic_word", P_TOKEN("single_quoted ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | back_quoted {$<pval>$ = P_BUILD("atomic_word", P_TOKEN("back_quoted ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 atomic_defined_word : dollar_word {$<pval>$ = P_BUILD("atomic_defined_word", P_TOKEN("dollar_word ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}

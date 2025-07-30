@@ -633,7 +633,7 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 #ifndef YYLMAX
-#define YYLMAX 8192
+#define YYLMAX 65536
 #endif
 
 char yytext[YYLMAX];
@@ -781,9 +781,9 @@ static int input ( void );
 #ifndef YY_READ_BUF_SIZE
 #ifdef __ia64__
 /* On IA-64, the buffer size is 16k, not 8k */
-#define YY_READ_BUF_SIZE 16384
+#define YY_READ_BUF_SIZE 65536
 #else
-#define YY_READ_BUF_SIZE 8192
+#define YY_READ_BUF_SIZE 65536
 #endif /* __ia64__ */
 #endif
 

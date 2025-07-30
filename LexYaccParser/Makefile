@@ -14,7 +14,8 @@ LYLIBS= -ly -ll
 # LEX=flex
 # YACC=bison
 # LYLIBS=-ll -lfl
-CFLAGS= -Wall -I/usr/include/x86_64-linux-gnu -no-pie -Wno-unused-function
+#----Added -DYYLMAX=65536 to deal with loooong lines in Pulina's problems
+CFLAGS= -Wall -I/usr/include/x86_64-linux-gnu -no-pie -Wno-unused-function -DYYLMAX=65536
 #--- -g for debugging
 
 all: SyntaxBNF-yl-parser SyntaxBNF-yl-parser-verbose SyntaxBNF-yl-parser-double SyntaxBNF-yl-parser-clickable
