@@ -5,7 +5,6 @@ Comment_block : '/*' .*? '*/' -> skip;
 //# HERE ARE THE LEXER RULES
 
 Single_quoted :  Single_quote   Sq_char   Sq_char * Single_quote ;
-Back_quoted :  Back_quote   Upper_word ;
 Distinct_object :  Double_quote   Do_char * Double_quote ;
 Dollar_word :  Dollar   Alpha_numeric *;
 Dollar_dollar_word :  Dollar   Dollar   Alpha_numeric *;
@@ -42,7 +41,6 @@ Percentage_sign : [%];
 Double_quote : ["];
 fragment Do_char : [\u0020-\u0021\u0023-\u005B\u005D-\u007E] | '\\'["\\];
 Single_quote : '\'';
-Back_quote : [`];
 fragment Sq_char : [\u0020-\u0026\u0028-\u005B\u005D-\u007E] | '\\\\' | '\\\'';
 fragment Sign : [+-];
 Dot : [.];
@@ -55,7 +53,6 @@ fragment Numeric : [0-9];
 fragment Lower_alpha : [a-z];
 fragment Upper_alpha : [A-Z];
 Underscore : [_];
-Alpha : ( Lower_alpha | Upper_alpha );
 fragment Alpha_numeric : Lower_alpha | Upper_alpha | Numeric | '_';
 Dollar : [$];
 Printable_char : .;
@@ -572,7 +569,7 @@ comma_general_term : ','general_term;
 //%----Integer names are expected to be unsigned, but lex stuff prevents this .. 
 //%----<name>                 ::= <atomic_word> | <Unsigned_integer> 
 name : atomic_word  |  Integer;
-atomic_word : Lower_word  |  Single_quoted  |  Back_quoted;
+atomic_word : Lower_word  |  Single_quoted;
 //%----<Single_quoted>s are the enclosed <atomic_word> without the quotes. Therefore the <Lower_word> 
 //%----<atomic_word> cat and the <Single_quoted> <atomic_word> 'cat' are the same, but <numbers>s and 
 //%----<variable>s are not <Lower_word>s, so 123' and 123, and 'X' and X, are different. Quotes can 

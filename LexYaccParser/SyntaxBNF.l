@@ -52,7 +52,6 @@ int tptp_update_lval(char* lval) {
 %}
 
 single_quoted         {single_quote}{sq_char}{sq_char}*{single_quote}
-back_quoted           {back_quote}{upper_word}
 distinct_object       {double_quote}{do_char}*{double_quote}
 dollar_word           {dollar}{alpha_numeric}*
 dollar_dollar_word    {dollar}{dollar}{alpha_numeric}*
@@ -89,7 +88,6 @@ percentage_sign       [%]
 double_quote          ["]
 do_char               ([\40-\41\43-\133\135-\176]|([\\]["\\]))
 single_quote          [']
-back_quote            [`]
 sq_char               ([\40-\46\50-\133\135-\176]|([\\]['\\]))
 sign                  [+-]
 dot                   [.]
@@ -102,7 +100,6 @@ numeric               [0-9]
 lower_alpha           [a-z]
 upper_alpha           [A-Z]
 underscore            [_]
-alpha                 ({lower_alpha}|{upper_alpha})
 alpha_numeric         ({lower_alpha}|{upper_alpha}|{numeric}|{underscore})
 dollar                [$]
 printable_char        .
@@ -412,11 +409,6 @@ viewable_char         [.\n]
     tptp_prev_tok=single_quoted;
     yylval.ival = tptp_update_lval(yytext);
     return(single_quoted);
-}
-{back_quoted} {
-    tptp_prev_tok=back_quoted;
-    yylval.ival = tptp_update_lval(yytext);
-    return(back_quoted);
 }
 {distinct_object} {
     tptp_prev_tok=distinct_object;

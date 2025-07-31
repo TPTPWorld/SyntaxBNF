@@ -210,7 +210,6 @@ int yywrap(void) {
 %token <ival> _LIT_tpi
 %token <ival> _LIT_unknown
 %token <ival> arrow
-%token <ival> back_quoted
 %token <ival> distinct_object
 %token <ival> dollar_dollar_word
 %token <ival> dollar_word
@@ -1106,7 +1105,6 @@ name : atomic_word {$<pval>$ = P_BUILD("name", $<pval>1,NULL,NULL,NULL,NULL,NULL
 
 atomic_word : lower_word {$<pval>$ = P_BUILD("atomic_word", P_TOKEN("lower_word ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | single_quoted {$<pval>$ = P_BUILD("atomic_word", P_TOKEN("single_quoted ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | back_quoted {$<pval>$ = P_BUILD("atomic_word", P_TOKEN("back_quoted ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 atomic_defined_word : dollar_word {$<pval>$ = P_BUILD("atomic_defined_word", P_TOKEN("dollar_word ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}

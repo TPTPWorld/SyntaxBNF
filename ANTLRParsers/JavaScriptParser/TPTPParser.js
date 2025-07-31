@@ -2,7 +2,7 @@
 // jshint ignore: start
 import antlr4 from 'antlr4';
 import TPTPListener from './TPTPListener.js';
-const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
+const serializedATN = [4,1,105,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 7,4,2,5,7,5,2,6,7,6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,
 2,13,7,13,2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,
 20,7,20,2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,2,27,
@@ -158,8 +158,8 @@ const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 352,354,356,358,360,362,364,366,368,370,372,374,376,378,380,382,384,386,
 388,390,392,394,396,398,400,402,404,406,408,410,412,414,416,418,420,422,
 424,426,428,430,432,434,436,438,440,442,444,446,448,450,452,454,456,458,
-460,462,0,7,2,0,19,19,29,29,1,0,30,32,2,0,27,27,34,34,2,0,10,10,89,89,1,
-0,45,49,2,0,65,66,71,71,3,0,72,72,79,79,82,82,1744,0,467,1,0,0,0,2,474,1,
+460,462,0,7,2,0,19,19,29,29,1,0,30,32,2,0,27,27,34,34,2,0,10,10,88,88,1,
+0,45,49,2,0,65,65,70,70,3,0,71,71,78,78,81,81,1744,0,467,1,0,0,0,2,474,1,
 0,0,0,4,482,1,0,0,0,6,484,1,0,0,0,8,493,1,0,0,0,10,495,1,0,0,0,12,504,1,
 0,0,0,14,513,1,0,0,0,16,522,1,0,0,0,18,531,1,0,0,0,20,545,1,0,0,0,22,551,
 1,0,0,0,24,556,1,0,0,0,26,564,1,0,0,0,28,569,1,0,0,0,30,571,1,0,0,0,32,578,
@@ -233,7 +233,7 @@ const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 0,535,536,5,2,0,0,536,537,3,314,157,0,537,538,3,20,10,0,538,539,5,3,0,0,
 539,19,1,0,0,0,540,541,5,2,0,0,541,542,3,384,192,0,542,543,3,422,211,0,543,
 546,1,0,0,0,544,546,3,462,231,0,545,540,1,0,0,0,545,544,1,0,0,0,546,21,1,
-0,0,0,547,552,5,71,0,0,548,549,5,71,0,0,549,550,5,9,0,0,550,552,3,436,218,
+0,0,0,547,552,5,70,0,0,548,549,5,70,0,0,549,550,5,9,0,0,550,552,3,436,218,
 0,551,547,1,0,0,0,551,548,1,0,0,0,552,23,1,0,0,0,553,557,3,26,13,0,554,557,
 3,98,49,0,555,557,3,114,57,0,556,553,1,0,0,0,556,554,1,0,0,0,556,555,1,0,
 0,0,557,25,1,0,0,0,558,565,3,44,22,0,559,565,3,54,27,0,560,565,3,28,14,0,
@@ -244,8 +244,8 @@ const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 572,3,40,20,0,572,573,3,336,168,0,573,574,3,40,20,0,574,31,1,0,0,0,575,579,
 3,34,17,0,576,579,3,36,18,0,577,579,3,38,19,0,578,575,1,0,0,0,578,576,1,
 0,0,0,578,577,1,0,0,0,579,33,1,0,0,0,580,581,6,17,-1,0,581,582,3,40,20,0,
-582,583,5,89,0,0,583,584,3,40,20,0,584,590,1,0,0,0,585,586,10,1,0,0,586,
-587,5,89,0,0,587,589,3,40,20,0,588,585,1,0,0,0,589,592,1,0,0,0,590,588,1,
+582,583,5,88,0,0,583,584,3,40,20,0,584,590,1,0,0,0,585,586,10,1,0,0,586,
+587,5,88,0,0,587,589,3,40,20,0,588,585,1,0,0,0,589,592,1,0,0,0,590,588,1,
 0,0,0,590,591,1,0,0,0,591,35,1,0,0,0,592,590,1,0,0,0,593,594,6,18,-1,0,594,
 595,3,40,20,0,595,596,5,10,0,0,596,597,3,40,20,0,597,603,1,0,0,0,598,599,
 10,1,0,0,599,600,5,10,0,0,600,602,3,40,20,0,601,598,1,0,0,0,602,605,1,0,
@@ -306,14 +306,14 @@ const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 799,1,0,0,0,802,800,1,0,0,0,802,801,1,0,0,0,803,101,1,0,0,0,804,805,3,44,
 22,0,805,103,1,0,0,0,806,807,3,38,19,0,807,105,1,0,0,0,808,812,3,108,54,
 0,809,812,3,110,55,0,810,812,3,112,56,0,811,808,1,0,0,0,811,809,1,0,0,0,
-811,810,1,0,0,0,812,107,1,0,0,0,813,814,3,102,51,0,814,815,5,92,0,0,815,
-816,3,102,51,0,816,822,1,0,0,0,817,818,3,102,51,0,818,819,5,92,0,0,819,820,
+811,810,1,0,0,0,812,107,1,0,0,0,813,814,3,102,51,0,814,815,5,91,0,0,815,
+816,3,102,51,0,816,822,1,0,0,0,817,818,3,102,51,0,818,819,5,91,0,0,819,820,
 3,108,54,0,820,822,1,0,0,0,821,813,1,0,0,0,821,817,1,0,0,0,822,109,1,0,0,
-0,823,824,6,55,-1,0,824,825,3,102,51,0,825,826,5,90,0,0,826,827,3,102,51,
-0,827,833,1,0,0,0,828,829,10,1,0,0,829,830,5,90,0,0,830,832,3,102,51,0,831,
+0,823,824,6,55,-1,0,824,825,3,102,51,0,825,826,5,89,0,0,826,827,3,102,51,
+0,827,833,1,0,0,0,828,829,10,1,0,0,829,830,5,89,0,0,830,832,3,102,51,0,831,
 828,1,0,0,0,832,835,1,0,0,0,833,831,1,0,0,0,833,834,1,0,0,0,834,111,1,0,
-0,0,835,833,1,0,0,0,836,837,6,56,-1,0,837,838,3,102,51,0,838,839,5,91,0,
-0,839,840,3,102,51,0,840,846,1,0,0,0,841,842,10,1,0,0,842,843,5,91,0,0,843,
+0,0,835,833,1,0,0,0,836,837,6,56,-1,0,837,838,3,102,51,0,838,839,5,90,0,
+0,839,840,3,102,51,0,840,846,1,0,0,0,841,842,10,1,0,0,842,843,5,90,0,0,843,
 845,3,102,51,0,844,841,1,0,0,0,845,848,1,0,0,0,846,844,1,0,0,0,846,847,1,
 0,0,0,847,113,1,0,0,0,848,846,1,0,0,0,849,850,3,356,178,0,850,851,3,328,
 164,0,851,852,3,354,177,0,852,115,1,0,0,0,853,854,3,60,30,0,854,855,3,346,
@@ -327,8 +327,8 @@ const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 0,0,0,876,875,1,0,0,0,877,125,1,0,0,0,878,879,3,134,67,0,879,880,3,336,168,
 0,880,881,3,134,67,0,881,127,1,0,0,0,882,885,3,130,65,0,883,885,3,132,66,
 0,884,882,1,0,0,0,884,883,1,0,0,0,885,129,1,0,0,0,886,887,6,65,-1,0,887,
-888,3,134,67,0,888,889,5,89,0,0,889,890,3,134,67,0,890,896,1,0,0,0,891,892,
-10,1,0,0,892,893,5,89,0,0,893,895,3,134,67,0,894,891,1,0,0,0,895,898,1,0,
+888,3,134,67,0,888,889,5,88,0,0,889,890,3,134,67,0,890,896,1,0,0,0,891,892,
+10,1,0,0,892,893,5,88,0,0,893,895,3,134,67,0,894,891,1,0,0,0,895,898,1,0,
 0,0,896,894,1,0,0,0,896,897,1,0,0,0,897,131,1,0,0,0,898,896,1,0,0,0,899,
 900,6,66,-1,0,900,901,3,134,67,0,901,902,5,10,0,0,902,903,3,134,67,0,903,
 909,1,0,0,0,904,905,10,1,0,0,905,906,5,10,0,0,906,908,3,134,67,0,907,904,
@@ -404,10 +404,10 @@ const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 1,0,0,0,1141,1131,1,0,0,0,1141,1136,1,0,0,0,1141,1140,1,0,0,0,1142,207,1,
 0,0,0,1143,1149,3,206,103,0,1144,1145,3,206,103,0,1145,1146,5,2,0,0,1146,
 1147,3,208,104,0,1147,1149,1,0,0,0,1148,1143,1,0,0,0,1148,1144,1,0,0,0,1149,
-209,1,0,0,0,1150,1151,3,204,102,0,1151,1152,5,92,0,0,1152,1153,3,206,103,
+209,1,0,0,0,1150,1151,3,204,102,0,1151,1152,5,91,0,0,1152,1153,3,206,103,
 0,1153,211,1,0,0,0,1154,1155,6,106,-1,0,1155,1156,3,204,102,0,1156,1157,
-5,90,0,0,1157,1158,3,206,103,0,1158,1164,1,0,0,0,1159,1160,10,1,0,0,1160,
-1161,5,90,0,0,1161,1163,3,206,103,0,1162,1159,1,0,0,0,1163,1166,1,0,0,0,
+5,89,0,0,1157,1158,3,206,103,0,1158,1164,1,0,0,0,1159,1160,10,1,0,0,1160,
+1161,5,89,0,0,1161,1163,3,206,103,0,1162,1159,1,0,0,0,1163,1166,1,0,0,0,
 1164,1162,1,0,0,0,1164,1165,1,0,0,0,1165,213,1,0,0,0,1166,1164,1,0,0,0,1167,
 1168,5,14,0,0,1168,1169,3,216,108,0,1169,1170,5,15,0,0,1170,215,1,0,0,0,
 1171,1177,3,196,98,0,1172,1173,3,196,98,0,1173,1174,5,2,0,0,1174,1175,3,
@@ -430,9 +430,9 @@ const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 2,0,0,1230,1231,3,234,117,0,1231,1233,1,0,0,0,1232,1227,1,0,0,0,1232,1228,
 1,0,0,0,1233,235,1,0,0,0,1234,1237,3,242,121,0,1235,1237,3,238,119,0,1236,
 1234,1,0,0,0,1236,1235,1,0,0,0,1237,237,1,0,0,0,1238,1239,3,220,110,0,1239,
-239,1,0,0,0,1240,1241,3,376,188,0,1241,241,1,0,0,0,1242,1243,5,94,0,0,1243,
-1244,3,186,93,0,1244,243,1,0,0,0,1245,1252,5,23,0,0,1246,1247,5,93,0,0,1247,
-1248,5,24,0,0,1248,1252,5,92,0,0,1249,1252,5,25,0,0,1250,1252,5,26,0,0,1251,
+239,1,0,0,0,1240,1241,3,376,188,0,1241,241,1,0,0,0,1242,1243,5,93,0,0,1243,
+1244,3,186,93,0,1244,243,1,0,0,0,1245,1252,5,23,0,0,1246,1247,5,92,0,0,1247,
+1248,5,24,0,0,1248,1252,5,91,0,0,1249,1252,5,25,0,0,1250,1252,5,26,0,0,1251,
 1245,1,0,0,0,1251,1246,1,0,0,0,1251,1249,1,0,0,0,1251,1250,1,0,0,0,1252,
 245,1,0,0,0,1253,1256,3,248,124,0,1254,1256,3,194,97,0,1255,1253,1,0,0,0,
 1255,1254,1,0,0,0,1256,247,1,0,0,0,1257,1260,3,250,125,0,1258,1260,3,314,
@@ -446,8 +446,8 @@ const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 1,0,0,0,1281,1282,3,270,135,0,1282,1283,3,336,168,0,1283,1284,3,270,135,
 0,1284,259,1,0,0,0,1285,1288,3,262,131,0,1286,1288,3,264,132,0,1287,1285,
 1,0,0,0,1287,1286,1,0,0,0,1288,261,1,0,0,0,1289,1290,6,131,-1,0,1290,1291,
-3,270,135,0,1291,1292,5,89,0,0,1292,1293,3,270,135,0,1293,1299,1,0,0,0,1294,
-1295,10,1,0,0,1295,1296,5,89,0,0,1296,1298,3,270,135,0,1297,1294,1,0,0,0,
+3,270,135,0,1291,1292,5,88,0,0,1292,1293,3,270,135,0,1293,1299,1,0,0,0,1294,
+1295,10,1,0,0,1295,1296,5,88,0,0,1296,1298,3,270,135,0,1297,1294,1,0,0,0,
 1298,1301,1,0,0,0,1299,1297,1,0,0,0,1299,1300,1,0,0,0,1300,263,1,0,0,0,1301,
 1299,1,0,0,0,1302,1303,6,132,-1,0,1303,1304,3,270,135,0,1304,1305,5,10,0,
 0,1305,1306,3,270,135,0,1306,1312,1,0,0,0,1307,1308,10,1,0,0,1308,1309,5,
@@ -495,7 +495,7 @@ const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 1445,5,12,0,0,1445,1446,3,314,157,0,1446,1447,5,13,0,0,1447,1449,1,0,0,0,
 1448,1443,1,0,0,0,1448,1444,1,0,0,0,1449,315,1,0,0,0,1450,1451,6,158,-1,
 0,1451,1452,3,318,159,0,1452,1458,1,0,0,0,1453,1454,10,1,0,0,1454,1455,5,
-89,0,0,1455,1457,3,318,159,0,1456,1453,1,0,0,0,1457,1460,1,0,0,0,1458,1456,
+88,0,0,1455,1457,3,318,159,0,1456,1453,1,0,0,0,1457,1460,1,0,0,0,1458,1456,
 1,0,0,0,1458,1459,1,0,0,0,1459,317,1,0,0,0,1460,1458,1,0,0,0,1461,1471,3,
 278,139,0,1462,1463,5,28,0,0,1463,1471,3,278,139,0,1464,1465,5,28,0,0,1465,
 1466,5,12,0,0,1466,1467,3,278,139,0,1467,1468,5,13,0,0,1468,1471,1,0,0,0,
@@ -506,10 +506,10 @@ const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 0,1479,1477,1,0,0,0,1479,1478,1,0,0,0,1480,323,1,0,0,0,1481,1482,7,0,0,0,
 1482,325,1,0,0,0,1483,1484,7,1,0,0,1484,327,1,0,0,0,1485,1486,5,33,0,0,1486,
 329,1,0,0,0,1487,1490,3,340,170,0,1488,1490,3,244,122,0,1489,1487,1,0,0,
-0,1489,1488,1,0,0,0,1490,331,1,0,0,0,1491,1494,3,334,167,0,1492,1494,5,94,
+0,1489,1488,1,0,0,0,1490,331,1,0,0,0,1491,1494,3,334,167,0,1492,1494,5,93,
 0,0,1493,1491,1,0,0,0,1493,1492,1,0,0,0,1494,333,1,0,0,0,1495,1496,7,2,0,
 0,1496,335,1,0,0,0,1497,1505,5,35,0,0,1498,1505,5,36,0,0,1499,1505,5,37,
-0,0,1500,1505,5,38,0,0,1501,1502,5,28,0,0,1502,1505,5,89,0,0,1503,1505,5,
+0,0,1500,1505,5,38,0,0,1501,1502,5,28,0,0,1502,1505,5,88,0,0,1503,1505,5,
 39,0,0,1504,1497,1,0,0,0,1504,1498,1,0,0,0,1504,1499,1,0,0,0,1504,1500,1,
 0,0,0,1504,1501,1,0,0,0,1504,1503,1,0,0,0,1505,337,1,0,0,0,1506,1507,7,3,
 0,0,1507,339,1,0,0,0,1508,1509,5,28,0,0,1509,341,1,0,0,0,1510,1511,5,40,
@@ -525,8 +525,8 @@ const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 371,1,0,0,0,1544,1545,3,374,187,0,1545,373,1,0,0,0,1546,1547,3,456,228,0,
 1547,375,1,0,0,0,1548,1551,3,368,184,0,1549,1551,3,372,186,0,1550,1548,1,
 0,0,0,1550,1549,1,0,0,0,1551,377,1,0,0,0,1552,1553,7,4,0,0,1553,379,1,0,
-0,0,1554,1557,3,458,229,0,1555,1557,5,67,0,0,1556,1554,1,0,0,0,1556,1555,
-1,0,0,0,1557,381,1,0,0,0,1558,1559,5,70,0,0,1559,383,1,0,0,0,1560,1569,3,
+0,0,1554,1557,3,458,229,0,1555,1557,5,66,0,0,1556,1554,1,0,0,0,1556,1555,
+1,0,0,0,1557,381,1,0,0,0,1558,1559,5,69,0,0,1559,383,1,0,0,0,1560,1569,3,
 388,194,0,1561,1569,3,394,197,0,1562,1569,3,398,199,0,1563,1569,5,50,0,0,
 1564,1565,5,14,0,0,1565,1566,3,386,193,0,1566,1567,5,15,0,0,1567,1569,1,
 0,0,0,1568,1560,1,0,0,0,1568,1561,1,0,0,0,1568,1562,1,0,0,0,1568,1563,1,
@@ -563,14 +563,14 @@ const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 0,1673,1674,5,2,0,0,1674,1675,3,430,215,0,1675,1676,5,2,0,0,1676,1677,3,
 434,217,0,1677,1679,1,0,0,0,1678,1670,1,0,0,0,1678,1671,1,0,0,0,1678,1673,
 1,0,0,0,1679,429,1,0,0,0,1680,1681,5,14,0,0,1681,1682,3,432,216,0,1682,1683,
-5,15,0,0,1683,1686,1,0,0,0,1684,1686,5,90,0,0,1685,1680,1,0,0,0,1685,1684,
+5,15,0,0,1683,1686,1,0,0,0,1684,1686,5,89,0,0,1685,1680,1,0,0,0,1685,1684,
 1,0,0,0,1686,431,1,0,0,0,1687,1693,3,450,225,0,1688,1689,3,450,225,0,1689,
 1690,5,2,0,0,1690,1691,3,432,216,0,1691,1693,1,0,0,0,1692,1687,1,0,0,0,1692,
 1688,1,0,0,0,1693,433,1,0,0,0,1694,1695,3,450,225,0,1695,435,1,0,0,0,1696,
 1703,3,438,219,0,1697,1698,3,438,219,0,1698,1699,5,16,0,0,1699,1700,3,436,
 218,0,1700,1703,1,0,0,0,1701,1703,3,444,222,0,1702,1696,1,0,0,0,1702,1697,
 1,0,0,0,1702,1701,1,0,0,0,1703,437,1,0,0,0,1704,1711,3,452,226,0,1705,1711,
-3,440,220,0,1706,1711,3,382,191,0,1707,1711,3,458,229,0,1708,1711,5,67,0,
+3,440,220,0,1706,1711,3,382,191,0,1707,1711,3,458,229,0,1708,1711,5,66,0,
 0,1709,1711,3,442,221,0,1710,1704,1,0,0,0,1710,1705,1,0,0,0,1710,1706,1,
 0,0,0,1710,1707,1,0,0,0,1710,1708,1,0,0,0,1710,1709,1,0,0,0,1711,439,1,0,
 0,0,1712,1713,3,452,226,0,1713,1714,5,12,0,0,1714,1715,3,446,223,0,1715,
@@ -586,9 +586,9 @@ const serializedATN = [4,1,108,1773,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 0,1745,445,1,0,0,0,1746,1750,3,436,218,0,1747,1749,3,448,224,0,1748,1747,
 1,0,0,0,1749,1752,1,0,0,0,1750,1748,1,0,0,0,1750,1751,1,0,0,0,1751,447,1,
 0,0,0,1752,1750,1,0,0,0,1753,1754,5,2,0,0,1754,1755,3,436,218,0,1755,449,
-1,0,0,0,1756,1759,3,452,226,0,1757,1759,5,82,0,0,1758,1756,1,0,0,0,1758,
+1,0,0,0,1756,1759,3,452,226,0,1757,1759,5,81,0,0,1758,1756,1,0,0,0,1758,
 1757,1,0,0,0,1759,451,1,0,0,0,1760,1761,7,5,0,0,1761,453,1,0,0,0,1762,1763,
-5,68,0,0,1763,455,1,0,0,0,1764,1765,5,69,0,0,1765,457,1,0,0,0,1766,1767,
+5,67,0,0,1763,455,1,0,0,0,1764,1765,5,68,0,0,1765,457,1,0,0,0,1766,1767,
 7,6,0,0,1767,459,1,0,0,0,1768,1769,3,452,226,0,1769,461,1,0,0,0,1770,1771,
 1,0,0,0,1771,463,1,0,0,0,131,467,474,482,545,551,556,564,569,578,590,603,
 616,622,626,635,651,659,672,676,686,690,711,718,725,736,744,751,758,775,
@@ -625,9 +625,9 @@ export default class TPTPParser extends antlr4.Parser {
                             null, null, null, null, null, null, null, null, 
                             null, null, null, null, null, null, null, null, 
                             null, null, null, null, null, null, null, null, 
-                            null, "'+'", "'>'", "'<'", "'#'", null, null, 
-                            null, "'''", null, null, null, "'\\\\'", null, 
-                            null, null, null, null, "'.\\n'" ];
+                            "'+'", "'>'", "'<'", "'#'", null, null, null, 
+                            "'''", null, null, "'\\\\'", null, null, null, 
+                            null, "'.\\n'" ];
     static symbolicNames = [ null, null, null, null, null, null, null, null, 
                              null, null, null, null, null, null, null, null, 
                              null, null, null, null, null, null, null, null, 
@@ -636,19 +636,18 @@ export default class TPTPParser extends antlr4.Parser {
                              null, null, null, null, null, null, null, null, 
                              null, null, null, null, null, null, null, null, 
                              null, null, null, null, null, null, "WS", "Comment_line", 
-                             "Comment_block", "Single_quoted", "Back_quoted", 
-                             "Distinct_object", "Dollar_word", "Dollar_dollar_word", 
-                             "Upper_word", "Lower_word", "Real", "Signed_real", 
-                             "Unsigned_real", "Decimal_exponent", "Decimal_fraction", 
-                             "Exp_integer", "Signed_exp_integer", "Rational", 
-                             "Signed_rational", "Unsigned_rational", "Integer", 
-                             "Signed_integer", "Unsigned_integer", "Positive_integer", 
-                             "Integer_digits", "Slash", "Slosh", "Vline", 
-                             "Star", "Plus", "Arrow", "Less_sign", "Hash", 
-                             "Not_star_slash", "Percentage_sign", "Double_quote", 
-                             "Single_quote", "Back_quote", "Dot", "Slash_char", 
-                             "Slosh_char", "Zero_numeric", "Underscore", 
-                             "Alpha", "Dollar", "Printable_char", "Viewable_char" ];
+                             "Comment_block", "Single_quoted", "Distinct_object", 
+                             "Dollar_word", "Dollar_dollar_word", "Upper_word", 
+                             "Lower_word", "Real", "Signed_real", "Unsigned_real", 
+                             "Decimal_exponent", "Decimal_fraction", "Exp_integer", 
+                             "Signed_exp_integer", "Rational", "Signed_rational", 
+                             "Unsigned_rational", "Integer", "Signed_integer", 
+                             "Unsigned_integer", "Positive_integer", "Integer_digits", 
+                             "Slash", "Slosh", "Vline", "Star", "Plus", 
+                             "Arrow", "Less_sign", "Hash", "Not_star_slash", 
+                             "Percentage_sign", "Double_quote", "Single_quote", 
+                             "Dot", "Slash_char", "Slosh_char", "Zero_numeric", 
+                             "Underscore", "Dollar", "Printable_char", "Viewable_char" ];
     static ruleNames = [ "tptp_file", "tptp_input", "annotated_formula", 
                          "tpi_annotated", "tpi_formula", "thf_annotated", 
                          "tff_annotated", "tcf_annotated", "fof_annotated", 
@@ -1790,10 +1789,9 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 69:
 	        case 70:
 	        case 71:
-	        case 72:
-	        case 79:
-	        case 82:
-	        case 94:
+	        case 78:
+	        case 81:
+	        case 93:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 624;
 	            this.thf_unitary_formula();
@@ -1802,7 +1800,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 25:
 	        case 26:
 	        case 28:
-	        case 93:
+	        case 92:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 625;
 	            this.thf_prefix_unary();
@@ -2014,7 +2012,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 25:
 	        case 26:
 	        case 28:
-	        case 93:
+	        case 92:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 657;
 	            this.thf_prefix_unary();
@@ -2036,9 +2034,8 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 69:
 	        case 70:
 	        case 71:
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 658;
 	            this.thf_infix_unary();
@@ -2171,8 +2168,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
 	        case 65:
-	        case 66:
-	        case 71:
+	        case 70:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 674;
 	            this.constant();
@@ -2209,7 +2205,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        this.state = 686;
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
-	        case 68:
+	        case 67:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 678;
 	            this.defined_constant();
@@ -2219,10 +2215,10 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 47:
 	        case 48:
 	        case 49:
-	        case 67:
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 66:
+	        case 71:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 679;
 	            this.thf_defined_term();
@@ -2272,10 +2268,10 @@ export default class TPTPParser extends antlr4.Parser {
 	        this.state = 690;
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
-	        case 67:
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 66:
+	        case 71:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 688;
 	            this.defined_term();
@@ -2402,9 +2398,8 @@ export default class TPTPParser extends antlr4.Parser {
 	        switch(this._input.LA(1)) {
 	        case 12:
 	        case 65:
-	        case 66:
-	        case 69:
-	        case 71:
+	        case 68:
+	        case 70:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 706;
 	            this.thf_atom_typing();
@@ -2737,8 +2732,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
 	        case 65:
-	        case 66:
-	        case 71:
+	        case 70:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 760;
 	            this.functor();
@@ -2749,7 +2743,7 @@ export default class TPTPParser extends antlr4.Parser {
 	            this.state = 763;
 	            this.match(TPTPParser.T__12);
 	            break;
-	        case 68:
+	        case 67:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 765;
 	            this.defined_functor();
@@ -2760,7 +2754,7 @@ export default class TPTPParser extends antlr4.Parser {
 	            this.state = 768;
 	            this.match(TPTPParser.T__12);
 	            break;
-	        case 69:
+	        case 68:
 	            this.enterOuterAlt(localctx, 3);
 	            this.state = 770;
 	            this.system_functor();
@@ -2880,9 +2874,8 @@ export default class TPTPParser extends antlr4.Parser {
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
 	        case 65:
-	        case 66:
-	        case 69:
-	        case 71:
+	        case 68:
+	        case 70:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 789;
 	            this.untyped_atom();
@@ -3674,12 +3667,11 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 27:
 	        case 34:
 	        case 65:
-	        case 66:
+	        case 67:
 	        case 68:
 	        case 69:
 	        case 70:
-	        case 71:
-	        case 94:
+	        case 93:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 917;
 	            this.tff_unitary_formula();
@@ -3688,7 +3680,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 25:
 	        case 26:
 	        case 28:
-	        case 93:
+	        case 92:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 918;
 	            this.tff_prefix_unary();
@@ -3721,7 +3713,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        switch(this._input.LA(1)) {
 	        case 27:
 	        case 34:
-	        case 94:
+	        case 93:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 921;
 	            this.tff_quantified_formula();
@@ -3729,15 +3721,14 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 17:
 	        case 20:
 	        case 65:
-	        case 66:
+	        case 67:
 	        case 68:
-	        case 69:
-	        case 71:
+	        case 70:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 922;
 	            this.tff_atomic_formula();
 	            break;
-	        case 70:
+	        case 69:
 	            this.enterOuterAlt(localctx, 3);
 	            this.state = 923;
 	            this.txf_unitary_formula();
@@ -3942,7 +3933,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 25:
 	        case 26:
 	        case 28:
-	        case 93:
+	        case 92:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 954;
 	            this.tff_prefix_unary();
@@ -3959,9 +3950,8 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 69:
 	        case 70:
 	        case 71:
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 955;
 	            this.tff_infix_unary();
@@ -4045,20 +4035,19 @@ export default class TPTPParser extends antlr4.Parser {
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
 	        case 65:
-	        case 66:
-	        case 71:
+	        case 70:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 965;
 	            this.tff_plain_atomic();
 	            break;
 	        case 17:
 	        case 20:
-	        case 68:
+	        case 67:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 966;
 	            this.tff_defined_atomic();
 	            break;
-	        case 69:
+	        case 68:
 	            this.enterOuterAlt(localctx, 3);
 	            this.state = 967;
 	            this.tff_system_atomic();
@@ -4317,9 +4306,8 @@ export default class TPTPParser extends antlr4.Parser {
 	        switch(this._input.LA(1)) {
 	        case 12:
 	        case 65:
-	        case 66:
-	        case 69:
-	        case 71:
+	        case 68:
+	        case 70:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1010;
 	            this.tff_atom_typing();
@@ -4469,8 +4457,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
 	        case 65:
-	        case 66:
-	        case 71:
+	        case 70:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1035;
 	            this.tff_plain_atomic();
@@ -4625,18 +4612,17 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 17:
 	        case 20:
 	        case 65:
-	        case 66:
+	        case 67:
 	        case 68:
-	        case 69:
-	        case 71:
+	        case 70:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1057;
 	            this.tff_atomic_formula();
 	            break;
-	        case 67:
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 66:
+	        case 71:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1058;
 	            this.defined_term();
@@ -4647,7 +4633,7 @@ export default class TPTPParser extends antlr4.Parser {
 	            this.state = 1059;
 	            this.txf_tuple();
 	            break;
-	        case 70:
+	        case 69:
 	            this.enterOuterAlt(localctx, 4);
 	            this.state = 1060;
 	            this.variable();
@@ -4787,9 +4773,8 @@ export default class TPTPParser extends antlr4.Parser {
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
 	        case 65:
-	        case 66:
-	        case 69:
-	        case 71:
+	        case 68:
+	        case 70:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1084;
 	            this.untyped_atom();
@@ -5475,7 +5460,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        this.state = 1211;
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
-	        case 94:
+	        case 93:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1209;
 	            this.ntf_index();
@@ -5494,11 +5479,10 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 66:
 	        case 67:
 	        case 68:
-	        case 69:
+	        case 70:
 	        case 71:
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1210;
 	            this.nhf_key_pair();
@@ -5642,7 +5626,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        this.state = 1236;
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
-	        case 94:
+	        case 93:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1234;
 	            this.ntf_index();
@@ -5650,10 +5634,9 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 17:
 	        case 20:
 	        case 65:
-	        case 66:
+	        case 67:
 	        case 68:
-	        case 69:
-	        case 71:
+	        case 70:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1235;
 	            this.nxf_key_pair();
@@ -5760,7 +5743,7 @@ export default class TPTPParser extends antlr4.Parser {
 	            this.state = 1245;
 	            this.match(TPTPParser.T__22);
 	            break;
-	        case 93:
+	        case 92:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1246;
 	            this.match(TPTPParser.Less_sign);
@@ -5856,9 +5839,8 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 69:
 	        case 70:
 	        case 71:
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1258;
 	            this.cnf_formula();
@@ -6235,9 +6217,8 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 69:
 	        case 70:
 	        case 71:
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1318;
 	            this.fof_infix_unary();
@@ -6345,9 +6326,8 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 69:
 	        case 70:
 	        case 71:
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1330;
 	            this.fof_atomic_formula();
@@ -6680,15 +6660,15 @@ export default class TPTPParser extends antlr4.Parser {
 	        this.state = 1380;
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
-	        case 67:
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 66:
+	        case 71:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1378;
 	            this.defined_term();
 	            break;
-	        case 68:
+	        case 67:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1379;
 	            this.fof_defined_atomic_term();
@@ -6873,16 +6853,15 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 66:
 	        case 67:
 	        case 68:
-	        case 69:
+	        case 70:
 	        case 71:
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1407;
 	            this.fof_function_term();
 	            break;
-	        case 70:
+	        case 69:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1408;
 	            this.variable();
@@ -6914,22 +6893,21 @@ export default class TPTPParser extends antlr4.Parser {
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
 	        case 65:
-	        case 66:
-	        case 71:
+	        case 70:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1411;
 	            this.fof_plain_term();
 	            break;
+	        case 66:
 	        case 67:
-	        case 68:
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 71:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1412;
 	            this.fof_defined_term();
 	            break;
-	        case 69:
+	        case 68:
 	            this.enterOuterAlt(localctx, 3);
 	            this.state = 1413;
 	            this.fof_system_term();
@@ -7112,9 +7090,8 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 69:
 	        case 70:
 	        case 71:
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1443;
 	            this.cnf_disjunction(0);
@@ -7268,7 +7245,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        switch(this._input.LA(1)) {
 	        case 27:
 	        case 34:
-	        case 94:
+	        case 93:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1472;
 	            this.tff_quantifier();
@@ -7320,7 +7297,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 23:
 	        case 25:
 	        case 26:
-	        case 93:
+	        case 92:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1478;
 	            this.ntf_short_connective();
@@ -7444,7 +7421,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 23:
 	        case 25:
 	        case 26:
-	        case 93:
+	        case 92:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1488;
 	            this.ntf_short_connective();
@@ -7481,7 +7458,7 @@ export default class TPTPParser extends antlr4.Parser {
 	            this.state = 1491;
 	            this.fof_quantifier();
 	            break;
-	        case 94:
+	        case 93:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1492;
 	            this.match(TPTPParser.Hash);
@@ -7602,7 +7579,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        this.enterOuterAlt(localctx, 1);
 	        this.state = 1506;
 	        _la = this._input.LA(1);
-	        if(!(_la===10 || _la===89)) {
+	        if(!(_la===10 || _la===88)) {
 	        this._errHandler.recoverInline(this);
 	        }
 	        else {
@@ -7794,14 +7771,13 @@ export default class TPTPParser extends antlr4.Parser {
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
 	        case 65:
-	        case 66:
-	        case 69:
-	        case 71:
+	        case 68:
+	        case 70:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1522;
 	            this.untyped_atom();
 	            break;
-	        case 68:
+	        case 67:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1523;
 	            this.defined_constant();
@@ -7833,13 +7809,12 @@ export default class TPTPParser extends antlr4.Parser {
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
 	        case 65:
-	        case 66:
-	        case 71:
+	        case 70:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1526;
 	            this.constant();
 	            break;
-	        case 69:
+	        case 68:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1527;
 	            this.system_constant();
@@ -8077,12 +8052,12 @@ export default class TPTPParser extends antlr4.Parser {
 	        this.state = 1550;
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
-	        case 68:
+	        case 67:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1548;
 	            this.defined_constant();
 	            break;
-	        case 69:
+	        case 68:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1549;
 	            this.system_constant();
@@ -8144,14 +8119,14 @@ export default class TPTPParser extends antlr4.Parser {
 	        this.state = 1556;
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
-	        case 72:
-	        case 79:
-	        case 82:
+	        case 71:
+	        case 78:
+	        case 81:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1554;
 	            this.number();
 	            break;
-	        case 67:
+	        case 66:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1555;
 	            this.match(TPTPParser.Distinct_object);
@@ -8207,9 +8182,8 @@ export default class TPTPParser extends antlr4.Parser {
 	        switch(this._input.LA(1)) {
 	        case 51:
 	        case 65:
-	        case 66:
-	        case 71:
-	        case 82:
+	        case 70:
+	        case 81:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1560;
 	            this.dag_source();
@@ -8308,9 +8282,8 @@ export default class TPTPParser extends antlr4.Parser {
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
 	        case 65:
-	        case 66:
-	        case 71:
-	        case 82:
+	        case 70:
+	        case 81:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1577;
 	            this.name();
@@ -8994,7 +8967,7 @@ export default class TPTPParser extends antlr4.Parser {
 	            this.state = 1682;
 	            this.match(TPTPParser.T__14);
 	            break;
-	        case 90:
+	        case 89:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1684;
 	            this.match(TPTPParser.Star);
@@ -9397,13 +9370,12 @@ export default class TPTPParser extends antlr4.Parser {
 	        this._errHandler.sync(this);
 	        switch(this._input.LA(1)) {
 	        case 65:
-	        case 66:
-	        case 71:
+	        case 70:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1756;
 	            this.atomic_word();
 	            break;
-	        case 82:
+	        case 81:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1757;
 	            this.match(TPTPParser.Integer);
@@ -9435,7 +9407,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        this.enterOuterAlt(localctx, 1);
 	        this.state = 1760;
 	        _la = this._input.LA(1);
-	        if(!(((((_la - 65)) & ~0x1f) === 0 && ((1 << (_la - 65)) & 67) !== 0))) {
+	        if(!(_la===65 || _la===70)) {
 	        this._errHandler.recoverInline(this);
 	        }
 	        else {
@@ -9512,7 +9484,7 @@ export default class TPTPParser extends antlr4.Parser {
 	        this.enterOuterAlt(localctx, 1);
 	        this.state = 1766;
 	        _la = this._input.LA(1);
-	        if(!(((((_la - 72)) & ~0x1f) === 0 && ((1 << (_la - 72)) & 1153) !== 0))) {
+	        if(!(((((_la - 71)) & ~0x1f) === 0 && ((1 << (_la - 71)) & 1153) !== 0))) {
 	        this._errHandler.recoverInline(this);
 	        }
 	        else {
@@ -9647,49 +9619,46 @@ TPTPParser.WS = 62;
 TPTPParser.Comment_line = 63;
 TPTPParser.Comment_block = 64;
 TPTPParser.Single_quoted = 65;
-TPTPParser.Back_quoted = 66;
-TPTPParser.Distinct_object = 67;
-TPTPParser.Dollar_word = 68;
-TPTPParser.Dollar_dollar_word = 69;
-TPTPParser.Upper_word = 70;
-TPTPParser.Lower_word = 71;
-TPTPParser.Real = 72;
-TPTPParser.Signed_real = 73;
-TPTPParser.Unsigned_real = 74;
-TPTPParser.Decimal_exponent = 75;
-TPTPParser.Decimal_fraction = 76;
-TPTPParser.Exp_integer = 77;
-TPTPParser.Signed_exp_integer = 78;
-TPTPParser.Rational = 79;
-TPTPParser.Signed_rational = 80;
-TPTPParser.Unsigned_rational = 81;
-TPTPParser.Integer = 82;
-TPTPParser.Signed_integer = 83;
-TPTPParser.Unsigned_integer = 84;
-TPTPParser.Positive_integer = 85;
-TPTPParser.Integer_digits = 86;
-TPTPParser.Slash = 87;
-TPTPParser.Slosh = 88;
-TPTPParser.Vline = 89;
-TPTPParser.Star = 90;
-TPTPParser.Plus = 91;
-TPTPParser.Arrow = 92;
-TPTPParser.Less_sign = 93;
-TPTPParser.Hash = 94;
-TPTPParser.Not_star_slash = 95;
-TPTPParser.Percentage_sign = 96;
-TPTPParser.Double_quote = 97;
-TPTPParser.Single_quote = 98;
-TPTPParser.Back_quote = 99;
-TPTPParser.Dot = 100;
-TPTPParser.Slash_char = 101;
-TPTPParser.Slosh_char = 102;
-TPTPParser.Zero_numeric = 103;
-TPTPParser.Underscore = 104;
-TPTPParser.Alpha = 105;
-TPTPParser.Dollar = 106;
-TPTPParser.Printable_char = 107;
-TPTPParser.Viewable_char = 108;
+TPTPParser.Distinct_object = 66;
+TPTPParser.Dollar_word = 67;
+TPTPParser.Dollar_dollar_word = 68;
+TPTPParser.Upper_word = 69;
+TPTPParser.Lower_word = 70;
+TPTPParser.Real = 71;
+TPTPParser.Signed_real = 72;
+TPTPParser.Unsigned_real = 73;
+TPTPParser.Decimal_exponent = 74;
+TPTPParser.Decimal_fraction = 75;
+TPTPParser.Exp_integer = 76;
+TPTPParser.Signed_exp_integer = 77;
+TPTPParser.Rational = 78;
+TPTPParser.Signed_rational = 79;
+TPTPParser.Unsigned_rational = 80;
+TPTPParser.Integer = 81;
+TPTPParser.Signed_integer = 82;
+TPTPParser.Unsigned_integer = 83;
+TPTPParser.Positive_integer = 84;
+TPTPParser.Integer_digits = 85;
+TPTPParser.Slash = 86;
+TPTPParser.Slosh = 87;
+TPTPParser.Vline = 88;
+TPTPParser.Star = 89;
+TPTPParser.Plus = 90;
+TPTPParser.Arrow = 91;
+TPTPParser.Less_sign = 92;
+TPTPParser.Hash = 93;
+TPTPParser.Not_star_slash = 94;
+TPTPParser.Percentage_sign = 95;
+TPTPParser.Double_quote = 96;
+TPTPParser.Single_quote = 97;
+TPTPParser.Dot = 98;
+TPTPParser.Slash_char = 99;
+TPTPParser.Slosh_char = 100;
+TPTPParser.Zero_numeric = 101;
+TPTPParser.Underscore = 102;
+TPTPParser.Dollar = 103;
+TPTPParser.Printable_char = 104;
+TPTPParser.Viewable_char = 105;
 
 TPTPParser.RULE_tptp_file = 0;
 TPTPParser.RULE_tptp_input = 1;
@@ -19152,10 +19121,6 @@ class Atomic_wordContext extends antlr4.ParserRuleContext {
 
 	Single_quoted() {
 	    return this.getToken(TPTPParser.Single_quoted, 0);
-	};
-
-	Back_quoted() {
-	    return this.getToken(TPTPParser.Back_quoted, 0);
 	};
 
 	enterRule(listener) {
