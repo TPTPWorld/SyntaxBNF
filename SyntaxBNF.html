@@ -1,5 +1,5 @@
 <HTML><HEAD><TITLE>TPTP Syntax</TITLE><LINK REL="icon" HREF="https://tptp.org/Logos/TPTPBNF.png" type="image/png" /></HEAD><BODY><A NAME="TOPOFPAGE"></A><TT>
-%----v9.1.0.0&nbsp;(TPTP&nbsp;version.internal&nbsp;development&nbsp;number)<BR>
+%----v9.2.0.0&nbsp;(TPTP&nbsp;version.internal&nbsp;development&nbsp;number)<BR>
 %--------------------------------------------------------------------------------------------------<BR>
 %----README&nbsp;...&nbsp;this&nbsp;header&nbsp;provides&nbsp;important&nbsp;meta-&nbsp;and&nbsp;usage&nbsp;information<BR>
 %----<BR>
@@ -156,7 +156,7 @@
 &lt;<A NAME="thf_unitary_type">thf_unitary_type</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:==&nbsp;&lt;<A HREF="#thf_atomic_type">thf_atomic_type</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#th1_quantified_type">th1_quantified_type</A>&gt;<BR>
 &lt;<A NAME="thf_atomic_type">thf_atomic_type</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:==&nbsp;&lt;<A HREF="#type_constant">type_constant</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#defined_type">defined_type</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#variable">variable</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#thf_mapping_type">thf_mapping_type</A>&gt;&nbsp;|<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&lt;<A HREF="#thf_atomic_type">thf_atomic_type</A>&gt;)<BR>
-&lt;<A NAME="th1_quantified_type">th1_quantified_type</A>&gt;&nbsp;&nbsp;:==&nbsp;!&gt;&nbsp;[&lt;<A HREF="#thf_variable_list">thf_variable_list</A>&gt;]&nbsp;:&nbsp;&lt;<A HREF="#thf_unitary_type">thf_unitary_type</A>&gt;<BR>
+&lt;<A NAME="th1_quantified_type">th1_quantified_type</A>&gt;&nbsp;&nbsp;:==&nbsp;&lt;<A HREF="#type_quantifier">type_quantifier</A>&gt;&nbsp;[&lt;<A HREF="#thf_variable_list">thf_variable_list</A>&gt;]&nbsp;:&nbsp;&lt;<A HREF="#thf_unitary_type">thf_unitary_type</A>&gt;<BR>
 <BR>
 &lt;<A NAME="thf_apply_type">thf_apply_type</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#thf_apply_formula">thf_apply_formula</A>&gt;<BR>
 &lt;<A NAME="thf_binary_type">thf_binary_type</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#thf_mapping_type">thf_mapping_type</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#thf_xprod_type">thf_xprod_type</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#thf_union_type">thf_union_type</A>&gt;<BR>
@@ -251,7 +251,7 @@
 &lt;<A NAME="tff_atom_typing">tff_atom_typing</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#untyped_atom">untyped_atom</A>&gt;&nbsp;:&nbsp;&lt;<A HREF="#tff_top_level_type">tff_top_level_type</A>&gt;&nbsp;|&nbsp;(&lt;<A HREF="#tff_atom_typing">tff_atom_typing</A>&gt;)<BR>
 &lt;<A NAME="tff_top_level_type">tff_top_level_type</A>&gt;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#tff_atomic_type">tff_atomic_type</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#tff_non_atomic_type">tff_non_atomic_type</A>&gt;<BR>
 &lt;<A NAME="tff_non_atomic_type">tff_non_atomic_type</A>&gt;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#tff_mapping_type">tff_mapping_type</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#tf1_quantified_type">tf1_quantified_type</A>&gt;&nbsp;|&nbsp;(&lt;<A HREF="#tff_non_atomic_type">tff_non_atomic_type</A>&gt;)<BR>
-&lt;<A NAME="tf1_quantified_type">tf1_quantified_type</A>&gt;&nbsp;&nbsp;::=&nbsp;!&gt;&nbsp;[&lt;<A HREF="#tff_variable_list">tff_variable_list</A>&gt;]&nbsp;:&nbsp;&lt;<A HREF="#tff_monotype">tff_monotype</A>&gt;<BR>
+&lt;<A NAME="tf1_quantified_type">tf1_quantified_type</A>&gt;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#type_quantifier">type_quantifier</A>&gt;&nbsp;[&lt;<A HREF="#tff_variable_list">tff_variable_list</A>&gt;]&nbsp;:&nbsp;&lt;<A HREF="#tff_monotype">tff_monotype</A>&gt;<BR>
 &lt;<A NAME="tff_monotype">tff_monotype</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#tff_atomic_type">tff_atomic_type</A>&gt;&nbsp;|&nbsp;(&lt;<A HREF="#tff_mapping_type">tff_mapping_type</A>&gt;)&nbsp;|&nbsp;&lt;<A HREF="#tf1_quantified_type">tf1_quantified_type</A>&gt;<BR>
 &lt;<A NAME="tff_unitary_type">tff_unitary_type</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#tff_atomic_type">tff_atomic_type</A>&gt;&nbsp;|&nbsp;(&lt;<A HREF="#tff_xprod_type">tff_xprod_type</A>&gt;)<BR>
 &lt;<A NAME="tff_atomic_type">tff_atomic_type</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#type_constant">type_constant</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#defined_type">defined_type</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#variable">variable</A>&gt;&nbsp;|<BR>
@@ -416,12 +416,12 @@
 <BR>
 %----<A HREF="#TOPOFPAGE">Top of Page</A>-----------------------------------------------------------------------------------<BR>
 %----Connectives&nbsp;-&nbsp;THF<BR>
-&lt;<A NAME="thf_quantifier">thf_quantifier</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#tff_quantifier">tff_quantifier</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#th0_quantifier">th0_quantifier</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#th1_quantifier">th1_quantifier</A>&gt;<BR>
+&lt;<A NAME="thf_quantifier">thf_quantifier</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#tff_quantifier">tff_quantifier</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#th0_quantifier">th0_quantifier</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#type_quantifier">type_quantifier</A>&gt;<BR>
 &lt;<A NAME="thf_unary_connective">thf_unary_connective</A>&gt;&nbsp;::=&nbsp;&lt;<A HREF="#unary_connective">unary_connective</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#ntf_short_connective">ntf_short_connective</A>&gt;<BR>
 %----TH0&nbsp;quantifiers&nbsp;are&nbsp;also&nbsp;available&nbsp;in&nbsp;TH1<BR>
-&lt;<A NAME="th1_quantifier">th1_quantifier</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;!&gt;&nbsp;|&nbsp;?*<BR>
 &lt;<A NAME="th0_quantifier">th0_quantifier</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;^&nbsp;|&nbsp;@+&nbsp;|&nbsp;@-<BR>
 %----Connectives&nbsp;-&nbsp;THF&nbsp;and&nbsp;TFF<BR>
+&lt;<A NAME="type_quantifier">type_quantifier</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;!&gt;&nbsp;|&nbsp;?*<BR>
 &lt;<A NAME="subtype_sign">subtype_sign</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#"></A>&lt;<A HREF="#"></A><BR>
 %----Connectives&nbsp;-&nbsp;TFF<BR>
 &lt;<A NAME="tff_unary_connective">tff_unary_connective</A>&gt;&nbsp;::=&nbsp;&lt;<A HREF="#unary_connective">unary_connective</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#ntf_short_connective">ntf_short_connective</A>&gt;<BR>
@@ -600,7 +600,7 @@
 %----Integer&nbsp;names&nbsp;are&nbsp;expected&nbsp;to&nbsp;be&nbsp;unsigned,&nbsp;but&nbsp;lex&nbsp;stuff&nbsp;prevents&nbsp;this&nbsp;..<BR>
 %----&lt;name&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;atomic_word&gt;&nbsp;|&nbsp;&lt;unsigned_integer&gt;<BR>
 &lt;<A NAME="name">name</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#atomic_word">atomic_word</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#integer">integer</A>&gt;<BR>
-&lt;<A NAME="atomic_word">atomic_word</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#lower_word">lower_word</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#single_quoted">single_quoted</A>&gt;<BR>
+&lt;<A NAME="atomic_word">atomic_word</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#lower_word">lower_word</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#single_quoted">single_quoted</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#back_quoted">back_quoted</A>&gt;<BR>
 %----&lt;single_quoted&gt;s&nbsp;are&nbsp;the&nbsp;enclosed&nbsp;&lt;atomic_word&gt;&nbsp;without&nbsp;the&nbsp;quotes.&nbsp;Therefore&nbsp;the&nbsp;&lt;lower_word&gt;<BR>
 %----&lt;atomic_word&gt;&nbsp;cat&nbsp;and&nbsp;the&nbsp;&lt;single_quoted&gt;&nbsp;&lt;atomic_word&gt;&nbsp;'cat'&nbsp;are&nbsp;the&nbsp;same,&nbsp;but&nbsp;&lt;numbers&gt;s&nbsp;and<BR>
 %----&lt;variable&gt;s&nbsp;are&nbsp;not&nbsp;&lt;lower_word&gt;s,&nbsp;so&nbsp;123'&nbsp;and&nbsp;123,&nbsp;and&nbsp;'X'&nbsp;and&nbsp;X,&nbsp;are&nbsp;different.&nbsp;Quotes&nbsp;can<BR>
@@ -633,6 +633,7 @@
 %----&lt;single_quoted&gt;s&nbsp;contain&nbsp;visible&nbsp;characters.&nbsp;\&nbsp;is&nbsp;the&nbsp;escape&nbsp;character&nbsp;for&nbsp;'&nbsp;and&nbsp;\,&nbsp;i.e.,<BR>
 %----\'&nbsp;is&nbsp;not&nbsp;the&nbsp;end&nbsp;of&nbsp;the&nbsp;&lt;single_quoted&gt;.&nbsp;The&nbsp;token&nbsp;does&nbsp;not&nbsp;include&nbsp;the&nbsp;outer&nbsp;quotes,&nbsp;e.g.,<BR>
 %----'cat'&nbsp;and&nbsp;cat&nbsp;are&nbsp;the&nbsp;same.&nbsp;See&nbsp;&lt;atomic_word&gt;&nbsp;for&nbsp;information&nbsp;about&nbsp;stripping&nbsp;the&nbsp;quotes.<BR>
+&lt;<A NAME="back_quoted">back_quoted</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::-&nbsp;&lt;<A HREF="#back_quote">back_quote</A>&gt;&lt;<A HREF="#upper_word">upper_word</A>&gt;<BR>
 <BR>
 &lt;<A NAME="distinct_object">distinct_object</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::-&nbsp;&lt;<A HREF="#double_quote">double_quote</A>&gt;&lt;<A HREF="#do_char">do_char</A>&gt;*&lt;<A HREF="#double_quote">double_quote</A>&gt;<BR>
 %---Space&nbsp;and&nbsp;visible&nbsp;characters&nbsp;upto&nbsp;~,&nbsp;except&nbsp;"&nbsp;and&nbsp;\&nbsp;distinct_object&gt;s&nbsp;contain&nbsp;visible<BR>
@@ -707,6 +708,7 @@
 &lt;<A NAME="double_quote">double_quote</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;["]<BR>
 &lt;<A NAME="do_char">do_char</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;([\40-\41\43-\133\135-\176]|([\\]["\\]))<BR>
 &lt;<A NAME="single_quote">single_quote</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;[']<BR>
+&lt;<A NAME="back_quote">back_quote</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;[`]<BR>
 %---Space&nbsp;and&nbsp;visible&nbsp;characters&nbsp;upto&nbsp;~,&nbsp;except&nbsp;'&nbsp;and&nbsp;\<BR>
 &lt;<A NAME="sq_char">sq_char</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;([\40-\46\50-\133\135-\176]|([\\]['\\]))<BR>
 &lt;<A NAME="sign">sign</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;[+-]<BR>
@@ -720,6 +722,7 @@
 &lt;<A NAME="lower_alpha">lower_alpha</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;[a-z]<BR>
 &lt;<A NAME="upper_alpha">upper_alpha</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;[A-Z]<BR>
 &lt;<A NAME="underscore">underscore</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;[_]<BR>
+&lt;<A NAME="alpha">alpha</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;(&lt;<A HREF="#lower_alpha">lower_alpha</A>&gt;|&lt;<A HREF="#upper_alpha">upper_alpha</A>&gt;)<BR>
 &lt;<A NAME="alpha_numeric">alpha_numeric</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;(&lt;<A HREF="#lower_alpha">lower_alpha</A>&gt;|&lt;<A HREF="#upper_alpha">upper_alpha</A>&gt;|&lt;<A HREF="#numeric">numeric</A>&gt;|&lt;<A HREF="#underscore">underscore</A>&gt;)<BR>
 &lt;<A NAME="dollar">dollar</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;[$]<BR>
 &lt;<A NAME="printable_char">printable_char</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;.<BR>

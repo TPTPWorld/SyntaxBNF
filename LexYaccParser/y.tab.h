@@ -113,21 +113,22 @@ extern int yydebug;
     _LIT_tpi = 314,                /* _LIT_tpi  */
     _LIT_unknown = 315,            /* _LIT_unknown  */
     arrow = 316,                   /* arrow  */
-    distinct_object = 317,         /* distinct_object  */
-    dollar_dollar_word = 318,      /* dollar_dollar_word  */
-    dollar_word = 319,             /* dollar_word  */
-    hash = 320,                    /* hash  */
-    integer = 321,                 /* integer  */
-    less_sign = 322,               /* less_sign  */
-    lower_word = 323,              /* lower_word  */
-    plus = 324,                    /* plus  */
-    rational = 325,                /* rational  */
-    real = 326,                    /* real  */
-    single_quoted = 327,           /* single_quoted  */
-    slash = 328,                   /* slash  */
-    slosh = 329,                   /* slosh  */
-    unrecognized = 330,            /* unrecognized  */
-    upper_word = 331               /* upper_word  */
+    back_quoted = 317,             /* back_quoted  */
+    distinct_object = 318,         /* distinct_object  */
+    dollar_dollar_word = 319,      /* dollar_dollar_word  */
+    dollar_word = 320,             /* dollar_word  */
+    hash = 321,                    /* hash  */
+    integer = 322,                 /* integer  */
+    less_sign = 323,               /* less_sign  */
+    lower_word = 324,              /* lower_word  */
+    plus = 325,                    /* plus  */
+    rational = 326,                /* rational  */
+    real = 327,                    /* real  */
+    single_quoted = 328,           /* single_quoted  */
+    slash = 329,                   /* slash  */
+    slosh = 330,                   /* slosh  */
+    unrecognized = 331,            /* unrecognized  */
+    upper_word = 332               /* upper_word  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -195,21 +196,22 @@ extern int yydebug;
 #define _LIT_tpi 314
 #define _LIT_unknown 315
 #define arrow 316
-#define distinct_object 317
-#define dollar_dollar_word 318
-#define dollar_word 319
-#define hash 320
-#define integer 321
-#define less_sign 322
-#define lower_word 323
-#define plus 324
-#define rational 325
-#define real 326
-#define single_quoted 327
-#define slash 328
-#define slosh 329
-#define unrecognized 330
-#define upper_word 331
+#define back_quoted 317
+#define distinct_object 318
+#define dollar_dollar_word 319
+#define dollar_word 320
+#define hash 321
+#define integer 322
+#define less_sign 323
+#define lower_word 324
+#define plus 325
+#define rational 326
+#define real 327
+#define single_quoted 328
+#define slash 329
+#define slosh 330
+#define unrecognized 331
+#define upper_word 332
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -218,7 +220,7 @@ union YYSTYPE
 #line 152 "SyntaxBNF.y"
 int ival; double dval; char* sval; void* pval;
 
-#line 222 "y.tab.h"
+#line 224 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

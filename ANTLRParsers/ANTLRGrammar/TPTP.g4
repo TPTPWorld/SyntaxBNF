@@ -5,6 +5,7 @@ Comment_block : '/*' .*? '*/' -> skip;
 //# HERE ARE THE LEXER RULES
 
 Single_quoted :  Single_quote   Sq_char   Sq_char * Single_quote ;
+Back_quoted :  Back_quote   Upper_word ;
 Distinct_object :  Double_quote   Do_char * Double_quote ;
 Dollar_word :  Dollar   Alpha_numeric *;
 Dollar_dollar_word :  Dollar   Dollar   Alpha_numeric *;
@@ -41,6 +42,7 @@ Percentage_sign : [%];
 Double_quote : ["];
 fragment Do_char : [\u0020-\u0021\u0023-\u005B\u005D-\u007E] | '\\'["\\];
 Single_quote : '\'';
+Back_quote : [`];
 fragment Sq_char : [\u0020-\u0026\u0028-\u005B\u005D-\u007E] | '\\\\' | '\\\'';
 fragment Sign : [+-];
 Dot : [.];
@@ -53,6 +55,7 @@ fragment Numeric : [0-9];
 fragment Lower_alpha : [a-z];
 fragment Upper_alpha : [A-Z];
 Underscore : [_];
+Alpha : ( Lower_alpha | Upper_alpha );
 fragment Alpha_numeric : Lower_alpha | Upper_alpha | Numeric | '_';
 Dollar : [$];
 Printable_char : .;
@@ -61,7 +64,7 @@ Viewable_char : '.\n';
 //# END THE LEXER RULES
 
 
-//%----v9.1.0.0 (TPTP version.internal development number) 
+//%----v9.2.0.0 (TPTP version.internal development number) 
 //%-------------------------------------------------------------------------------------------------- 
 //%----README ... this header provides important meta- and usage information 
 //%---- 
@@ -199,7 +202,7 @@ thf_top_level_type : thf_unitary_type  |  thf_mapping_type  |  thf_apply_type;
 thf_unitary_type : thf_unitary_formula;
 //<thf_unitary_type>     :== <thf_atomic_type> | <th1_quantified_type> 
 //<thf_atomic_type>      :== <type_constant> | <defined_type> | <variable> | <thf_mapping_type> | (<thf_atomic_type>) 
-//<th1_quantified_type>  :== !> [<thf_variable_list>] : <thf_unitary_type> 
+//<th1_quantified_type>  :== <type_quantifier> [<thf_variable_list>] : <thf_unitary_type> 
 thf_apply_type : thf_apply_formula;
 thf_binary_type : thf_mapping_type  |  thf_xprod_type  |  thf_union_type;
 //%----Mapping is right-associative: o > o > o means o > (o > o). 
@@ -275,7 +278,7 @@ comma_tff_term : ','tff_term;
 tff_atom_typing : untyped_atom ':' tff_top_level_type  |  '('tff_atom_typing')';
 tff_top_level_type : tff_atomic_type  |  tff_non_atomic_type;
 tff_non_atomic_type : tff_mapping_type  |  tf1_quantified_type  |  '('tff_non_atomic_type')';
-tf1_quantified_type : '!>' '['tff_variable_list']' ':' tff_monotype;
+tf1_quantified_type : type_quantifier '['tff_variable_list']' ':' tff_monotype;
 tff_monotype : tff_atomic_type  |  '('tff_mapping_type')'  |  tf1_quantified_type;
 tff_unitary_type : tff_atomic_type  |  '('tff_xprod_type')';
 tff_atomic_type : type_constant  |  defined_type  |  variable  |  type_functor'('tff_type_arguments')'  |  '('tff_atomic_type')'  |  txf_tuple_type;
@@ -406,12 +409,12 @@ cnf_disjunction : cnf_literal  |  cnf_disjunction Vline cnf_literal;
 cnf_literal : fof_atomic_formula  |  '~' fof_atomic_formula  |  '~' '('fof_atomic_formula')'  |  fof_infix_unary;
 //%-------------------------------------------------------------------------------------------------- 
 //%----Connectives - THF 
-thf_quantifier : tff_quantifier  |  th0_quantifier  |  th1_quantifier;
+thf_quantifier : tff_quantifier  |  th0_quantifier  |  type_quantifier;
 thf_unary_connective : unary_connective  |  ntf_short_connective;
 //%----TH0 quantifiers are also available in TH1 
-th1_quantifier : '!>'  |  '?*';
 th0_quantifier : '^'  |  '@+'  |  '@-';
 //%----Connectives - THF and TFF 
+type_quantifier : '!>'  |  '?*';
 subtype_sign : '<<';
 //%----Connectives - TFF 
 tff_unary_connective : unary_connective  |  ntf_short_connective;
@@ -569,7 +572,7 @@ comma_general_term : ','general_term;
 //%----Integer names are expected to be unsigned, but lex stuff prevents this .. 
 //%----<name>                 ::= <atomic_word> | <Unsigned_integer> 
 name : atomic_word  |  Integer;
-atomic_word : Lower_word  |  Single_quoted;
+atomic_word : Lower_word  |  Single_quoted  |  Back_quoted;
 //%----<Single_quoted>s are the enclosed <atomic_word> without the quotes. Therefore the <Lower_word> 
 //%----<atomic_word> cat and the <Single_quoted> <atomic_word> 'cat' are the same, but <numbers>s and 
 //%----<variable>s are not <Lower_word>s, so 123' and 123, and 'X' and X, are different. Quotes can 

@@ -1,4 +1,5 @@
-%----v9.1.0.0 (TPTP version.internal development number)
+%----v9.2.0.0 (TPTP version.internal development number)
+%----v9.2.0.1 FIxed typo in <ntf_domain_type_list>
 %--------------------------------------------------------------------------------------------------
 %----README ... this header provides important meta- and usage information
 %----
@@ -155,7 +156,7 @@
 <thf_unitary_type>     :== <thf_atomic_type> | <th1_quantified_type>
 <thf_atomic_type>      :== <type_constant> | <defined_type> | <variable> | <thf_mapping_type> |
                            (<thf_atomic_type>)
-<th1_quantified_type>  :== !> [<thf_variable_list>] : <thf_unitary_type>
+<th1_quantified_type>  :== <type_quantifier> [<thf_variable_list>] : <thf_unitary_type>
 
 <thf_apply_type>       ::= <thf_apply_formula>
 <thf_binary_type>      ::= <thf_mapping_type> | <thf_xprod_type> | <thf_union_type>
@@ -250,7 +251,7 @@
 <tff_atom_typing>      ::= <untyped_atom> : <tff_top_level_type> | (<tff_atom_typing>)
 <tff_top_level_type>   ::= <tff_atomic_type> | <tff_non_atomic_type>
 <tff_non_atomic_type>  ::= <tff_mapping_type> | <tf1_quantified_type> | (<tff_non_atomic_type>)
-<tf1_quantified_type>  ::= !> [<tff_variable_list>] : <tff_monotype>
+<tf1_quantified_type>  ::= <type_quantifier> [<tff_variable_list>] : <tff_monotype>
 <tff_monotype>         ::= <tff_atomic_type> | (<tff_mapping_type>) | <tf1_quantified_type>
 <tff_unitary_type>     ::= <tff_atomic_type> | (<tff_xprod_type>)
 <tff_atomic_type>      ::= <type_constant> | <defined_type> | <variable> |
@@ -302,7 +303,7 @@
 <ntf_domains_value>    :== <ntf_domain_type> | [<ntf_domain_type_list>]
 <ntf_domain_type>      :== $constant | $varying | $cumulative | $decreasing |
                            <tff_atomic_type> <identical> <ntf_domains_value>
-<ntf_domains_type_list> :== <ntf_domain_type> | <ntf_domain_type>,<ntf_domain_type_list>
+<ntf_domain_type_list> :== <ntf_domain_type> | <ntf_domain_type>,<ntf_domain_type_list>
 <ntf_designation_spec> :== $designation <identical> <ntf_designation_value>
 <ntf_designation_value>    :== <ntf_designation_type> | [<ntf_designation_type_list>]
 <ntf_designation_type> :== $rigid | $flexible |
@@ -415,12 +416,12 @@
 
 %--------------------------------------------------------------------------------------------------
 %----Connectives - THF
-<thf_quantifier>       ::= <tff_quantifier> | <th0_quantifier> | <th1_quantifier>
+<thf_quantifier>       ::= <tff_quantifier> | <th0_quantifier> | <type_quantifier>
 <thf_unary_connective> ::= <unary_connective> | <ntf_short_connective>
 %----TH0 quantifiers are also available in TH1
-<th1_quantifier>       ::= !> | ?*
 <th0_quantifier>       ::= ^ | @+ | @-
 %----Connectives - THF and TFF
+<type_quantifier>      ::= !> | ?*
 <subtype_sign>         ::= <<
 %----Connectives - TFF
 <tff_unary_connective> ::= <unary_connective> | <ntf_short_connective>

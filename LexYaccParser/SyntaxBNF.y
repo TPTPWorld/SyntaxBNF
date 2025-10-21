@@ -210,6 +210,7 @@ int yywrap(void) {
 %token <ival> _LIT_tpi
 %token <ival> _LIT_unknown
 %token <ival> arrow
+%token <ival> back_quoted
 %token <ival> distinct_object
 %token <ival> dollar_dollar_word
 %token <ival> dollar_word
@@ -627,7 +628,7 @@ tff_non_atomic_type : tff_mapping_type {$<pval>$ = P_BUILD("tff_non_atomic_type"
                     | LPAREN tff_non_atomic_type RPAREN {$<pval>$ = P_BUILD("tff_non_atomic_type", P_TOKEN("LPAREN ", $<ival>1), $<pval>2, P_TOKEN("RPAREN ", $<ival>3),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tf1_quantified_type : EXCLAMATION_GREATER LBRKT tff_variable_list RBRKT COLON tff_monotype {$<pval>$ = P_BUILD("tf1_quantified_type", P_TOKEN("EXCLAMATION_GREATER ", $<ival>1), P_TOKEN("LBRKT ", $<ival>2), $<pval>3, P_TOKEN("RBRKT ", $<ival>4), P_TOKEN("COLON ", $<ival>5), $<pval>6,NULL,NULL,NULL,NULL);}
+tf1_quantified_type : type_quantifier LBRKT tff_variable_list RBRKT COLON tff_monotype {$<pval>$ = P_BUILD("tf1_quantified_type", $<pval>1, P_TOKEN("LBRKT ", $<ival>2), $<pval>3, P_TOKEN("RBRKT ", $<ival>4), P_TOKEN("COLON ", $<ival>5), $<pval>6,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_monotype : tff_atomic_type {$<pval>$ = P_BUILD("tff_monotype", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -859,20 +860,20 @@ cnf_literal : fof_atomic_formula {$<pval>$ = P_BUILD("cnf_literal", $<pval>1,NUL
 
 thf_quantifier : tff_quantifier {$<pval>$ = P_BUILD("thf_quantifier", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | th0_quantifier {$<pval>$ = P_BUILD("thf_quantifier", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | th1_quantifier {$<pval>$ = P_BUILD("thf_quantifier", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | type_quantifier {$<pval>$ = P_BUILD("thf_quantifier", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 thf_unary_connective : unary_connective {$<pval>$ = P_BUILD("thf_unary_connective", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | ntf_short_connective {$<pval>$ = P_BUILD("thf_unary_connective", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-th1_quantifier : EXCLAMATION_GREATER {$<pval>$ = P_BUILD("th1_quantifier", P_TOKEN("EXCLAMATION_GREATER ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | QUESTION_STAR {$<pval>$ = P_BUILD("th1_quantifier", P_TOKEN("QUESTION_STAR ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    ;
-
 th0_quantifier : CARET {$<pval>$ = P_BUILD("th0_quantifier", P_TOKEN("CARET ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | AT_SIGN_PLUS {$<pval>$ = P_BUILD("th0_quantifier", P_TOKEN("AT_SIGN_PLUS ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | AT_SIGN_MINUS {$<pval>$ = P_BUILD("th0_quantifier", P_TOKEN("AT_SIGN_MINUS ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    ;
+
+type_quantifier : EXCLAMATION_GREATER {$<pval>$ = P_BUILD("type_quantifier", P_TOKEN("EXCLAMATION_GREATER ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | QUESTION_STAR {$<pval>$ = P_BUILD("type_quantifier", P_TOKEN("QUESTION_STAR ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 subtype_sign : LESS_LESS {$<pval>$ = P_BUILD("subtype_sign", P_TOKEN("LESS_LESS ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -1105,6 +1106,7 @@ name : atomic_word {$<pval>$ = P_BUILD("name", $<pval>1,NULL,NULL,NULL,NULL,NULL
 
 atomic_word : lower_word {$<pval>$ = P_BUILD("atomic_word", P_TOKEN("lower_word ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | single_quoted {$<pval>$ = P_BUILD("atomic_word", P_TOKEN("single_quoted ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | back_quoted {$<pval>$ = P_BUILD("atomic_word", P_TOKEN("back_quoted ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 atomic_defined_word : dollar_word {$<pval>$ = P_BUILD("atomic_defined_word", P_TOKEN("dollar_word ", $<ival>1),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}

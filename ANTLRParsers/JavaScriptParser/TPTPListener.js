@@ -1463,21 +1463,21 @@ export default class TPTPListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by TPTPParser#th1_quantifier.
-	enterTh1_quantifier(ctx) {
-	}
-
-	// Exit a parse tree produced by TPTPParser#th1_quantifier.
-	exitTh1_quantifier(ctx) {
-	}
-
-
 	// Enter a parse tree produced by TPTPParser#th0_quantifier.
 	enterTh0_quantifier(ctx) {
 	}
 
 	// Exit a parse tree produced by TPTPParser#th0_quantifier.
 	exitTh0_quantifier(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TPTPParser#type_quantifier.
+	enterType_quantifier(ctx) {
+	}
+
+	// Exit a parse tree produced by TPTPParser#type_quantifier.
+	exitType_quantifier(ctx) {
 	}
 
 
