@@ -2,7 +2,7 @@
 TPTP_HOME ?= /home/tptp
 HERE = $(shell pwd)
 
-.PHONY: all install html lexyacc_parser idv_bundle itv_bundle antlr_grammar javascript_parser clean
+.PHONY: all install html lexyacc_parser idv_bundle itv_bundle ikv_bundle_and_runtime antlr_grammar javascript_parser clean
 
 ifneq ($(TARGET),"install_html")
     ifndef BNF
@@ -13,7 +13,7 @@ ifneq ($(TARGET),"install_html")
     endif
 endif 
 
-all: html lexyacc_parser javascript_parser idv_bundle itv_bundle
+all: html lexyacc_parser javascript_parser idv_bundle itv_bundle ikv_bundle_and_runtime
 
 install: install_html
 
@@ -34,14 +34,6 @@ lexyacc_parser: $(FULLBNF)
 	make -C LexYaccParser BNF=$(FULLBNF)
 	@echo "---- Made LexYacc parsers"
 
-#----Required to make IDVbundle and ITVbundle
-pre_bundle: javascript_parser
-	@echo "---- Copy   TPTP*.js to static/js"
-	cp ANTLRParsers/JavaScriptParser/TPTP*.js $(TPTP_HOME)/ServiceTools/IDVDir/BuildBundles/js
-	@echo "---- Copied TPTP*.js to static/js"
-	sed -i -e "s/import antlr4 from 'antlr4';/import antlr4 from '.\/antlr4.js';/" $(TPTP_HOME)/ServiceTools/IDVDir/BuildBundles/js/TPTP*.js
-	@echo "---- Hacked path in static/js/TPTP*.js"
-
 idv_bundle: pre_bundle
 	@echo "---- Make IDVBundle.js"
 	cd $(TPTP_HOME)/ServiceTools/IDVDir/BuildBundles/js && $(TPTP_HOME)/ServiceTools/IDVDir/BuildBundles/esbuild helpersIDV.js --bundle --outfile=IDVbundle.js
@@ -51,6 +43,19 @@ itv_bundle: pre_bundle
 	@echo "---- Make ITVbundle.js"
 	cd $(TPTP_HOME)/ServiceTools/IDVDir/BuildBundles/js && $(TPTP_HOME)/ServiceTools/IDVDir/BuildBundles/esbuild helpersITV.js --bundle --outfile=ITVbundle.js
 	@echo "---- Made ITVbundle.js"
+
+#----Required to make IDVbundle and ITVbundle
+pre_bundle: javascript_parser
+	@echo "---- Copy   TPTP*.js to static/js"
+	cp ANTLRParsers/JavaScriptParser/TPTP*.js $(TPTP_HOME)/ServiceTools/IDVDir/BuildBundles/js
+	@echo "---- Copied TPTP*.js to static/js"
+	sed -i -e "s/import antlr4 from 'antlr4';/import antlr4 from '.\/antlr4.js';/" $(TPTP_HOME)/ServiceTools/IDVDir/BuildBundles/js/TPTP*.js
+	@echo "---- Hacked path in static/js/TPTP*.js"
+
+ikv_bundle_and_runtime: python_parser
+	@echo "---- Make IKVbundle.js"
+	cd $(TPTP_HOME)/ServiceTools/IIVDir/IKV/BuildBundle/js && $(TPTP_HOME)/ServiceTools/IDVDir/BuildBundles/esbuild helpersIKV.js --bundle --outfile=IKVbundle.js --format=iife --global-name=Bundle
+	@echo "---- Made IKVbundle.js"
 
 javascript_parser: antlr_grammar
 	@echo "---- Make JavaScript parser"

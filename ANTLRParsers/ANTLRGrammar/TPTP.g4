@@ -64,7 +64,16 @@ Viewable_char : '.\n';
 //# END THE LEXER RULES
 
 
-//%----v9.2.0.0 (TPTP version.internal development number) 
+//%----v9.2.1.0 (TPTP version.internal development number) 
+//%----v9.2.1.1 Fixed typo in <ntf_domain_type_list> 
+//%----v9.2.1.2 Redefined <ntf_connective_name>  ::= <ntf_defined_connective> | <atomic_system_word> 
+//%----                   <ntf_defined_connective> ::= <atomic_defined_word> 
+//%----                   <ntf_connective_name>  :== $box | $dia | {$necessary} | {$possible} | 
+//%----                                              {$obligatory} | {$permissible} | {$knows} | 
+//%----                                              {$canKnow} | {$believes} | {$canBelieve} 
+//%----v9.2.1.3 Removed old fi_domain, fi_functors, fi_predicates 
+//%----v9.2.1.4 Removed <thf_fof_function>, so all THF terms must be applied. That also removed 
+//%----         <thf_arguments>  
 //%-------------------------------------------------------------------------------------------------- 
 //%----README ... this header provides important meta- and usage information 
 //%---- 
@@ -112,7 +121,7 @@ annotations : ','source optional_info  |  nothing;
 //%----   <formula_role> ::= <user_role>-<source> 
 //%----... is now gone. Parsers may choose to be tolerant of it for backwards compatibility. 
 formula_role : Lower_word  |  Lower_word'-'general_term;
-//<formula_role>         :== axiom | hypothesis | definition | assumption | lemma | theorem | corollary | conjecture | negated_conjecture | plain | type | interpretation | fi_domain | fi_functors | fi_predicates | unknown 
+//<formula_role>         :== axiom | hypothesis | definition | assumption | lemma | theorem | corollary | conjecture | negated_conjecture | plain | type | interpretation | unknown 
 //%----"axiom"s are accepted, without proof. There is no guarantee that the axioms of a problem are 
 //%----consistent. "hypothesis"s are assumed to be true for a particular problem, and are used like 
 //%----"axiom"s. "definition"s are intended to define symbols. They are either universally quantified 
@@ -155,7 +164,7 @@ thf_typed_variable : variable ':' thf_top_level_type;
 thf_unary_formula : thf_prefix_unary  |  thf_infix_unary;
 thf_prefix_unary : thf_unary_connective thf_preunit_formula;
 thf_infix_unary : thf_unitary_term infix_inequality thf_unitary_term;
-thf_atomic_formula : thf_plain_atomic  |  thf_defined_atomic  |  thf_system_atomic  |  thf_fof_function;
+thf_atomic_formula : thf_plain_atomic  |  thf_defined_atomic  |  thf_system_atomic;
 thf_plain_atomic : constant  |  thf_tuple;
 //%----<thf_plain_atomic> includes <thf_tuple> because tuples can be formulae in logic definitions 
 thf_defined_atomic : defined_constant  |  thf_defined_term  |  '('thf_conn_term')'  |  nhf_long_connective  |  thf_let;
@@ -183,10 +192,6 @@ thf_conn_term : nonassoc_connective  |  assoc_connective  |  infix_equality  |  
 //%----Note that syntactically this allows (p @ =), but for = the first argument must be known to 
 //%----infer the type of =, so that's not allowed, i.e., only (= @ p). 
 thf_tuple : '[]'  |  '['thf_formula_list']';
-//%----Allows first-order style in THF. 
-thf_fof_function : functor'('thf_arguments')'  |  defined_functor'('thf_arguments')'  |  system_functor'('thf_arguments')';
-//%----Arguments recurse back up to formulae (this is the THF world here) 
-thf_arguments : thf_formula_list;
 thf_formula_list : thf_logic_formula comma_thf_logic_formula*;
 comma_thf_logic_formula : ','thf_logic_formula;
 //%----<thf_top_level_type> appears after ":", where a type is being specified 
@@ -303,7 +308,9 @@ nxf_long_connective : '{'ntf_connective_name'}'  |  '{'ntf_connective_name'('nxf
 nxf_parameter_list : nxf_parameter  |  nxf_parameter','nxf_parameter_list;
 nxf_parameter : ntf_index  |  nxf_key_pair;
 nxf_key_pair : txf_definition;
-ntf_connective_name : def_or_sys_constant;
+ntf_connective_name : ntf_defined_connective  |  atomic_system_word;
+ntf_defined_connective : atomic_defined_word;
+//<ntf_connective_name>  :== $box | $dia | {$necessary} | {$possible} | {$obligatory} | {$permissible} | {$knows} | {$canKnow} | {$believes} | {$canBelieve} 
 ntf_index : Hash tff_unitary_term;
 ntf_short_connective : '[.]'  |  Less_sign'.'Arrow  |  '{.}'  |  '(.)';
 //%----Short connectives are unary operators, cannot be indexed 
@@ -318,7 +325,7 @@ ntf_short_connective : '[.]'  |  Less_sign'.'Arrow  |  '{.}'  |  '(.)';
 //<ntf_domains_spec>     :== $domains <identical> <ntf_domains_value> 
 //<ntf_domains_value>    :== <ntf_domain_type> | [<ntf_domain_type_list>] 
 //<ntf_domain_type>      :== $constant | $varying | $cumulative | $decreasing | <tff_atomic_type> <identical> <ntf_domains_value> 
-//<ntf_domains_type_list> :== <ntf_domain_type> | <ntf_domain_type>,<ntf_domain_type_list> 
+//<ntf_domain_type_list> :== <ntf_domain_type> | <ntf_domain_type>,<ntf_domain_type_list> 
 //<ntf_designation_spec> :== $designation <identical> <ntf_designation_value> 
 //<ntf_designation_value>    :== <ntf_designation_type> | [<ntf_designation_type_list>] 
 //<ntf_designation_type> :== $rigid | $flexible | <tff_atomic_type> <identical> <ntf_designation_value> 
@@ -447,7 +454,7 @@ untyped_atom : constant  |  system_constant;
 //<defined_proposition>  :== <defined_predicate> 
 //<defined_proposition>  :== $true | $false 
 //<defined_predicate>    :== <atomic_defined_word> 
-//<defined_predicate>    :== $distinct | $less | $lesseq | $greater | $greatereq | $is_int | $is_rat | $box | $dia 
+//<defined_predicate>    :== $distinct | $less | $lesseq | $greater | $greatereq | $is_int | $is_rat 
 //%----$distinct is part of the TFF, TXF, THF, NXF, and NHF syntax. $distinct takes one or more 
 //%----constants of the same type as arguments, and indicates that the arguments are pairwise !=. 
 //%----$distinct can be used only as a fact in an axiom-like annotated formula (e.g., not in a 
@@ -464,7 +471,6 @@ defined_functor : atomic_defined_word;
 //<defined_functor>      :== $uminus | $sum | $difference | $product | $quotient | $quotient_e | $quotient_t | $quotient_f | $remainder_e | $remainder_t | $remainder_f | $floor | $ceiling | $truncate | $round | $to_int | $to_rat | $to_real 
 system_constant : system_functor;
 system_functor : atomic_system_word;
-def_or_sys_constant : defined_constant  |  system_constant;
 th1_defined_term : '!!'  |  '??'  |  '@@+'  |  '@@-'  |  '@=';
 defined_term : number  |  Distinct_object;
 variable : Upper_word;
