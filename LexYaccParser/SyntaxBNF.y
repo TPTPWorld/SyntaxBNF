@@ -197,7 +197,6 @@ int yywrap(void) {
 %token <ival> _DLR_tff
 %token <ival> _DLR_thf
 %token <ival> _LIT_cnf
-%token <ival> _LIT_creator
 %token <ival> _LIT_file
 %token <ival> _LIT_fof
 %token <ival> _LIT_include
@@ -205,7 +204,6 @@ int yywrap(void) {
 %token <ival> _LIT_introduced
 %token <ival> _LIT_tcf
 %token <ival> _LIT_tff
-%token <ival> _LIT_theory
 %token <ival> _LIT_thf
 %token <ival> _LIT_tpi
 %token <ival> _LIT_unknown
@@ -1000,8 +998,6 @@ intro_type : atomic_word {$<pval>$ = P_BUILD("intro_type", $<pval>1,NULL,NULL,NU
                     ;
 
 external_source : file_source {$<pval>$ = P_BUILD("external_source", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | theory {$<pval>$ = P_BUILD("external_source", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | creator_source {$<pval>$ = P_BUILD("external_source", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 file_source : _LIT_file LPAREN file_name file_info RPAREN {$<pval>$ = P_BUILD("file_source", P_TOKEN("_LIT_file ", $<ival>1), P_TOKEN("LPAREN ", $<ival>2), $<pval>3, $<pval>4, P_TOKEN("RPAREN ", $<ival>5),NULL,NULL,NULL,NULL,NULL);}
@@ -1009,18 +1005,6 @@ file_source : _LIT_file LPAREN file_name file_info RPAREN {$<pval>$ = P_BUILD("f
 
 file_info : COMMA name {$<pval>$ = P_BUILD("file_info", P_TOKEN("COMMA ", $<ival>1), $<pval>2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | nothing {$<pval>$ = P_BUILD("file_info", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    ;
-
-theory : _LIT_theory LPAREN theory_name optional_info RPAREN {$<pval>$ = P_BUILD("theory", P_TOKEN("_LIT_theory ", $<ival>1), P_TOKEN("LPAREN ", $<ival>2), $<pval>3, $<pval>4, P_TOKEN("RPAREN ", $<ival>5),NULL,NULL,NULL,NULL,NULL);}
-                    ;
-
-theory_name : atomic_word {$<pval>$ = P_BUILD("theory_name", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    ;
-
-creator_source : _LIT_creator LPAREN creator_name COMMA useful_info COMMA parents RPAREN {$<pval>$ = P_BUILD("creator_source", P_TOKEN("_LIT_creator ", $<ival>1), P_TOKEN("LPAREN ", $<ival>2), $<pval>3, P_TOKEN("COMMA ", $<ival>4), $<pval>5, P_TOKEN("COMMA ", $<ival>6), $<pval>7, P_TOKEN("RPAREN ", $<ival>8),NULL,NULL);}
-                    ;
-
-creator_name : atomic_word {$<pval>$ = P_BUILD("creator_name", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 parents : LBRKT RBRKT {$<pval>$ = P_BUILD("parents", P_TOKEN("LBRKT ", $<ival>1), P_TOKEN("RBRKT ", $<ival>2),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}

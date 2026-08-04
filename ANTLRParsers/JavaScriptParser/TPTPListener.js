@@ -1814,42 +1814,6 @@ export default class TPTPListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by TPTPParser#theory.
-	enterTheory(ctx) {
-	}
-
-	// Exit a parse tree produced by TPTPParser#theory.
-	exitTheory(ctx) {
-	}
-
-
-	// Enter a parse tree produced by TPTPParser#theory_name.
-	enterTheory_name(ctx) {
-	}
-
-	// Exit a parse tree produced by TPTPParser#theory_name.
-	exitTheory_name(ctx) {
-	}
-
-
-	// Enter a parse tree produced by TPTPParser#creator_source.
-	enterCreator_source(ctx) {
-	}
-
-	// Exit a parse tree produced by TPTPParser#creator_source.
-	exitCreator_source(ctx) {
-	}
-
-
-	// Enter a parse tree produced by TPTPParser#creator_name.
-	enterCreator_name(ctx) {
-	}
-
-	// Exit a parse tree produced by TPTPParser#creator_name.
-	exitCreator_name(ctx) {
-	}
-
-
 	// Enter a parse tree produced by TPTPParser#parents.
 	enterParents(ctx) {
 	}

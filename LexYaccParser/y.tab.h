@@ -100,35 +100,33 @@ extern int yydebug;
     _DLR_tff = 301,                /* _DLR_tff  */
     _DLR_thf = 302,                /* _DLR_thf  */
     _LIT_cnf = 303,                /* _LIT_cnf  */
-    _LIT_creator = 304,            /* _LIT_creator  */
-    _LIT_file = 305,               /* _LIT_file  */
-    _LIT_fof = 306,                /* _LIT_fof  */
-    _LIT_include = 307,            /* _LIT_include  */
-    _LIT_inference = 308,          /* _LIT_inference  */
-    _LIT_introduced = 309,         /* _LIT_introduced  */
-    _LIT_tcf = 310,                /* _LIT_tcf  */
-    _LIT_tff = 311,                /* _LIT_tff  */
-    _LIT_theory = 312,             /* _LIT_theory  */
-    _LIT_thf = 313,                /* _LIT_thf  */
-    _LIT_tpi = 314,                /* _LIT_tpi  */
-    _LIT_unknown = 315,            /* _LIT_unknown  */
-    arrow = 316,                   /* arrow  */
-    back_quoted = 317,             /* back_quoted  */
-    distinct_object = 318,         /* distinct_object  */
-    dollar_dollar_word = 319,      /* dollar_dollar_word  */
-    dollar_word = 320,             /* dollar_word  */
-    hash = 321,                    /* hash  */
-    integer = 322,                 /* integer  */
-    less_sign = 323,               /* less_sign  */
-    lower_word = 324,              /* lower_word  */
-    plus = 325,                    /* plus  */
-    rational = 326,                /* rational  */
-    real = 327,                    /* real  */
-    single_quoted = 328,           /* single_quoted  */
-    slash = 329,                   /* slash  */
-    slosh = 330,                   /* slosh  */
-    unrecognized = 331,            /* unrecognized  */
-    upper_word = 332               /* upper_word  */
+    _LIT_file = 304,               /* _LIT_file  */
+    _LIT_fof = 305,                /* _LIT_fof  */
+    _LIT_include = 306,            /* _LIT_include  */
+    _LIT_inference = 307,          /* _LIT_inference  */
+    _LIT_introduced = 308,         /* _LIT_introduced  */
+    _LIT_tcf = 309,                /* _LIT_tcf  */
+    _LIT_tff = 310,                /* _LIT_tff  */
+    _LIT_thf = 311,                /* _LIT_thf  */
+    _LIT_tpi = 312,                /* _LIT_tpi  */
+    _LIT_unknown = 313,            /* _LIT_unknown  */
+    arrow = 314,                   /* arrow  */
+    back_quoted = 315,             /* back_quoted  */
+    distinct_object = 316,         /* distinct_object  */
+    dollar_dollar_word = 317,      /* dollar_dollar_word  */
+    dollar_word = 318,             /* dollar_word  */
+    hash = 319,                    /* hash  */
+    integer = 320,                 /* integer  */
+    less_sign = 321,               /* less_sign  */
+    lower_word = 322,              /* lower_word  */
+    plus = 323,                    /* plus  */
+    rational = 324,                /* rational  */
+    real = 325,                    /* real  */
+    single_quoted = 326,           /* single_quoted  */
+    slash = 327,                   /* slash  */
+    slosh = 328,                   /* slosh  */
+    unrecognized = 329,            /* unrecognized  */
+    upper_word = 330               /* upper_word  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -183,35 +181,33 @@ extern int yydebug;
 #define _DLR_tff 301
 #define _DLR_thf 302
 #define _LIT_cnf 303
-#define _LIT_creator 304
-#define _LIT_file 305
-#define _LIT_fof 306
-#define _LIT_include 307
-#define _LIT_inference 308
-#define _LIT_introduced 309
-#define _LIT_tcf 310
-#define _LIT_tff 311
-#define _LIT_theory 312
-#define _LIT_thf 313
-#define _LIT_tpi 314
-#define _LIT_unknown 315
-#define arrow 316
-#define back_quoted 317
-#define distinct_object 318
-#define dollar_dollar_word 319
-#define dollar_word 320
-#define hash 321
-#define integer 322
-#define less_sign 323
-#define lower_word 324
-#define plus 325
-#define rational 326
-#define real 327
-#define single_quoted 328
-#define slash 329
-#define slosh 330
-#define unrecognized 331
-#define upper_word 332
+#define _LIT_file 304
+#define _LIT_fof 305
+#define _LIT_include 306
+#define _LIT_inference 307
+#define _LIT_introduced 308
+#define _LIT_tcf 309
+#define _LIT_tff 310
+#define _LIT_thf 311
+#define _LIT_tpi 312
+#define _LIT_unknown 313
+#define arrow 314
+#define back_quoted 315
+#define distinct_object 316
+#define dollar_dollar_word 317
+#define dollar_word 318
+#define hash 319
+#define integer 320
+#define less_sign 321
+#define lower_word 322
+#define plus 323
+#define rational 324
+#define real 325
+#define single_quoted 326
+#define slash 327
+#define slosh 328
+#define unrecognized 329
+#define upper_word 330
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -220,7 +216,7 @@ union YYSTYPE
 #line 152 "SyntaxBNF.y"
 int ival; double dval; char* sval; void* pval;
 
-#line 224 "y.tab.h"
+#line 220 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

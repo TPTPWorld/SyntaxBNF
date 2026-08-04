@@ -343,11 +343,6 @@ viewable_char         [.\n]
     yylval.ival = tptp_update_lval(yytext);
     return(_LIT_cnf);
 }
-"creator" {
-    tptp_prev_tok=_LIT_creator;
-    yylval.ival = tptp_update_lval(yytext);
-    return(_LIT_creator);
-}
 "file" {
     tptp_prev_tok=_LIT_file;
     yylval.ival = tptp_update_lval(yytext);
@@ -385,11 +380,6 @@ viewable_char         [.\n]
     tptp_prev_tok=_LIT_tff;
     yylval.ival = tptp_update_lval(yytext);
     return(_LIT_tff);
-}
-"theory" {
-    tptp_prev_tok=_LIT_theory;
-    yylval.ival = tptp_update_lval(yytext);
-    return(_LIT_theory);
 }
 <INITIAL>"thf" {
     BEGIN B;

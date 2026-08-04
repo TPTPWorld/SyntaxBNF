@@ -72,6 +72,8 @@ Viewable_char : '.\n';
 //%                  <atomic_type>          ::= <typeable_atom> | <defined_constant> | <system_type> 
 //%          - Fixed <thf_subtype>          ::= <atomic_type> <subtype_sign> <atomic_type> 
 //%                  <tff_subtype>          ::= <atomic_type> <subtype_sign> <atomic_type> 
+//% v9.3.0.3 - Removed <theory>, which is now part of <internal_source> 
+//%          - Removed <creator_source>, because I can't recal what it was for 
 //%-------------------------------------------------------------------------------------------------- 
 //%----README ... this header provides important meta- and usage information 
 //%---- 
@@ -494,20 +496,10 @@ inference_rule : atomic_word;
 //%----                      paramodulation | factorization | cnf_conversion | cnf_refutation | ... 
 internal_source : 'introduced('intro_type','useful_info','parents')';
 intro_type : atomic_word;
-//<intro_type>           :== definition | tautology | assumption 
-//%----This should be used to record the symbol being defined, or the function 
-//%----for the axiom of choice 
-external_source : file_source  |  theory  |  creator_source;
+//<intro_type>           :== definition | tautology | assumption | theory 
+external_source : file_source;
 file_source : 'file('file_name file_info')';
 file_info : ','name  |  nothing;
-theory : 'theory('theory_name optional_info')';
-theory_name : atomic_word;
-//<theory_name>          :== equality | ac 
-//%----More theory names may be added in the future. The <optional_info> is 
-//%----used to store, e.g., which axioms of equality have been implicitly used, 
-//%----e.g., theory(equality,[rst]). Standard format still to be decided. 
-creator_source : 'creator('creator_name','useful_info','parents')';
-creator_name : atomic_word;
 //%----<parents> can be empty in cases when there is a justification for a tautologous theorem. In 
 //%----cases when a tautology is introduced as a leaf, e.g., for splitting, then use an 
 //%----<internal_source>. 

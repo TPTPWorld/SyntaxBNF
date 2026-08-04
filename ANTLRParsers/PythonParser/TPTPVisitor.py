@@ -1014,26 +1014,6 @@ class TPTPVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by TPTPParser#theory.
-    def visitTheory(self, ctx:TPTPParser.TheoryContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by TPTPParser#theory_name.
-    def visitTheory_name(self, ctx:TPTPParser.Theory_nameContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by TPTPParser#creator_source.
-    def visitCreator_source(self, ctx:TPTPParser.Creator_sourceContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by TPTPParser#creator_name.
-    def visitCreator_name(self, ctx:TPTPParser.Creator_nameContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by TPTPParser#parents.
     def visitParents(self, ctx:TPTPParser.ParentsContext):
         return self.visitChildren(ctx)

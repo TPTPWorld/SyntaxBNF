@@ -1817,42 +1817,6 @@ class TPTPListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by TPTPParser#theory.
-    def enterTheory(self, ctx:TPTPParser.TheoryContext):
-        pass
-
-    # Exit a parse tree produced by TPTPParser#theory.
-    def exitTheory(self, ctx:TPTPParser.TheoryContext):
-        pass
-
-
-    # Enter a parse tree produced by TPTPParser#theory_name.
-    def enterTheory_name(self, ctx:TPTPParser.Theory_nameContext):
-        pass
-
-    # Exit a parse tree produced by TPTPParser#theory_name.
-    def exitTheory_name(self, ctx:TPTPParser.Theory_nameContext):
-        pass
-
-
-    # Enter a parse tree produced by TPTPParser#creator_source.
-    def enterCreator_source(self, ctx:TPTPParser.Creator_sourceContext):
-        pass
-
-    # Exit a parse tree produced by TPTPParser#creator_source.
-    def exitCreator_source(self, ctx:TPTPParser.Creator_sourceContext):
-        pass
-
-
-    # Enter a parse tree produced by TPTPParser#creator_name.
-    def enterCreator_name(self, ctx:TPTPParser.Creator_nameContext):
-        pass
-
-    # Exit a parse tree produced by TPTPParser#creator_name.
-    def exitCreator_name(self, ctx:TPTPParser.Creator_nameContext):
-        pass
-
-
     # Enter a parse tree produced by TPTPParser#parents.
     def enterParents(self, ctx:TPTPParser.ParentsContext):
         pass
