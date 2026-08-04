@@ -874,6 +874,16 @@ class TPTPVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by TPTPParser#typeable_atom.
+    def visitTypeable_atom(self, ctx:TPTPParser.Typeable_atomContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TPTPParser#atomic_type.
+    def visitAtomic_type(self, ctx:TPTPParser.Atomic_typeContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by TPTPParser#type_constant.
     def visitType_constant(self, ctx:TPTPParser.Type_constantContext):
         return self.visitChildren(ctx)
@@ -889,13 +899,8 @@ class TPTPVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by TPTPParser#atom.
-    def visitAtom(self, ctx:TPTPParser.AtomContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by TPTPParser#untyped_atom.
-    def visitUntyped_atom(self, ctx:TPTPParser.Untyped_atomContext):
+    # Visit a parse tree produced by TPTPParser#system_type.
+    def visitSystem_type(self, ctx:TPTPParser.System_typeContext):
         return self.visitChildren(ctx)
 
 

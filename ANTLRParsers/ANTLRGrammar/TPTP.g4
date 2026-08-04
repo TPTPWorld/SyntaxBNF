@@ -64,16 +64,14 @@ Viewable_char : '.\n';
 //# END THE LEXER RULES
 
 
-//%----v9.2.1.0 (TPTP version.internal development number) 
-//%----v9.2.1.1 Fixed typo in <ntf_domain_type_list> 
-//%----v9.2.1.2 Redefined <ntf_connective_name>  ::= <ntf_defined_connective> | <atomic_system_word> 
-//%----                   <ntf_defined_connective> ::= <atomic_defined_word> 
-//%----                   <ntf_connective_name>  :== $box | $dia | {$necessary} | {$possible} | 
-//%----                                              {$obligatory} | {$permissible} | {$knows} | 
-//%----                                              {$canKnow} | {$believes} | {$canBelieve} 
-//%----v9.2.1.3 Removed old fi_domain, fi_functors, fi_predicates 
-//%----v9.2.1.4 Removed <thf_fof_function>, so all THF terms must be applied. That also removed 
-//%----         <thf_arguments>  
+//%-------------------------------------------------------------------------------------------------- 
+//% v9.3.0.1 - Removed fi_ roles, added datatype, codatatype, datatype_constructor, and 
+//%            codatatype_constructor. 
+//% v9.3.0.2 - Renamed <untyped_atom> to <typeable_atom> 
+//%          - Added <typeable_atom>        ::= <constant> | <Distinct_object> 
+//%                  <atomic_type>          ::= <typeable_atom> | <defined_constant> | <system_type> 
+//%          - Fixed <thf_subtype>          ::= <atomic_type> <subtype_sign> <atomic_type> 
+//%                  <tff_subtype>          ::= <atomic_type> <subtype_sign> <atomic_type> 
 //%-------------------------------------------------------------------------------------------------- 
 //%----README ... this header provides important meta- and usage information 
 //%---- 
@@ -134,10 +132,10 @@ formula_role : Lower_word  |  Lower_word'-'general_term;
 //%----"axiom"(-like) formulae. A problem is solved only when all "conjecture"s are proven. 
 //%----"negated_conjecture"s are formed from negation of a "conjecture" (usually in a FOF to CNF 
 //%----conversion). "plain"s have no specified user semantics. "interpretation"s record all aspects 
-//%----of an interpretation. "fi_domain", "fi_functors", and "fi_predicates" are the old way of 
-//%----recording the domain, interpretation of functors, and interpretation of predicates, for a 
-//%----finite interpretation. "type" defines the type globally for one symbol; treat as $true. 
-//%----"unknown"s have unknown role, and this is an error situation. 
+//%----of an interpretation. "type"s defines the type globally for one symbol. unknown"s have unknown 
+//%----role, and this is an error situation. The <general_term> subroles are used in various ways, 
+//%----including but not limited to: "domains" and "mappings" for "interpretation"s; "datatype",  
+//%----"codatatype", "datatype_constructor", and "codatatype_constructor" for "type"s. 
 //%-------------------------------------------------------------------------------------------------- 
 //%----THF formulae. 
 thf_formula : thf_logic_formula  |  thf_atom_typing  |  thf_subtype;
@@ -199,7 +197,7 @@ comma_thf_logic_formula : ','thf_logic_formula;
 //%----so the syntax is very loose, but trying to be more specific about 
 //%----<thf_unitary_type>s (ala the semantic rule) leads to reduce/reduce 
 //%----conflicts. 
-thf_atom_typing : untyped_atom ':' thf_top_level_type  |  '('thf_atom_typing')';
+thf_atom_typing : typeable_atom ':' thf_top_level_type  |  '('thf_atom_typing')';
 thf_top_level_type : thf_unitary_type  |  thf_mapping_type  |  thf_apply_type;
 //%----Removed along with adding <thf_binary_type> to <thf_binary_formula>, for 
 //%----TH1 polymorphic types with binary after quantification. 
@@ -218,7 +216,8 @@ thf_xprod_type : thf_unitary_type Star thf_unitary_type  |  thf_xprod_type Star 
 //%----Union is left-associative: o + o + o means (o + o) + o. 
 thf_union_type : thf_unitary_type Plus thf_unitary_type  |  thf_union_type Plus thf_unitary_type;
 //%----Tuple types, e.g., [a,b,c], are allowed (by the loose syntax) as tuples. 
-thf_subtype : untyped_atom subtype_sign atom;
+//%----Subtypes are not approved by the whiny community 
+thf_subtype : atomic_type subtype_sign atomic_type;
 //%----These are also used for NHF logic definitions 
 thf_definition : thf_atomic_formula identical thf_logic_formula;
 thf_sequent : thf_tuple gentzen_arrow thf_tuple;
@@ -280,7 +279,7 @@ txf_tuple : '[]'  |  '['tff_arguments']';
 tff_arguments : tff_term comma_tff_term*;
 comma_tff_term : ','tff_term;
 //%----<tff_atom_typing> can appear only at top level. 
-tff_atom_typing : untyped_atom ':' tff_top_level_type  |  '('tff_atom_typing')';
+tff_atom_typing : typeable_atom ':' tff_top_level_type  |  '('tff_atom_typing')';
 tff_top_level_type : tff_atomic_type  |  tff_non_atomic_type;
 tff_non_atomic_type : tff_mapping_type  |  tf1_quantified_type  |  '('tff_non_atomic_type')';
 tf1_quantified_type : type_quantifier '['tff_variable_list']' ':' tff_monotype;
@@ -293,7 +292,8 @@ tff_xprod_type : tff_unitary_type Star tff_atomic_type  |  tff_xprod_type Star t
 //%----For TXF only 
 txf_tuple_type : '['tff_type_list']';
 tff_type_list : tff_top_level_type  |  tff_top_level_type','tff_type_list;
-tff_subtype : untyped_atom subtype_sign atom;
+//%----Subtypes are not approved by the whiny community 
+tff_subtype : atomic_type subtype_sign atomic_type;
 //%----These are also used for NXF logic definitions 
 txf_definition : tff_atomic_formula identical tff_term;
 txf_sequent : txf_tuple gentzen_arrow txf_tuple;
@@ -435,6 +435,15 @@ unary_connective : '~';
 gentzen_arrow : '-->';
 assignment : ':=';
 identical : '==';
+//%----Types for all language types 
+typeable_atom : constant  |  Distinct_object;
+atomic_type : typeable_atom  |  defined_constant  |  system_type;
+//%----I wish I could use ... 
+//<atomic_type>          :== <type_constant> | <defined_type> | <system_type> 
+//%----... but that gives reduce conflicts because ... 
+//%----<type_constant> expands to <atomic_word>, but happily so does <constant> 
+//%----<defined_type>  expands to <atomic_defined_word>, but happily so does <defined_constant> 
+//%----Allowing <Distinct_object> as an <atomic_type> is plain wrong. 
 //%----Types for THF and TFF 
 type_constant : type_functor;
 type_functor : atomic_word;
@@ -445,20 +454,15 @@ defined_type : atomic_defined_word;
 //%----infinite. $tType is the type of all types. $Real is the type of <Real>s. 
 //%----$rat is the type of <Rational>s. $int is the type of <Signed_integer>s 
 //%----and <Unsigned_integer>s. 
-//<system_type>          :== <atomic_system_word> 
-//%----For all language types 
-atom : untyped_atom  |  defined_constant;
-untyped_atom : constant  |  system_constant;
+system_type : atomic_system_word;
 //<proposition>          :== <predicate> 
 //<predicate>            :== <atomic_word> 
 //<defined_proposition>  :== <defined_predicate> 
 //<defined_proposition>  :== $true | $false 
 //<defined_predicate>    :== <atomic_defined_word> 
 //<defined_predicate>    :== $distinct | $less | $lesseq | $greater | $greatereq | $is_int | $is_rat 
-//%----$distinct is part of the TFF, TXF, THF, NXF, and NHF syntax. $distinct takes one or more 
+//%----$distinct is part of all the TPTP language dialects except CNF. $distinct takes one or more 
 //%----constants of the same type as arguments, and indicates that the arguments are pairwise !=. 
-//%----$distinct can be used only as a fact in an axiom-like annotated formula (e.g., not in a 
-//%----conjecture), and not under any connective. 
 defined_infix_pred : infix_equality;
 //<system_proposition>   :== <system_predicate> 
 //<system_predicate>     :== <atomic_system_word> 
@@ -517,7 +521,7 @@ optional_info : ','useful_info  |  nothing;
 useful_info : general_list;
 //<useful_info>          :== [] | [<info_items>] 
 //<info_items>           :== <info_item> <comma_info_item>* 
-//<comma_info_items>     :== ,<info_item> 
+//<comma_info_item>      :== ,<info_item> 
 //<info_item>            :== <formula_item> | <inference_item> | <general_function> 
 //%----Useful info for formula records 
 //<formula_item>         :== <description_item> | <iquote_item> 

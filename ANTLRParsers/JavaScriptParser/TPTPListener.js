@@ -1562,6 +1562,24 @@ export default class TPTPListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
+	// Enter a parse tree produced by TPTPParser#typeable_atom.
+	enterTypeable_atom(ctx) {
+	}
+
+	// Exit a parse tree produced by TPTPParser#typeable_atom.
+	exitTypeable_atom(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TPTPParser#atomic_type.
+	enterAtomic_type(ctx) {
+	}
+
+	// Exit a parse tree produced by TPTPParser#atomic_type.
+	exitAtomic_type(ctx) {
+	}
+
+
 	// Enter a parse tree produced by TPTPParser#type_constant.
 	enterType_constant(ctx) {
 	}
@@ -1589,21 +1607,12 @@ export default class TPTPListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by TPTPParser#atom.
-	enterAtom(ctx) {
+	// Enter a parse tree produced by TPTPParser#system_type.
+	enterSystem_type(ctx) {
 	}
 
-	// Exit a parse tree produced by TPTPParser#atom.
-	exitAtom(ctx) {
-	}
-
-
-	// Enter a parse tree produced by TPTPParser#untyped_atom.
-	enterUntyped_atom(ctx) {
-	}
-
-	// Exit a parse tree produced by TPTPParser#untyped_atom.
-	exitUntyped_atom(ctx) {
+	// Exit a parse tree produced by TPTPParser#system_type.
+	exitSystem_type(ctx) {
 	}
 
 
