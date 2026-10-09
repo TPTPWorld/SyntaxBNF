@@ -10,7 +10,7 @@ else:
 
 def serializedATN():
     return [
-        4,1,104,1756,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,
+        4,1,103,1756,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,
         7,6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,
         13,2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,
         20,7,20,2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,
@@ -702,8 +702,7 @@ class TPTPParser ( Parser ):
                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                      "<INVALID>", "'+'", "'>'", "'<'", "'#'", "<INVALID>", 
                      "<INVALID>", "<INVALID>", "'''", "<INVALID>", "<INVALID>", 
-                     "<INVALID>", "'\\\\'", "<INVALID>", "<INVALID>", "<INVALID>", 
-                     "<INVALID>", "<INVALID>", "'.\\n'" ]
+                     "<INVALID>", "'\\\\'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
@@ -731,7 +730,7 @@ class TPTPParser ( Parser ):
                       "Less_sign", "Hash", "Not_star_slash", "Percentage_sign", 
                       "Double_quote", "Single_quote", "Back_quote", "Dot", 
                       "Slash_char", "Slosh_char", "Zero_numeric", "Underscore", 
-                      "Alpha", "Dollar", "Printable_char", "Viewable_char" ]
+                      "Alpha", "Dollar", "Comment_char" ]
 
     RULE_tptp_file = 0
     RULE_tptp_input = 1
@@ -748,8 +747,8 @@ class TPTPParser ( Parser ):
     RULE_thf_formula = 12
     RULE_thf_logic_formula = 13
     RULE_thf_binary_formula = 14
-    RULE_thf_binary_nonassoc = 15
-    RULE_thf_binary_assoc = 16
+    RULE_thf_binary_pair = 15
+    RULE_thf_binary_list = 16
     RULE_thf_or_formula = 17
     RULE_thf_and_formula = 18
     RULE_thf_apply_formula = 19
@@ -796,8 +795,8 @@ class TPTPParser ( Parser ):
     RULE_tff_formula = 60
     RULE_tff_logic_formula = 61
     RULE_tff_binary_formula = 62
-    RULE_tff_binary_nonassoc = 63
-    RULE_tff_binary_assoc = 64
+    RULE_tff_binary_pair = 63
+    RULE_tff_binary_list = 64
     RULE_tff_or_formula = 65
     RULE_tff_and_formula = 66
     RULE_tff_unit_formula = 67
@@ -863,8 +862,8 @@ class TPTPParser ( Parser ):
     RULE_fof_formula = 127
     RULE_fof_logic_formula = 128
     RULE_fof_binary_formula = 129
-    RULE_fof_binary_nonassoc = 130
-    RULE_fof_binary_assoc = 131
+    RULE_fof_binary_pair = 130
+    RULE_fof_binary_list = 131
     RULE_fof_or_formula = 132
     RULE_fof_and_formula = 133
     RULE_fof_unary_formula = 134
@@ -967,7 +966,7 @@ class TPTPParser ( Parser ):
                    "tpi_formula", "thf_annotated", "tff_annotated", "tcf_annotated", 
                    "fof_annotated", "cnf_annotated", "annotations", "formula_role", 
                    "thf_formula", "thf_logic_formula", "thf_binary_formula", 
-                   "thf_binary_nonassoc", "thf_binary_assoc", "thf_or_formula", 
+                   "thf_binary_pair", "thf_binary_list", "thf_or_formula", 
                    "thf_and_formula", "thf_apply_formula", "thf_unit_formula", 
                    "thf_preunit_formula", "thf_unitary_formula", "thf_quantified_formula", 
                    "thf_quantification", "thf_variable_list", "thf_typed_variable", 
@@ -982,7 +981,7 @@ class TPTPParser ( Parser ):
                    "thf_binary_type", "thf_mapping_type", "thf_xprod_type", 
                    "thf_union_type", "thf_subtype", "thf_definition", "thf_sequent", 
                    "tff_formula", "tff_logic_formula", "tff_binary_formula", 
-                   "tff_binary_nonassoc", "tff_binary_assoc", "tff_or_formula", 
+                   "tff_binary_pair", "tff_binary_list", "tff_or_formula", 
                    "tff_and_formula", "tff_unit_formula", "tff_preunit_formula", 
                    "tff_unitary_formula", "txf_unitary_formula", "tff_quantified_formula", 
                    "tff_variable_list", "tff_variable", "tff_typed_variable", 
@@ -1003,7 +1002,7 @@ class TPTPParser ( Parser ):
                    "ntf_defined_connective", "ntf_index", "ntf_short_connective", 
                    "tcf_formula", "tcf_logic_formula", "tcf_quantified_formula", 
                    "fof_formula", "fof_logic_formula", "fof_binary_formula", 
-                   "fof_binary_nonassoc", "fof_binary_assoc", "fof_or_formula", 
+                   "fof_binary_pair", "fof_binary_list", "fof_or_formula", 
                    "fof_and_formula", "fof_unary_formula", "fof_infix_unary", 
                    "fof_unit_formula", "fof_unitary_formula", "fof_quantified_formula", 
                    "fof_variable_list", "fof_atomic_formula", "fof_plain_atomic_formula", 
@@ -1137,8 +1136,7 @@ class TPTPParser ( Parser ):
     Underscore=100
     Alpha=101
     Dollar=102
-    Printable_char=103
-    Viewable_char=104
+    Comment_char=103
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -2200,12 +2198,12 @@ class TPTPParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def thf_binary_nonassoc(self):
-            return self.getTypedRuleContext(TPTPParser.Thf_binary_nonassocContext,0)
+        def thf_binary_pair(self):
+            return self.getTypedRuleContext(TPTPParser.Thf_binary_pairContext,0)
 
 
-        def thf_binary_assoc(self):
-            return self.getTypedRuleContext(TPTPParser.Thf_binary_assocContext,0)
+        def thf_binary_list(self):
+            return self.getTypedRuleContext(TPTPParser.Thf_binary_listContext,0)
 
 
         def thf_binary_type(self):
@@ -2243,13 +2241,13 @@ class TPTPParser ( Parser ):
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 560
-                self.thf_binary_nonassoc()
+                self.thf_binary_pair()
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 561
-                self.thf_binary_assoc()
+                self.thf_binary_list()
                 pass
 
             elif la_ == 3:
@@ -2268,7 +2266,7 @@ class TPTPParser ( Parser ):
         return localctx
 
 
-    class Thf_binary_nonassocContext(ParserRuleContext):
+    class Thf_binary_pairContext(ParserRuleContext):
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -2287,29 +2285,29 @@ class TPTPParser ( Parser ):
 
 
         def getRuleIndex(self):
-            return TPTPParser.RULE_thf_binary_nonassoc
+            return TPTPParser.RULE_thf_binary_pair
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterThf_binary_nonassoc" ):
-                listener.enterThf_binary_nonassoc(self)
+            if hasattr( listener, "enterThf_binary_pair" ):
+                listener.enterThf_binary_pair(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitThf_binary_nonassoc" ):
-                listener.exitThf_binary_nonassoc(self)
+            if hasattr( listener, "exitThf_binary_pair" ):
+                listener.exitThf_binary_pair(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitThf_binary_nonassoc" ):
-                return visitor.visitThf_binary_nonassoc(self)
+            if hasattr( visitor, "visitThf_binary_pair" ):
+                return visitor.visitThf_binary_pair(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
 
-    def thf_binary_nonassoc(self):
+    def thf_binary_pair(self):
 
-        localctx = TPTPParser.Thf_binary_nonassocContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 30, self.RULE_thf_binary_nonassoc)
+        localctx = TPTPParser.Thf_binary_pairContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 30, self.RULE_thf_binary_pair)
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 565
@@ -2327,7 +2325,7 @@ class TPTPParser ( Parser ):
         return localctx
 
 
-    class Thf_binary_assocContext(ParserRuleContext):
+    class Thf_binary_listContext(ParserRuleContext):
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -2347,29 +2345,29 @@ class TPTPParser ( Parser ):
 
 
         def getRuleIndex(self):
-            return TPTPParser.RULE_thf_binary_assoc
+            return TPTPParser.RULE_thf_binary_list
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterThf_binary_assoc" ):
-                listener.enterThf_binary_assoc(self)
+            if hasattr( listener, "enterThf_binary_list" ):
+                listener.enterThf_binary_list(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitThf_binary_assoc" ):
-                listener.exitThf_binary_assoc(self)
+            if hasattr( listener, "exitThf_binary_list" ):
+                listener.exitThf_binary_list(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitThf_binary_assoc" ):
-                return visitor.visitThf_binary_assoc(self)
+            if hasattr( visitor, "visitThf_binary_list" ):
+                return visitor.visitThf_binary_list(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
 
-    def thf_binary_assoc(self):
+    def thf_binary_list(self):
 
-        localctx = TPTPParser.Thf_binary_assocContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 32, self.RULE_thf_binary_assoc)
+        localctx = TPTPParser.Thf_binary_listContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 32, self.RULE_thf_binary_list)
         try:
             self.state = 572
             self._errHandler.sync(self)
@@ -5564,12 +5562,12 @@ class TPTPParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def tff_binary_nonassoc(self):
-            return self.getTypedRuleContext(TPTPParser.Tff_binary_nonassocContext,0)
+        def tff_binary_pair(self):
+            return self.getTypedRuleContext(TPTPParser.Tff_binary_pairContext,0)
 
 
-        def tff_binary_assoc(self):
-            return self.getTypedRuleContext(TPTPParser.Tff_binary_assocContext,0)
+        def tff_binary_list(self):
+            return self.getTypedRuleContext(TPTPParser.Tff_binary_listContext,0)
 
 
         def getRuleIndex(self):
@@ -5603,13 +5601,13 @@ class TPTPParser ( Parser ):
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 868
-                self.tff_binary_nonassoc()
+                self.tff_binary_pair()
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 869
-                self.tff_binary_assoc()
+                self.tff_binary_list()
                 pass
 
 
@@ -5622,7 +5620,7 @@ class TPTPParser ( Parser ):
         return localctx
 
 
-    class Tff_binary_nonassocContext(ParserRuleContext):
+    class Tff_binary_pairContext(ParserRuleContext):
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -5641,29 +5639,29 @@ class TPTPParser ( Parser ):
 
 
         def getRuleIndex(self):
-            return TPTPParser.RULE_tff_binary_nonassoc
+            return TPTPParser.RULE_tff_binary_pair
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterTff_binary_nonassoc" ):
-                listener.enterTff_binary_nonassoc(self)
+            if hasattr( listener, "enterTff_binary_pair" ):
+                listener.enterTff_binary_pair(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitTff_binary_nonassoc" ):
-                listener.exitTff_binary_nonassoc(self)
+            if hasattr( listener, "exitTff_binary_pair" ):
+                listener.exitTff_binary_pair(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitTff_binary_nonassoc" ):
-                return visitor.visitTff_binary_nonassoc(self)
+            if hasattr( visitor, "visitTff_binary_pair" ):
+                return visitor.visitTff_binary_pair(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
 
-    def tff_binary_nonassoc(self):
+    def tff_binary_pair(self):
 
-        localctx = TPTPParser.Tff_binary_nonassocContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 126, self.RULE_tff_binary_nonassoc)
+        localctx = TPTPParser.Tff_binary_pairContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 126, self.RULE_tff_binary_pair)
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 872
@@ -5681,7 +5679,7 @@ class TPTPParser ( Parser ):
         return localctx
 
 
-    class Tff_binary_assocContext(ParserRuleContext):
+    class Tff_binary_listContext(ParserRuleContext):
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -5697,29 +5695,29 @@ class TPTPParser ( Parser ):
 
 
         def getRuleIndex(self):
-            return TPTPParser.RULE_tff_binary_assoc
+            return TPTPParser.RULE_tff_binary_list
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterTff_binary_assoc" ):
-                listener.enterTff_binary_assoc(self)
+            if hasattr( listener, "enterTff_binary_list" ):
+                listener.enterTff_binary_list(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitTff_binary_assoc" ):
-                listener.exitTff_binary_assoc(self)
+            if hasattr( listener, "exitTff_binary_list" ):
+                listener.exitTff_binary_list(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitTff_binary_assoc" ):
-                return visitor.visitTff_binary_assoc(self)
+            if hasattr( visitor, "visitTff_binary_list" ):
+                return visitor.visitTff_binary_list(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
 
-    def tff_binary_assoc(self):
+    def tff_binary_list(self):
 
-        localctx = TPTPParser.Tff_binary_assocContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 128, self.RULE_tff_binary_assoc)
+        localctx = TPTPParser.Tff_binary_listContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 128, self.RULE_tff_binary_list)
         try:
             self.state = 878
             self._errHandler.sync(self)
@@ -10102,12 +10100,12 @@ class TPTPParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def fof_binary_nonassoc(self):
-            return self.getTypedRuleContext(TPTPParser.Fof_binary_nonassocContext,0)
+        def fof_binary_pair(self):
+            return self.getTypedRuleContext(TPTPParser.Fof_binary_pairContext,0)
 
 
-        def fof_binary_assoc(self):
-            return self.getTypedRuleContext(TPTPParser.Fof_binary_assocContext,0)
+        def fof_binary_list(self):
+            return self.getTypedRuleContext(TPTPParser.Fof_binary_listContext,0)
 
 
         def getRuleIndex(self):
@@ -10141,13 +10139,13 @@ class TPTPParser ( Parser ):
             if la_ == 1:
                 self.enterOuterAlt(localctx, 1)
                 self.state = 1275
-                self.fof_binary_nonassoc()
+                self.fof_binary_pair()
                 pass
 
             elif la_ == 2:
                 self.enterOuterAlt(localctx, 2)
                 self.state = 1276
-                self.fof_binary_assoc()
+                self.fof_binary_list()
                 pass
 
 
@@ -10160,7 +10158,7 @@ class TPTPParser ( Parser ):
         return localctx
 
 
-    class Fof_binary_nonassocContext(ParserRuleContext):
+    class Fof_binary_pairContext(ParserRuleContext):
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -10179,29 +10177,29 @@ class TPTPParser ( Parser ):
 
 
         def getRuleIndex(self):
-            return TPTPParser.RULE_fof_binary_nonassoc
+            return TPTPParser.RULE_fof_binary_pair
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterFof_binary_nonassoc" ):
-                listener.enterFof_binary_nonassoc(self)
+            if hasattr( listener, "enterFof_binary_pair" ):
+                listener.enterFof_binary_pair(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitFof_binary_nonassoc" ):
-                listener.exitFof_binary_nonassoc(self)
+            if hasattr( listener, "exitFof_binary_pair" ):
+                listener.exitFof_binary_pair(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitFof_binary_nonassoc" ):
-                return visitor.visitFof_binary_nonassoc(self)
+            if hasattr( visitor, "visitFof_binary_pair" ):
+                return visitor.visitFof_binary_pair(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
 
-    def fof_binary_nonassoc(self):
+    def fof_binary_pair(self):
 
-        localctx = TPTPParser.Fof_binary_nonassocContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 260, self.RULE_fof_binary_nonassoc)
+        localctx = TPTPParser.Fof_binary_pairContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 260, self.RULE_fof_binary_pair)
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 1279
@@ -10219,7 +10217,7 @@ class TPTPParser ( Parser ):
         return localctx
 
 
-    class Fof_binary_assocContext(ParserRuleContext):
+    class Fof_binary_listContext(ParserRuleContext):
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -10235,29 +10233,29 @@ class TPTPParser ( Parser ):
 
 
         def getRuleIndex(self):
-            return TPTPParser.RULE_fof_binary_assoc
+            return TPTPParser.RULE_fof_binary_list
 
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterFof_binary_assoc" ):
-                listener.enterFof_binary_assoc(self)
+            if hasattr( listener, "enterFof_binary_list" ):
+                listener.enterFof_binary_list(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitFof_binary_assoc" ):
-                listener.exitFof_binary_assoc(self)
+            if hasattr( listener, "exitFof_binary_list" ):
+                listener.exitFof_binary_list(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitFof_binary_assoc" ):
-                return visitor.visitFof_binary_assoc(self)
+            if hasattr( visitor, "visitFof_binary_list" ):
+                return visitor.visitFof_binary_list(self)
             else:
                 return visitor.visitChildren(self)
 
 
 
 
-    def fof_binary_assoc(self):
+    def fof_binary_list(self):
 
-        localctx = TPTPParser.Fof_binary_assocContext(self, self._ctx, self.state)
-        self.enterRule(localctx, 262, self.RULE_fof_binary_assoc)
+        localctx = TPTPParser.Fof_binary_listContext(self, self._ctx, self.state)
+        self.enterRule(localctx, 262, self.RULE_fof_binary_list)
         try:
             self.state = 1285
             self._errHandler.sync(self)

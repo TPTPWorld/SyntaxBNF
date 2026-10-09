@@ -82,7 +82,7 @@ arrow                 [>]
 less_sign             [<]
 hash                  [#]
 comment               {comment_line}|{comment_block}
-comment_line          {percentage_sign}{printable_char}*
+comment_line          {percentage_sign}{comment_char}*
 comment_block         {slash_char}{star}{not_star_slash}{star}{star}*{slash_char}
 not_star_slash        ([^*]*[*][*]*[^/*])*[^*]*
 percentage_sign       [%]
@@ -105,8 +105,7 @@ underscore            [_]
 alpha                 ({lower_alpha}|{upper_alpha})
 alpha_numeric         ({lower_alpha}|{upper_alpha}|{numeric}|{underscore})
 dollar                [$]
-printable_char        .
-viewable_char         [.\n]
+comment_char          [^\r\n]
 
 %Start B FF SQ1 SQ2 Q1 Q2
 %%

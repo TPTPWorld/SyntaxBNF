@@ -53,15 +53,15 @@ Grammar
    29                  | thf_definition
    30                  | thf_sequent
 
-   31 thf_binary_formula: thf_binary_nonassoc
-   32                   | thf_binary_assoc
+   31 thf_binary_formula: thf_binary_pair
+   32                   | thf_binary_list
    33                   | thf_binary_type
 
-   34 thf_binary_nonassoc: thf_unit_formula nonassoc_connective thf_unit_formula
+   34 thf_binary_pair: thf_unit_formula nonassoc_connective thf_unit_formula
 
-   35 thf_binary_assoc: thf_or_formula
-   36                 | thf_and_formula
-   37                 | thf_apply_formula
+   35 thf_binary_list: thf_or_formula
+   36                | thf_and_formula
+   37                | thf_apply_formula
 
    38 thf_or_formula: thf_unit_formula VLINE thf_unit_formula
    39               | thf_or_formula VLINE thf_unit_formula
@@ -200,13 +200,13 @@ Grammar
   129                  | txf_definition
   130                  | txf_sequent
 
-  131 tff_binary_formula: tff_binary_nonassoc
-  132                   | tff_binary_assoc
+  131 tff_binary_formula: tff_binary_pair
+  132                   | tff_binary_list
 
-  133 tff_binary_nonassoc: tff_unit_formula nonassoc_connective tff_unit_formula
+  133 tff_binary_pair: tff_unit_formula nonassoc_connective tff_unit_formula
 
-  134 tff_binary_assoc: tff_or_formula
-  135                 | tff_and_formula
+  134 tff_binary_list: tff_or_formula
+  135                | tff_and_formula
 
   136 tff_or_formula: tff_unit_formula VLINE tff_unit_formula
   137               | tff_or_formula VLINE tff_unit_formula
@@ -395,13 +395,13 @@ Grammar
   258                  | fof_unary_formula
   259                  | fof_unitary_formula
 
-  260 fof_binary_formula: fof_binary_nonassoc
-  261                   | fof_binary_assoc
+  260 fof_binary_formula: fof_binary_pair
+  261                   | fof_binary_list
 
-  262 fof_binary_nonassoc: fof_unit_formula nonassoc_connective fof_unit_formula
+  262 fof_binary_pair: fof_unit_formula nonassoc_connective fof_unit_formula
 
-  263 fof_binary_assoc: fof_or_formula
-  264                 | fof_and_formula
+  263 fof_binary_list: fof_or_formula
+  264                | fof_and_formula
 
   265 fof_or_formula: fof_unit_formula VLINE fof_unit_formula
   266               | fof_or_formula VLINE fof_unit_formula
@@ -800,10 +800,10 @@ Nonterminals, with rules where they appear
     thf_binary_formula (90)
         on left: 31 32 33
         on right: 27
-    thf_binary_nonassoc (91)
+    thf_binary_pair (91)
         on left: 34
         on right: 31
-    thf_binary_assoc (92)
+    thf_binary_list (92)
         on left: 35 36 37
         on right: 32
     thf_or_formula (93)
@@ -941,10 +941,10 @@ Nonterminals, with rules where they appear
     tff_binary_formula (137)
         on left: 131 132
         on right: 127
-    tff_binary_nonassoc (138)
+    tff_binary_pair (138)
         on left: 133
         on right: 131
-    tff_binary_assoc (139)
+    tff_binary_list (139)
         on left: 134 135
         on right: 132
     tff_or_formula (140)
@@ -1139,10 +1139,10 @@ Nonterminals, with rules where they appear
     fof_binary_formula (203)
         on left: 260 261
         on right: 257
-    fof_binary_nonassoc (204)
+    fof_binary_pair (204)
         on left: 262
         on right: 260
-    fof_binary_assoc (205)
+    fof_binary_list (205)
         on left: 263 264
         on right: 261
     fof_or_formula (206)
@@ -2045,8 +2045,8 @@ State 62
     fof_formula                 go to state 129
     fof_logic_formula           go to state 130
     fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
+    fof_binary_pair             go to state 132
+    fof_binary_list             go to state 133
     fof_or_formula              go to state 134
     fof_and_formula             go to state 135
     fof_unary_formula           go to state 136
@@ -2204,8 +2204,8 @@ State 68
     tff_formula             go to state 166
     tff_logic_formula       go to state 167
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -2289,8 +2289,8 @@ State 69
     thf_formula             go to state 226
     thf_logic_formula       go to state 227
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -2371,8 +2371,8 @@ State 70
     fof_formula                 go to state 280
     fof_logic_formula           go to state 130
     fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
+    fof_binary_pair             go to state 132
+    fof_binary_list             go to state 133
     fof_or_formula              go to state 134
     fof_and_formula             go to state 135
     fof_unary_formula           go to state 136
@@ -2953,8 +2953,8 @@ State 125
 
     fof_logic_formula           go to state 309
     fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
+    fof_binary_pair             go to state 132
+    fof_binary_list             go to state 133
     fof_or_formula              go to state 134
     fof_and_formula             go to state 135
     fof_unary_formula           go to state 136
@@ -3015,8 +3015,8 @@ State 126
 
     fof_logic_formula           go to state 311
     fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
+    fof_binary_pair             go to state 132
+    fof_binary_list             go to state 133
     fof_or_formula              go to state 134
     fof_and_formula             go to state 135
     fof_unary_formula           go to state 136
@@ -3097,36 +3097,36 @@ State 131
 
 State 132
 
-  260 fof_binary_formula: fof_binary_nonassoc .
+  260 fof_binary_formula: fof_binary_pair .
 
     $default  reduce using rule 260 (fof_binary_formula)
 
 
 State 133
 
-  261 fof_binary_formula: fof_binary_assoc .
+  261 fof_binary_formula: fof_binary_list .
 
     $default  reduce using rule 261 (fof_binary_formula)
 
 
 State 134
 
-  263 fof_binary_assoc: fof_or_formula .
+  263 fof_binary_list: fof_or_formula .
   266 fof_or_formula: fof_or_formula . VLINE fof_unit_formula
 
     VLINE  shift, and go to state 314
 
-    $default  reduce using rule 263 (fof_binary_assoc)
+    $default  reduce using rule 263 (fof_binary_list)
 
 
 State 135
 
-  264 fof_binary_assoc: fof_and_formula .
+  264 fof_binary_list: fof_and_formula .
   268 fof_and_formula: fof_and_formula . AMPERSAND fof_unit_formula
 
     AMPERSAND  shift, and go to state 315
 
-    $default  reduce using rule 264 (fof_binary_assoc)
+    $default  reduce using rule 264 (fof_binary_list)
 
 
 State 136
@@ -3149,7 +3149,7 @@ State 137
 
 State 138
 
-  262 fof_binary_nonassoc: fof_unit_formula . nonassoc_connective fof_unit_formula
+  262 fof_binary_pair: fof_unit_formula . nonassoc_connective fof_unit_formula
   265 fof_or_formula: fof_unit_formula . VLINE fof_unit_formula
   267 fof_and_formula: fof_unit_formula . AMPERSAND fof_unit_formula
 
@@ -3471,8 +3471,8 @@ State 161
 
     tff_logic_formula       go to state 344
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -3546,8 +3546,8 @@ State 162
 
     tff_logic_formula       go to state 352
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -3640,41 +3640,41 @@ State 168
 
 State 169
 
-  131 tff_binary_formula: tff_binary_nonassoc .
+  131 tff_binary_formula: tff_binary_pair .
 
     $default  reduce using rule 131 (tff_binary_formula)
 
 
 State 170
 
-  132 tff_binary_formula: tff_binary_assoc .
+  132 tff_binary_formula: tff_binary_list .
 
     $default  reduce using rule 132 (tff_binary_formula)
 
 
 State 171
 
-  134 tff_binary_assoc: tff_or_formula .
+  134 tff_binary_list: tff_or_formula .
   137 tff_or_formula: tff_or_formula . VLINE tff_unit_formula
 
     VLINE  shift, and go to state 356
 
-    $default  reduce using rule 134 (tff_binary_assoc)
+    $default  reduce using rule 134 (tff_binary_list)
 
 
 State 172
 
-  135 tff_binary_assoc: tff_and_formula .
+  135 tff_binary_list: tff_and_formula .
   139 tff_and_formula: tff_and_formula . AMPERSAND tff_unit_formula
 
     AMPERSAND  shift, and go to state 357
 
-    $default  reduce using rule 135 (tff_binary_assoc)
+    $default  reduce using rule 135 (tff_binary_list)
 
 
 State 173
 
-  133 tff_binary_nonassoc: tff_unit_formula . nonassoc_connective tff_unit_formula
+  133 tff_binary_pair: tff_unit_formula . nonassoc_connective tff_unit_formula
   136 tff_or_formula: tff_unit_formula . VLINE tff_unit_formula
   138 tff_and_formula: tff_unit_formula . AMPERSAND tff_unit_formula
 
@@ -4166,8 +4166,8 @@ State 221
 
     thf_logic_formula       go to state 383
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -4271,8 +4271,8 @@ State 222
 
     thf_logic_formula       go to state 389
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -4380,51 +4380,51 @@ State 228
 
 State 229
 
-   31 thf_binary_formula: thf_binary_nonassoc .
+   31 thf_binary_formula: thf_binary_pair .
 
     $default  reduce using rule 31 (thf_binary_formula)
 
 
 State 230
 
-   32 thf_binary_formula: thf_binary_assoc .
+   32 thf_binary_formula: thf_binary_list .
 
     $default  reduce using rule 32 (thf_binary_formula)
 
 
 State 231
 
-   35 thf_binary_assoc: thf_or_formula .
+   35 thf_binary_list: thf_or_formula .
    39 thf_or_formula: thf_or_formula . VLINE thf_unit_formula
 
     VLINE  shift, and go to state 400
 
-    $default  reduce using rule 35 (thf_binary_assoc)
+    $default  reduce using rule 35 (thf_binary_list)
 
 
 State 232
 
-   36 thf_binary_assoc: thf_and_formula .
+   36 thf_binary_list: thf_and_formula .
    41 thf_and_formula: thf_and_formula . AMPERSAND thf_unit_formula
 
     AMPERSAND  shift, and go to state 401
 
-    $default  reduce using rule 36 (thf_binary_assoc)
+    $default  reduce using rule 36 (thf_binary_list)
 
 
 State 233
 
-   37 thf_binary_assoc: thf_apply_formula .
+   37 thf_binary_list: thf_apply_formula .
    43 thf_apply_formula: thf_apply_formula . AT_SIGN thf_unit_formula
 
     AT_SIGN  shift, and go to state 402
 
-    $default  reduce using rule 37 (thf_binary_assoc)
+    $default  reduce using rule 37 (thf_binary_list)
 
 
 State 234
 
-   34 thf_binary_nonassoc: thf_unit_formula . nonassoc_connective thf_unit_formula
+   34 thf_binary_pair: thf_unit_formula . nonassoc_connective thf_unit_formula
    38 thf_or_formula: thf_unit_formula . VLINE thf_unit_formula
    40 thf_and_formula: thf_unit_formula . AMPERSAND thf_unit_formula
    42 thf_apply_formula: thf_unit_formula . AT_SIGN thf_unit_formula
@@ -5067,8 +5067,8 @@ State 285
     fof_formula                 go to state 438
     fof_logic_formula           go to state 130
     fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
+    fof_binary_pair             go to state 132
+    fof_binary_list             go to state 133
     fof_or_formula              go to state 134
     fof_and_formula             go to state 135
     fof_unary_formula           go to state 136
@@ -5170,8 +5170,8 @@ State 287
     tff_formula             go to state 443
     tff_logic_formula       go to state 167
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -5255,8 +5255,8 @@ State 288
     thf_formula             go to state 444
     thf_logic_formula       go to state 227
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -5745,8 +5745,8 @@ State 307
 
     fof_logic_formula           go to state 311
     fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
+    fof_binary_pair             go to state 132
+    fof_binary_list             go to state 133
     fof_or_formula              go to state 134
     fof_and_formula             go to state 135
     fof_unary_formula           go to state 136
@@ -6084,7 +6084,7 @@ State 323
 
 State 324
 
-  262 fof_binary_nonassoc: fof_unit_formula nonassoc_connective . fof_unit_formula
+  262 fof_binary_pair: fof_unit_formula nonassoc_connective . fof_unit_formula
 
     EXCLAMATION         shift, and go to state 124
     LPAREN              shift, and go to state 307
@@ -6311,8 +6311,8 @@ State 341
 
     tff_logic_formula       go to state 352
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -6725,7 +6725,7 @@ State 359
 
 State 360
 
-  133 tff_binary_nonassoc: tff_unit_formula nonassoc_connective . tff_unit_formula
+  133 tff_binary_pair: tff_unit_formula nonassoc_connective . tff_unit_formula
 
     EXCLAMATION         shift, and go to state 124
     LBRACE              shift, and go to state 160
@@ -6817,8 +6817,8 @@ State 362
 
     tff_logic_formula       go to state 344
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -6998,8 +6998,8 @@ State 368
 
     tff_logic_formula       go to state 540
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -7144,8 +7144,8 @@ State 377
 
     tff_logic_formula       go to state 344
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -7215,8 +7215,8 @@ State 378
 
     tff_logic_formula       go to state 344
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -7286,8 +7286,8 @@ State 379
 
     tff_logic_formula       go to state 344
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -7390,8 +7390,8 @@ State 381
 
     thf_logic_formula       go to state 389
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -8109,7 +8109,7 @@ State 405
 
 State 406
 
-   34 thf_binary_nonassoc: thf_unit_formula nonassoc_connective . thf_unit_formula
+   34 thf_binary_pair: thf_unit_formula nonassoc_connective . thf_unit_formula
 
     AT_AT_SIGN_MINUS         shift, and go to state 212
     AT_AT_SIGN_PLUS          shift, and go to state 213
@@ -8263,8 +8263,8 @@ State 413
 
     thf_logic_formula       go to state 569
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -8810,8 +8810,8 @@ State 423
 
     thf_logic_formula       go to state 589
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -9042,8 +9042,8 @@ State 431
 
     thf_logic_formula       go to state 383
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -9133,8 +9133,8 @@ State 432
 
     thf_logic_formula       go to state 383
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -9224,8 +9224,8 @@ State 433
 
     thf_logic_formula       go to state 383
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -9586,8 +9586,8 @@ State 468
 
     fof_logic_formula           go to state 309
     fof_binary_formula          go to state 131
-    fof_binary_nonassoc         go to state 132
-    fof_binary_assoc            go to state 133
+    fof_binary_pair             go to state 132
+    fof_binary_list             go to state 133
     fof_or_formula              go to state 134
     fof_and_formula             go to state 135
     fof_unary_formula           go to state 136
@@ -9683,9 +9683,9 @@ State 476
 
 State 477
 
-  262 fof_binary_nonassoc: fof_unit_formula nonassoc_connective fof_unit_formula .
+  262 fof_binary_pair: fof_unit_formula nonassoc_connective fof_unit_formula .
 
-    $default  reduce using rule 262 (fof_binary_nonassoc)
+    $default  reduce using rule 262 (fof_binary_pair)
 
 
 State 478
@@ -10010,8 +10010,8 @@ State 507
 
     tff_logic_formula       go to state 344
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -10231,9 +10231,9 @@ State 528
 
 State 529
 
-  133 tff_binary_nonassoc: tff_unit_formula nonassoc_connective tff_unit_formula .
+  133 tff_binary_pair: tff_unit_formula nonassoc_connective tff_unit_formula .
 
-    $default  reduce using rule 133 (tff_binary_nonassoc)
+    $default  reduce using rule 133 (tff_binary_pair)
 
 
 State 530
@@ -10285,8 +10285,8 @@ State 532
 
     tff_logic_formula       go to state 344
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -10356,8 +10356,8 @@ State 533
 
     tff_logic_formula       go to state 653
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -10460,8 +10460,8 @@ State 539
 
     tff_logic_formula       go to state 344
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -10670,8 +10670,8 @@ State 552
 
     thf_logic_formula       go to state 383
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -10855,9 +10855,9 @@ State 567
 
 State 568
 
-   34 thf_binary_nonassoc: thf_unit_formula nonassoc_connective thf_unit_formula .
+   34 thf_binary_pair: thf_unit_formula nonassoc_connective thf_unit_formula .
 
-    $default  reduce using rule 34 (thf_binary_nonassoc)
+    $default  reduce using rule 34 (thf_binary_pair)
 
 
 State 569
@@ -10919,8 +10919,8 @@ State 571
 
     thf_logic_formula       go to state 383
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -11020,8 +11020,8 @@ State 572
 
     thf_logic_formula       go to state 672
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -11160,8 +11160,8 @@ State 578
 
     thf_logic_formula       go to state 589
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -12114,8 +12114,8 @@ State 670
 
     thf_logic_formula       go to state 730
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -12794,8 +12794,8 @@ State 713
 
     tff_logic_formula       go to state 344
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -13100,8 +13100,8 @@ State 729
 
     thf_logic_formula       go to state 766
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -13430,8 +13430,8 @@ State 759
 
     tff_logic_formula       go to state 344
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -13507,8 +13507,8 @@ State 761
 
     tff_logic_formula       go to state 344
     tff_binary_formula      go to state 168
-    tff_binary_nonassoc     go to state 169
-    tff_binary_assoc        go to state 170
+    tff_binary_pair         go to state 169
+    tff_binary_list         go to state 170
     tff_or_formula          go to state 171
     tff_and_formula         go to state 172
     tff_unit_formula        go to state 173
@@ -13646,8 +13646,8 @@ State 769
 
     thf_logic_formula       go to state 783
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -13735,8 +13735,8 @@ State 770
 
     thf_logic_formula       go to state 784
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233
@@ -13926,8 +13926,8 @@ State 781
 
     thf_logic_formula       go to state 730
     thf_binary_formula      go to state 228
-    thf_binary_nonassoc     go to state 229
-    thf_binary_assoc        go to state 230
+    thf_binary_pair         go to state 229
+    thf_binary_list         go to state 230
     thf_or_formula          go to state 231
     thf_and_formula         go to state 232
     thf_apply_formula       go to state 233

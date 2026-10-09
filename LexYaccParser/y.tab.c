@@ -532,8 +532,8 @@ enum yysymbol_kind_t
   YYSYMBOL_thf_formula = 88,               /* thf_formula  */
   YYSYMBOL_thf_logic_formula = 89,         /* thf_logic_formula  */
   YYSYMBOL_thf_binary_formula = 90,        /* thf_binary_formula  */
-  YYSYMBOL_thf_binary_nonassoc = 91,       /* thf_binary_nonassoc  */
-  YYSYMBOL_thf_binary_assoc = 92,          /* thf_binary_assoc  */
+  YYSYMBOL_thf_binary_pair = 91,           /* thf_binary_pair  */
+  YYSYMBOL_thf_binary_list = 92,           /* thf_binary_list  */
   YYSYMBOL_thf_or_formula = 93,            /* thf_or_formula  */
   YYSYMBOL_thf_and_formula = 94,           /* thf_and_formula  */
   YYSYMBOL_thf_apply_formula = 95,         /* thf_apply_formula  */
@@ -579,8 +579,8 @@ enum yysymbol_kind_t
   YYSYMBOL_tff_formula = 135,              /* tff_formula  */
   YYSYMBOL_tff_logic_formula = 136,        /* tff_logic_formula  */
   YYSYMBOL_tff_binary_formula = 137,       /* tff_binary_formula  */
-  YYSYMBOL_tff_binary_nonassoc = 138,      /* tff_binary_nonassoc  */
-  YYSYMBOL_tff_binary_assoc = 139,         /* tff_binary_assoc  */
+  YYSYMBOL_tff_binary_pair = 138,          /* tff_binary_pair  */
+  YYSYMBOL_tff_binary_list = 139,          /* tff_binary_list  */
   YYSYMBOL_tff_or_formula = 140,           /* tff_or_formula  */
   YYSYMBOL_tff_and_formula = 141,          /* tff_and_formula  */
   YYSYMBOL_tff_unit_formula = 142,         /* tff_unit_formula  */
@@ -645,8 +645,8 @@ enum yysymbol_kind_t
   YYSYMBOL_fof_formula = 201,              /* fof_formula  */
   YYSYMBOL_fof_logic_formula = 202,        /* fof_logic_formula  */
   YYSYMBOL_fof_binary_formula = 203,       /* fof_binary_formula  */
-  YYSYMBOL_fof_binary_nonassoc = 204,      /* fof_binary_nonassoc  */
-  YYSYMBOL_fof_binary_assoc = 205,         /* fof_binary_assoc  */
+  YYSYMBOL_fof_binary_pair = 204,          /* fof_binary_pair  */
+  YYSYMBOL_fof_binary_list = 205,          /* fof_binary_list  */
   YYSYMBOL_fof_or_formula = 206,           /* fof_or_formula  */
   YYSYMBOL_fof_and_formula = 207,          /* fof_and_formula  */
   YYSYMBOL_fof_unary_formula = 208,        /* fof_unary_formula  */
@@ -1212,7 +1212,7 @@ static const char *const yytname[] =
   "tpi_annotated", "tpi_formula", "thf_annotated", "tff_annotated",
   "tcf_annotated", "fof_annotated", "cnf_annotated", "annotations",
   "formula_role", "thf_formula", "thf_logic_formula", "thf_binary_formula",
-  "thf_binary_nonassoc", "thf_binary_assoc", "thf_or_formula",
+  "thf_binary_pair", "thf_binary_list", "thf_or_formula",
   "thf_and_formula", "thf_apply_formula", "thf_unit_formula",
   "thf_preunit_formula", "thf_unitary_formula", "thf_quantified_formula",
   "thf_quantification", "thf_variable_list", "thf_typed_variable",
@@ -1226,7 +1226,7 @@ static const char *const yytname[] =
   "thf_apply_type", "thf_binary_type", "thf_mapping_type",
   "thf_xprod_type", "thf_union_type", "thf_subtype", "thf_definition",
   "thf_sequent", "tff_formula", "tff_logic_formula", "tff_binary_formula",
-  "tff_binary_nonassoc", "tff_binary_assoc", "tff_or_formula",
+  "tff_binary_pair", "tff_binary_list", "tff_or_formula",
   "tff_and_formula", "tff_unit_formula", "tff_preunit_formula",
   "tff_unitary_formula", "txf_unitary_formula", "tff_quantified_formula",
   "tff_variable_list", "tff_variable", "tff_typed_variable",
@@ -1246,7 +1246,7 @@ static const char *const yytname[] =
   "ntf_connective_name", "ntf_defined_connective", "ntf_index",
   "ntf_short_connective", "tcf_formula", "tcf_logic_formula",
   "tcf_quantified_formula", "fof_formula", "fof_logic_formula",
-  "fof_binary_formula", "fof_binary_nonassoc", "fof_binary_assoc",
+  "fof_binary_formula", "fof_binary_pair", "fof_binary_list",
   "fof_or_formula", "fof_and_formula", "fof_unary_formula",
   "fof_infix_unary", "fof_unit_formula", "fof_unitary_formula",
   "fof_quantified_formula", "fof_variable_list", "fof_atomic_formula",
@@ -3083,15 +3083,15 @@ yyreduce:
 #line 3084 "y.tab.c"
     break;
 
-  case 32: /* thf_binary_formula: thf_binary_nonassoc  */
+  case 32: /* thf_binary_formula: thf_binary_pair  */
 #line 286 "SyntaxBNF.y"
-                                         {(yyval.pval) = P_BUILD("thf_binary_formula", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                     {(yyval.pval) = P_BUILD("thf_binary_formula", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 3090 "y.tab.c"
     break;
 
-  case 33: /* thf_binary_formula: thf_binary_assoc  */
+  case 33: /* thf_binary_formula: thf_binary_list  */
 #line 287 "SyntaxBNF.y"
-                                       {(yyval.pval) = P_BUILD("thf_binary_formula", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                      {(yyval.pval) = P_BUILD("thf_binary_formula", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 3096 "y.tab.c"
     break;
 
@@ -3101,27 +3101,27 @@ yyreduce:
 #line 3102 "y.tab.c"
     break;
 
-  case 35: /* thf_binary_nonassoc: thf_unit_formula nonassoc_connective thf_unit_formula  */
+  case 35: /* thf_binary_pair: thf_unit_formula nonassoc_connective thf_unit_formula  */
 #line 291 "SyntaxBNF.y"
-                                                                            {(yyval.pval) = P_BUILD("thf_binary_nonassoc", (yyvsp[-2].pval), (yyvsp[-1].pval), (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                                                        {(yyval.pval) = P_BUILD("thf_binary_pair", (yyvsp[-2].pval), (yyvsp[-1].pval), (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 3108 "y.tab.c"
     break;
 
-  case 36: /* thf_binary_assoc: thf_or_formula  */
+  case 36: /* thf_binary_list: thf_or_formula  */
 #line 294 "SyntaxBNF.y"
-                                  {(yyval.pval) = P_BUILD("thf_binary_assoc", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                 {(yyval.pval) = P_BUILD("thf_binary_list", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 3114 "y.tab.c"
     break;
 
-  case 37: /* thf_binary_assoc: thf_and_formula  */
+  case 37: /* thf_binary_list: thf_and_formula  */
 #line 295 "SyntaxBNF.y"
-                                      {(yyval.pval) = P_BUILD("thf_binary_assoc", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                      {(yyval.pval) = P_BUILD("thf_binary_list", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 3120 "y.tab.c"
     break;
 
-  case 38: /* thf_binary_assoc: thf_apply_formula  */
+  case 38: /* thf_binary_list: thf_apply_formula  */
 #line 296 "SyntaxBNF.y"
-                                        {(yyval.pval) = P_BUILD("thf_binary_assoc", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                        {(yyval.pval) = P_BUILD("thf_binary_list", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 3126 "y.tab.c"
     break;
 
@@ -3683,33 +3683,33 @@ yyreduce:
 #line 3684 "y.tab.c"
     break;
 
-  case 132: /* tff_binary_formula: tff_binary_nonassoc  */
+  case 132: /* tff_binary_formula: tff_binary_pair  */
 #line 480 "SyntaxBNF.y"
-                                         {(yyval.pval) = P_BUILD("tff_binary_formula", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                     {(yyval.pval) = P_BUILD("tff_binary_formula", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 3690 "y.tab.c"
     break;
 
-  case 133: /* tff_binary_formula: tff_binary_assoc  */
+  case 133: /* tff_binary_formula: tff_binary_list  */
 #line 481 "SyntaxBNF.y"
-                                       {(yyval.pval) = P_BUILD("tff_binary_formula", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                      {(yyval.pval) = P_BUILD("tff_binary_formula", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 3696 "y.tab.c"
     break;
 
-  case 134: /* tff_binary_nonassoc: tff_unit_formula nonassoc_connective tff_unit_formula  */
+  case 134: /* tff_binary_pair: tff_unit_formula nonassoc_connective tff_unit_formula  */
 #line 484 "SyntaxBNF.y"
-                                                                            {(yyval.pval) = P_BUILD("tff_binary_nonassoc", (yyvsp[-2].pval), (yyvsp[-1].pval), (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                                                        {(yyval.pval) = P_BUILD("tff_binary_pair", (yyvsp[-2].pval), (yyvsp[-1].pval), (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 3702 "y.tab.c"
     break;
 
-  case 135: /* tff_binary_assoc: tff_or_formula  */
+  case 135: /* tff_binary_list: tff_or_formula  */
 #line 487 "SyntaxBNF.y"
-                                  {(yyval.pval) = P_BUILD("tff_binary_assoc", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                 {(yyval.pval) = P_BUILD("tff_binary_list", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 3708 "y.tab.c"
     break;
 
-  case 136: /* tff_binary_assoc: tff_and_formula  */
+  case 136: /* tff_binary_list: tff_and_formula  */
 #line 488 "SyntaxBNF.y"
-                                      {(yyval.pval) = P_BUILD("tff_binary_assoc", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                      {(yyval.pval) = P_BUILD("tff_binary_list", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 3714 "y.tab.c"
     break;
 
@@ -4457,33 +4457,33 @@ yyreduce:
 #line 4458 "y.tab.c"
     break;
 
-  case 261: /* fof_binary_formula: fof_binary_nonassoc  */
+  case 261: /* fof_binary_formula: fof_binary_pair  */
 #line 741 "SyntaxBNF.y"
-                                         {(yyval.pval) = P_BUILD("fof_binary_formula", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                     {(yyval.pval) = P_BUILD("fof_binary_formula", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 4464 "y.tab.c"
     break;
 
-  case 262: /* fof_binary_formula: fof_binary_assoc  */
+  case 262: /* fof_binary_formula: fof_binary_list  */
 #line 742 "SyntaxBNF.y"
-                                       {(yyval.pval) = P_BUILD("fof_binary_formula", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                      {(yyval.pval) = P_BUILD("fof_binary_formula", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 4470 "y.tab.c"
     break;
 
-  case 263: /* fof_binary_nonassoc: fof_unit_formula nonassoc_connective fof_unit_formula  */
+  case 263: /* fof_binary_pair: fof_unit_formula nonassoc_connective fof_unit_formula  */
 #line 745 "SyntaxBNF.y"
-                                                                            {(yyval.pval) = P_BUILD("fof_binary_nonassoc", (yyvsp[-2].pval), (yyvsp[-1].pval), (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                                                        {(yyval.pval) = P_BUILD("fof_binary_pair", (yyvsp[-2].pval), (yyvsp[-1].pval), (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 4476 "y.tab.c"
     break;
 
-  case 264: /* fof_binary_assoc: fof_or_formula  */
+  case 264: /* fof_binary_list: fof_or_formula  */
 #line 748 "SyntaxBNF.y"
-                                  {(yyval.pval) = P_BUILD("fof_binary_assoc", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                 {(yyval.pval) = P_BUILD("fof_binary_list", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 4482 "y.tab.c"
     break;
 
-  case 265: /* fof_binary_assoc: fof_and_formula  */
+  case 265: /* fof_binary_list: fof_and_formula  */
 #line 749 "SyntaxBNF.y"
-                                      {(yyval.pval) = P_BUILD("fof_binary_assoc", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                                      {(yyval.pval) = P_BUILD("fof_binary_list", (yyvsp[0].pval),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
 #line 4488 "y.tab.c"
     break;
 
