@@ -50,6 +50,6 @@ REGEX_RAW_CHAR    : . -> type(RAW_CHAR) ;
 mode CHARSET;
 RBRACKET          : ']' -> popMode ;
 OCTAL_ESCAPE      : '\\' [0-7]+ ;      // character code in base 8
-QUOTED_ESCAPE     : '\\' [\\n] ;       // escaped backslash or newline
+QUOTED_ESCAPE     : '\\' [\\nr] ;      // escaped backslash, newline, or carriage return
 DASH              : '-' ;
 CHARSET_CHAR      : [\u0020-\u007E] ;  // printable ASCII, including space

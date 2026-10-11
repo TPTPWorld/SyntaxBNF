@@ -54,6 +54,8 @@ class CharsetTests(unittest.TestCase):
             (r"[^/*]", set(map(chr, range(128))) - set("/*")),
             (r"[\\]", {"\\"}),
             (r"[.\n]", {".", "\n"}),
+            (r"[\r]", {"\r"}),
+            (r"[^\r\n]", set(map(chr, range(128))) - {"\r", "\n"}),
             (r"[+-]", {"+", "-"}),
             (r"[\1\11\12\1234]", {chr(1), "\t", chr(0o12), chr(0o1234)}),
             (r"[\000\777\78]", {chr(0), chr(0o777), chr(7), "8"}),
@@ -166,9 +168,9 @@ class CharsetTests(unittest.TestCase):
                     ("OCTAL_ESCAPE", r"\7"), ("CHARSET_CHAR", "8"),
                 ]),
                 (r"\000000123", [("OCTAL_ESCAPE", r"\000000123")]),
-                (r"\\\n", [
+                (r"\\\n\r", [
                     ("QUOTED_ESCAPE", escape)
-                    for escape in (r"\\", r"\n")
+                    for escape in (r"\\", r"\n", r"\r")
                 ]),
                 (r"\]", [("CHARSET_CHAR", "\\"), ("RBRACKET", "]")]),
                 (r"\-", [("CHARSET_CHAR", "\\"), ("DASH", "-")]),
@@ -238,9 +240,29 @@ class CharsetTests(unittest.TestCase):
             directory = Path(tmp)
             definitions, grammar = self.convert(source, directory, "Corpus")
             self.assertGreater(len(definitions), 300)
-            self.lexer_class(grammar, directory, "Corpus")
+            lexer_class = self.lexer_class(grammar, directory, "Corpus")
             self.assertIn("~[/*]", grammar)
             self.assertIn("'tpi' '(' name", grammar)
+            self.assertIn(r"~[\r\n]", grammar)
+            spec = importlib.util.spec_from_file_location(
+                "CorpusParser", directory / "CorpusParser.py",
+            )
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            # A line comment must consume letters and backslashes, and stop at
+            # either newline character without swallowing the following record.
+            for ending in ("\n", "\r\n", "\r"):
+                for comment in ("ordinary remark", r"back\slash", ""):
+                    with self.subTest(ending=ending, comment=comment):
+                        lexer = lexer_class(antlr4.InputStream(
+                            f"% {comment}{ending}fof(a,axiom,p)."
+                        ))
+                        parser = module.CorpusParser(antlr4.CommonTokenStream(lexer))
+                        for recognizer in (lexer, parser):
+                            recognizer.removeErrorListeners()
+                            recognizer.addErrorListener(converter.SyntaxErrors())
+                        tree = parser.tptp_file()
+                        self.assertEqual(len(tree.tptp_input()), 1)
 
     def test_generated_parser(self):
         source = (

@@ -134,8 +134,8 @@ def charset_char(char) -> tuple[int, str]:
         spelling = f"\\u{code:04X}" if code <= 0xFFFF else f"\\u{{{code:X}}}"
         return code, spelling
     if char.QUOTED_ESCAPE():
-        text = "\n" if text == r"\n" else "\\"
-    spelling = {"\\": r"\\", "\n": r"\n", "[": r"\u005B"}.get(text, text)
+        text = {r"\n": "\n", r"\r": "\r", r"\\": "\\"}[text]
+    spelling = {"\\": r"\\", "\n": r"\n", "\r": r"\r", "[": r"\u005B"}.get(text, text)
     return ord(text), spelling
 
 

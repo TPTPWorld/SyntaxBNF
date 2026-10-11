@@ -39,8 +39,8 @@ use escapes to represent them.
 
 Charset support is deliberately limited to SyntaxBNF notation:
 
-- One or more octal digits after a backslash, `\\` for backslash, and `\n` for
-  newline. These are the escape forms used in SyntaxBNF.
+- One or more octal digits after a backslash, `\\` for backslash, `\n` for
+  newline, and `\r` for carriage return. These are the escape forms used in SyntaxBNF.
 - Leading `^` negation, such as `[^/*]`; a later `^` is literal.
 - Ranges with literal or escaped endpoints: `A-Z`, `\40-\46`, `\123-X`.
 - Literal hyphens at the edges, including `[+-]`, and the existing `.` wildcard.
