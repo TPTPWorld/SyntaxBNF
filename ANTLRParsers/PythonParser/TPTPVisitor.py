@@ -84,13 +84,13 @@ class TPTPVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by TPTPParser#thf_binary_nonassoc.
-    def visitThf_binary_nonassoc(self, ctx:TPTPParser.Thf_binary_nonassocContext):
+    # Visit a parse tree produced by TPTPParser#thf_binary_pair.
+    def visitThf_binary_pair(self, ctx:TPTPParser.Thf_binary_pairContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by TPTPParser#thf_binary_assoc.
-    def visitThf_binary_assoc(self, ctx:TPTPParser.Thf_binary_assocContext):
+    # Visit a parse tree produced by TPTPParser#thf_binary_list.
+    def visitThf_binary_list(self, ctx:TPTPParser.Thf_binary_listContext):
         return self.visitChildren(ctx)
 
 
@@ -324,13 +324,13 @@ class TPTPVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by TPTPParser#tff_binary_nonassoc.
-    def visitTff_binary_nonassoc(self, ctx:TPTPParser.Tff_binary_nonassocContext):
+    # Visit a parse tree produced by TPTPParser#tff_binary_pair.
+    def visitTff_binary_pair(self, ctx:TPTPParser.Tff_binary_pairContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by TPTPParser#tff_binary_assoc.
-    def visitTff_binary_assoc(self, ctx:TPTPParser.Tff_binary_assocContext):
+    # Visit a parse tree produced by TPTPParser#tff_binary_list.
+    def visitTff_binary_list(self, ctx:TPTPParser.Tff_binary_listContext):
         return self.visitChildren(ctx)
 
 
@@ -659,13 +659,13 @@ class TPTPVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by TPTPParser#fof_binary_nonassoc.
-    def visitFof_binary_nonassoc(self, ctx:TPTPParser.Fof_binary_nonassocContext):
+    # Visit a parse tree produced by TPTPParser#fof_binary_pair.
+    def visitFof_binary_pair(self, ctx:TPTPParser.Fof_binary_pairContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by TPTPParser#fof_binary_assoc.
-    def visitFof_binary_assoc(self, ctx:TPTPParser.Fof_binary_assocContext):
+    # Visit a parse tree produced by TPTPParser#fof_binary_list.
+    def visitFof_binary_list(self, ctx:TPTPParser.Fof_binary_listContext):
         return self.visitChildren(ctx)
 
 

@@ -2,7 +2,7 @@
 // jshint ignore: start
 import antlr4 from 'antlr4';
 import TPTPListener from './TPTPListener.js';
-const serializedATN = [4,1,104,1756,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
+const serializedATN = [4,1,103,1756,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,
 7,4,2,5,7,5,2,6,7,6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,
 2,13,7,13,2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,
 20,7,20,2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,2,26,7,26,2,27,
@@ -619,8 +619,7 @@ export default class TPTPParser extends antlr4.Parser {
                             null, null, null, null, null, null, null, null, 
                             null, null, null, null, null, null, null, null, 
                             null, "'+'", "'>'", "'<'", "'#'", null, null, 
-                            null, "'''", null, null, null, "'\\\\'", null, 
-                            null, null, null, null, "'.\\n'" ];
+                            null, "'''", null, null, null, "'\\\\'" ];
     static symbolicNames = [ null, null, null, null, null, null, null, null, 
                              null, null, null, null, null, null, null, null, 
                              null, null, null, null, null, null, null, null, 
@@ -641,13 +640,13 @@ export default class TPTPParser extends antlr4.Parser {
                              "Percentage_sign", "Double_quote", "Single_quote", 
                              "Back_quote", "Dot", "Slash_char", "Slosh_char", 
                              "Zero_numeric", "Underscore", "Alpha", "Dollar", 
-                             "Printable_char", "Viewable_char" ];
+                             "Comment_char" ];
     static ruleNames = [ "tptp_file", "tptp_input", "annotated_formula", 
                          "tpi_annotated", "tpi_formula", "thf_annotated", 
                          "tff_annotated", "tcf_annotated", "fof_annotated", 
                          "cnf_annotated", "annotations", "formula_role", 
                          "thf_formula", "thf_logic_formula", "thf_binary_formula", 
-                         "thf_binary_nonassoc", "thf_binary_assoc", "thf_or_formula", 
+                         "thf_binary_pair", "thf_binary_list", "thf_or_formula", 
                          "thf_and_formula", "thf_apply_formula", "thf_unit_formula", 
                          "thf_preunit_formula", "thf_unitary_formula", "thf_quantified_formula", 
                          "thf_quantification", "thf_variable_list", "thf_typed_variable", 
@@ -663,7 +662,7 @@ export default class TPTPParser extends antlr4.Parser {
                          "thf_mapping_type", "thf_xprod_type", "thf_union_type", 
                          "thf_subtype", "thf_definition", "thf_sequent", 
                          "tff_formula", "tff_logic_formula", "tff_binary_formula", 
-                         "tff_binary_nonassoc", "tff_binary_assoc", "tff_or_formula", 
+                         "tff_binary_pair", "tff_binary_list", "tff_or_formula", 
                          "tff_and_formula", "tff_unit_formula", "tff_preunit_formula", 
                          "tff_unitary_formula", "txf_unitary_formula", "tff_quantified_formula", 
                          "tff_variable_list", "tff_variable", "tff_typed_variable", 
@@ -685,7 +684,7 @@ export default class TPTPParser extends antlr4.Parser {
                          "ntf_defined_connective", "ntf_index", "ntf_short_connective", 
                          "tcf_formula", "tcf_logic_formula", "tcf_quantified_formula", 
                          "fof_formula", "fof_logic_formula", "fof_binary_formula", 
-                         "fof_binary_nonassoc", "fof_binary_assoc", "fof_or_formula", 
+                         "fof_binary_pair", "fof_binary_list", "fof_or_formula", 
                          "fof_and_formula", "fof_unary_formula", "fof_infix_unary", 
                          "fof_unit_formula", "fof_unitary_formula", "fof_quantified_formula", 
                          "fof_variable_list", "fof_atomic_formula", "fof_plain_atomic_formula", 
@@ -1429,13 +1428,13 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 1:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 560;
-	            this.thf_binary_nonassoc();
+	            this.thf_binary_pair();
 	            break;
 
 	        case 2:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 561;
-	            this.thf_binary_assoc();
+	            this.thf_binary_list();
 	            break;
 
 	        case 3:
@@ -1461,9 +1460,9 @@ export default class TPTPParser extends antlr4.Parser {
 
 
 
-	thf_binary_nonassoc() {
-	    let localctx = new Thf_binary_nonassocContext(this, this._ctx, this.state);
-	    this.enterRule(localctx, 30, TPTPParser.RULE_thf_binary_nonassoc);
+	thf_binary_pair() {
+	    let localctx = new Thf_binary_pairContext(this, this._ctx, this.state);
+	    this.enterRule(localctx, 30, TPTPParser.RULE_thf_binary_pair);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
 	        this.state = 565;
@@ -1488,9 +1487,9 @@ export default class TPTPParser extends antlr4.Parser {
 
 
 
-	thf_binary_assoc() {
-	    let localctx = new Thf_binary_assocContext(this, this._ctx, this.state);
-	    this.enterRule(localctx, 32, TPTPParser.RULE_thf_binary_assoc);
+	thf_binary_list() {
+	    let localctx = new Thf_binary_listContext(this, this._ctx, this.state);
+	    this.enterRule(localctx, 32, TPTPParser.RULE_thf_binary_list);
 	    try {
 	        this.state = 572;
 	        this._errHandler.sync(this);
@@ -3401,13 +3400,13 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 1:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 868;
-	            this.tff_binary_nonassoc();
+	            this.tff_binary_pair();
 	            break;
 
 	        case 2:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 869;
-	            this.tff_binary_assoc();
+	            this.tff_binary_list();
 	            break;
 
 	        }
@@ -3427,9 +3426,9 @@ export default class TPTPParser extends antlr4.Parser {
 
 
 
-	tff_binary_nonassoc() {
-	    let localctx = new Tff_binary_nonassocContext(this, this._ctx, this.state);
-	    this.enterRule(localctx, 126, TPTPParser.RULE_tff_binary_nonassoc);
+	tff_binary_pair() {
+	    let localctx = new Tff_binary_pairContext(this, this._ctx, this.state);
+	    this.enterRule(localctx, 126, TPTPParser.RULE_tff_binary_pair);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
 	        this.state = 872;
@@ -3454,9 +3453,9 @@ export default class TPTPParser extends antlr4.Parser {
 
 
 
-	tff_binary_assoc() {
-	    let localctx = new Tff_binary_assocContext(this, this._ctx, this.state);
-	    this.enterRule(localctx, 128, TPTPParser.RULE_tff_binary_assoc);
+	tff_binary_list() {
+	    let localctx = new Tff_binary_listContext(this, this._ctx, this.state);
+	    this.enterRule(localctx, 128, TPTPParser.RULE_tff_binary_list);
 	    try {
 	        this.state = 878;
 	        this._errHandler.sync(this);
@@ -6033,13 +6032,13 @@ export default class TPTPParser extends antlr4.Parser {
 	        case 1:
 	            this.enterOuterAlt(localctx, 1);
 	            this.state = 1275;
-	            this.fof_binary_nonassoc();
+	            this.fof_binary_pair();
 	            break;
 
 	        case 2:
 	            this.enterOuterAlt(localctx, 2);
 	            this.state = 1276;
-	            this.fof_binary_assoc();
+	            this.fof_binary_list();
 	            break;
 
 	        }
@@ -6059,9 +6058,9 @@ export default class TPTPParser extends antlr4.Parser {
 
 
 
-	fof_binary_nonassoc() {
-	    let localctx = new Fof_binary_nonassocContext(this, this._ctx, this.state);
-	    this.enterRule(localctx, 260, TPTPParser.RULE_fof_binary_nonassoc);
+	fof_binary_pair() {
+	    let localctx = new Fof_binary_pairContext(this, this._ctx, this.state);
+	    this.enterRule(localctx, 260, TPTPParser.RULE_fof_binary_pair);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
 	        this.state = 1279;
@@ -6086,9 +6085,9 @@ export default class TPTPParser extends antlr4.Parser {
 
 
 
-	fof_binary_assoc() {
-	    let localctx = new Fof_binary_assocContext(this, this._ctx, this.state);
-	    this.enterRule(localctx, 262, TPTPParser.RULE_fof_binary_assoc);
+	fof_binary_list() {
+	    let localctx = new Fof_binary_listContext(this, this._ctx, this.state);
+	    this.enterRule(localctx, 262, TPTPParser.RULE_fof_binary_list);
 	    try {
 	        this.state = 1285;
 	        this._errHandler.sync(this);
@@ -9579,8 +9578,7 @@ TPTPParser.Zero_numeric = 99;
 TPTPParser.Underscore = 100;
 TPTPParser.Alpha = 101;
 TPTPParser.Dollar = 102;
-TPTPParser.Printable_char = 103;
-TPTPParser.Viewable_char = 104;
+TPTPParser.Comment_char = 103;
 
 TPTPParser.RULE_tptp_file = 0;
 TPTPParser.RULE_tptp_input = 1;
@@ -9597,8 +9595,8 @@ TPTPParser.RULE_formula_role = 11;
 TPTPParser.RULE_thf_formula = 12;
 TPTPParser.RULE_thf_logic_formula = 13;
 TPTPParser.RULE_thf_binary_formula = 14;
-TPTPParser.RULE_thf_binary_nonassoc = 15;
-TPTPParser.RULE_thf_binary_assoc = 16;
+TPTPParser.RULE_thf_binary_pair = 15;
+TPTPParser.RULE_thf_binary_list = 16;
 TPTPParser.RULE_thf_or_formula = 17;
 TPTPParser.RULE_thf_and_formula = 18;
 TPTPParser.RULE_thf_apply_formula = 19;
@@ -9645,8 +9643,8 @@ TPTPParser.RULE_thf_sequent = 59;
 TPTPParser.RULE_tff_formula = 60;
 TPTPParser.RULE_tff_logic_formula = 61;
 TPTPParser.RULE_tff_binary_formula = 62;
-TPTPParser.RULE_tff_binary_nonassoc = 63;
-TPTPParser.RULE_tff_binary_assoc = 64;
+TPTPParser.RULE_tff_binary_pair = 63;
+TPTPParser.RULE_tff_binary_list = 64;
 TPTPParser.RULE_tff_or_formula = 65;
 TPTPParser.RULE_tff_and_formula = 66;
 TPTPParser.RULE_tff_unit_formula = 67;
@@ -9712,8 +9710,8 @@ TPTPParser.RULE_tcf_quantified_formula = 126;
 TPTPParser.RULE_fof_formula = 127;
 TPTPParser.RULE_fof_logic_formula = 128;
 TPTPParser.RULE_fof_binary_formula = 129;
-TPTPParser.RULE_fof_binary_nonassoc = 130;
-TPTPParser.RULE_fof_binary_assoc = 131;
+TPTPParser.RULE_fof_binary_pair = 130;
+TPTPParser.RULE_fof_binary_list = 131;
 TPTPParser.RULE_fof_or_formula = 132;
 TPTPParser.RULE_fof_and_formula = 133;
 TPTPParser.RULE_fof_unary_formula = 134;
@@ -10463,12 +10461,12 @@ class Thf_binary_formulaContext extends antlr4.ParserRuleContext {
         this.ruleIndex = TPTPParser.RULE_thf_binary_formula;
     }
 
-	thf_binary_nonassoc() {
-	    return this.getTypedRuleContext(Thf_binary_nonassocContext,0);
+	thf_binary_pair() {
+	    return this.getTypedRuleContext(Thf_binary_pairContext,0);
 	};
 
-	thf_binary_assoc() {
-	    return this.getTypedRuleContext(Thf_binary_assocContext,0);
+	thf_binary_list() {
+	    return this.getTypedRuleContext(Thf_binary_listContext,0);
 	};
 
 	thf_binary_type() {
@@ -10492,7 +10490,7 @@ class Thf_binary_formulaContext extends antlr4.ParserRuleContext {
 
 
 
-class Thf_binary_nonassocContext extends antlr4.ParserRuleContext {
+class Thf_binary_pairContext extends antlr4.ParserRuleContext {
 
     constructor(parser, parent, invokingState) {
         if(parent===undefined) {
@@ -10503,7 +10501,7 @@ class Thf_binary_nonassocContext extends antlr4.ParserRuleContext {
         }
         super(parent, invokingState);
         this.parser = parser;
-        this.ruleIndex = TPTPParser.RULE_thf_binary_nonassoc;
+        this.ruleIndex = TPTPParser.RULE_thf_binary_pair;
     }
 
 	thf_unit_formula = function(i) {
@@ -10523,13 +10521,13 @@ class Thf_binary_nonassocContext extends antlr4.ParserRuleContext {
 
 	enterRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.enterThf_binary_nonassoc(this);
+	        listener.enterThf_binary_pair(this);
 		}
 	}
 
 	exitRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.exitThf_binary_nonassoc(this);
+	        listener.exitThf_binary_pair(this);
 		}
 	}
 
@@ -10538,7 +10536,7 @@ class Thf_binary_nonassocContext extends antlr4.ParserRuleContext {
 
 
 
-class Thf_binary_assocContext extends antlr4.ParserRuleContext {
+class Thf_binary_listContext extends antlr4.ParserRuleContext {
 
     constructor(parser, parent, invokingState) {
         if(parent===undefined) {
@@ -10549,7 +10547,7 @@ class Thf_binary_assocContext extends antlr4.ParserRuleContext {
         }
         super(parent, invokingState);
         this.parser = parser;
-        this.ruleIndex = TPTPParser.RULE_thf_binary_assoc;
+        this.ruleIndex = TPTPParser.RULE_thf_binary_list;
     }
 
 	thf_or_formula() {
@@ -10566,13 +10564,13 @@ class Thf_binary_assocContext extends antlr4.ParserRuleContext {
 
 	enterRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.enterThf_binary_assoc(this);
+	        listener.enterThf_binary_list(this);
 		}
 	}
 
 	exitRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.exitThf_binary_assoc(this);
+	        listener.exitThf_binary_list(this);
 		}
 	}
 
@@ -12522,12 +12520,12 @@ class Tff_binary_formulaContext extends antlr4.ParserRuleContext {
         this.ruleIndex = TPTPParser.RULE_tff_binary_formula;
     }
 
-	tff_binary_nonassoc() {
-	    return this.getTypedRuleContext(Tff_binary_nonassocContext,0);
+	tff_binary_pair() {
+	    return this.getTypedRuleContext(Tff_binary_pairContext,0);
 	};
 
-	tff_binary_assoc() {
-	    return this.getTypedRuleContext(Tff_binary_assocContext,0);
+	tff_binary_list() {
+	    return this.getTypedRuleContext(Tff_binary_listContext,0);
 	};
 
 	enterRule(listener) {
@@ -12547,7 +12545,7 @@ class Tff_binary_formulaContext extends antlr4.ParserRuleContext {
 
 
 
-class Tff_binary_nonassocContext extends antlr4.ParserRuleContext {
+class Tff_binary_pairContext extends antlr4.ParserRuleContext {
 
     constructor(parser, parent, invokingState) {
         if(parent===undefined) {
@@ -12558,7 +12556,7 @@ class Tff_binary_nonassocContext extends antlr4.ParserRuleContext {
         }
         super(parent, invokingState);
         this.parser = parser;
-        this.ruleIndex = TPTPParser.RULE_tff_binary_nonassoc;
+        this.ruleIndex = TPTPParser.RULE_tff_binary_pair;
     }
 
 	tff_unit_formula = function(i) {
@@ -12578,13 +12576,13 @@ class Tff_binary_nonassocContext extends antlr4.ParserRuleContext {
 
 	enterRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.enterTff_binary_nonassoc(this);
+	        listener.enterTff_binary_pair(this);
 		}
 	}
 
 	exitRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.exitTff_binary_nonassoc(this);
+	        listener.exitTff_binary_pair(this);
 		}
 	}
 
@@ -12593,7 +12591,7 @@ class Tff_binary_nonassocContext extends antlr4.ParserRuleContext {
 
 
 
-class Tff_binary_assocContext extends antlr4.ParserRuleContext {
+class Tff_binary_listContext extends antlr4.ParserRuleContext {
 
     constructor(parser, parent, invokingState) {
         if(parent===undefined) {
@@ -12604,7 +12602,7 @@ class Tff_binary_assocContext extends antlr4.ParserRuleContext {
         }
         super(parent, invokingState);
         this.parser = parser;
-        this.ruleIndex = TPTPParser.RULE_tff_binary_assoc;
+        this.ruleIndex = TPTPParser.RULE_tff_binary_list;
     }
 
 	tff_or_formula() {
@@ -12617,13 +12615,13 @@ class Tff_binary_assocContext extends antlr4.ParserRuleContext {
 
 	enterRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.enterTff_binary_assoc(this);
+	        listener.enterTff_binary_list(this);
 		}
 	}
 
 	exitRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.exitTff_binary_assoc(this);
+	        listener.exitTff_binary_list(this);
 		}
 	}
 
@@ -15283,12 +15281,12 @@ class Fof_binary_formulaContext extends antlr4.ParserRuleContext {
         this.ruleIndex = TPTPParser.RULE_fof_binary_formula;
     }
 
-	fof_binary_nonassoc() {
-	    return this.getTypedRuleContext(Fof_binary_nonassocContext,0);
+	fof_binary_pair() {
+	    return this.getTypedRuleContext(Fof_binary_pairContext,0);
 	};
 
-	fof_binary_assoc() {
-	    return this.getTypedRuleContext(Fof_binary_assocContext,0);
+	fof_binary_list() {
+	    return this.getTypedRuleContext(Fof_binary_listContext,0);
 	};
 
 	enterRule(listener) {
@@ -15308,7 +15306,7 @@ class Fof_binary_formulaContext extends antlr4.ParserRuleContext {
 
 
 
-class Fof_binary_nonassocContext extends antlr4.ParserRuleContext {
+class Fof_binary_pairContext extends antlr4.ParserRuleContext {
 
     constructor(parser, parent, invokingState) {
         if(parent===undefined) {
@@ -15319,7 +15317,7 @@ class Fof_binary_nonassocContext extends antlr4.ParserRuleContext {
         }
         super(parent, invokingState);
         this.parser = parser;
-        this.ruleIndex = TPTPParser.RULE_fof_binary_nonassoc;
+        this.ruleIndex = TPTPParser.RULE_fof_binary_pair;
     }
 
 	fof_unit_formula = function(i) {
@@ -15339,13 +15337,13 @@ class Fof_binary_nonassocContext extends antlr4.ParserRuleContext {
 
 	enterRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.enterFof_binary_nonassoc(this);
+	        listener.enterFof_binary_pair(this);
 		}
 	}
 
 	exitRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.exitFof_binary_nonassoc(this);
+	        listener.exitFof_binary_pair(this);
 		}
 	}
 
@@ -15354,7 +15352,7 @@ class Fof_binary_nonassocContext extends antlr4.ParserRuleContext {
 
 
 
-class Fof_binary_assocContext extends antlr4.ParserRuleContext {
+class Fof_binary_listContext extends antlr4.ParserRuleContext {
 
     constructor(parser, parent, invokingState) {
         if(parent===undefined) {
@@ -15365,7 +15363,7 @@ class Fof_binary_assocContext extends antlr4.ParserRuleContext {
         }
         super(parent, invokingState);
         this.parser = parser;
-        this.ruleIndex = TPTPParser.RULE_fof_binary_assoc;
+        this.ruleIndex = TPTPParser.RULE_fof_binary_list;
     }
 
 	fof_or_formula() {
@@ -15378,13 +15376,13 @@ class Fof_binary_assocContext extends antlr4.ParserRuleContext {
 
 	enterRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.enterFof_binary_assoc(this);
+	        listener.enterFof_binary_list(this);
 		}
 	}
 
 	exitRule(listener) {
 	    if(listener instanceof TPTPListener ) {
-	        listener.exitFof_binary_assoc(this);
+	        listener.exitFof_binary_list(this);
 		}
 	}
 
@@ -19148,8 +19146,8 @@ TPTPParser.Formula_roleContext = Formula_roleContext;
 TPTPParser.Thf_formulaContext = Thf_formulaContext; 
 TPTPParser.Thf_logic_formulaContext = Thf_logic_formulaContext; 
 TPTPParser.Thf_binary_formulaContext = Thf_binary_formulaContext; 
-TPTPParser.Thf_binary_nonassocContext = Thf_binary_nonassocContext; 
-TPTPParser.Thf_binary_assocContext = Thf_binary_assocContext; 
+TPTPParser.Thf_binary_pairContext = Thf_binary_pairContext; 
+TPTPParser.Thf_binary_listContext = Thf_binary_listContext; 
 TPTPParser.Thf_or_formulaContext = Thf_or_formulaContext; 
 TPTPParser.Thf_and_formulaContext = Thf_and_formulaContext; 
 TPTPParser.Thf_apply_formulaContext = Thf_apply_formulaContext; 
@@ -19196,8 +19194,8 @@ TPTPParser.Thf_sequentContext = Thf_sequentContext;
 TPTPParser.Tff_formulaContext = Tff_formulaContext; 
 TPTPParser.Tff_logic_formulaContext = Tff_logic_formulaContext; 
 TPTPParser.Tff_binary_formulaContext = Tff_binary_formulaContext; 
-TPTPParser.Tff_binary_nonassocContext = Tff_binary_nonassocContext; 
-TPTPParser.Tff_binary_assocContext = Tff_binary_assocContext; 
+TPTPParser.Tff_binary_pairContext = Tff_binary_pairContext; 
+TPTPParser.Tff_binary_listContext = Tff_binary_listContext; 
 TPTPParser.Tff_or_formulaContext = Tff_or_formulaContext; 
 TPTPParser.Tff_and_formulaContext = Tff_and_formulaContext; 
 TPTPParser.Tff_unit_formulaContext = Tff_unit_formulaContext; 
@@ -19263,8 +19261,8 @@ TPTPParser.Tcf_quantified_formulaContext = Tcf_quantified_formulaContext;
 TPTPParser.Fof_formulaContext = Fof_formulaContext; 
 TPTPParser.Fof_logic_formulaContext = Fof_logic_formulaContext; 
 TPTPParser.Fof_binary_formulaContext = Fof_binary_formulaContext; 
-TPTPParser.Fof_binary_nonassocContext = Fof_binary_nonassocContext; 
-TPTPParser.Fof_binary_assocContext = Fof_binary_assocContext; 
+TPTPParser.Fof_binary_pairContext = Fof_binary_pairContext; 
+TPTPParser.Fof_binary_listContext = Fof_binary_listContext; 
 TPTPParser.Fof_or_formulaContext = Fof_or_formulaContext; 
 TPTPParser.Fof_and_formulaContext = Fof_and_formulaContext; 
 TPTPParser.Fof_unary_formulaContext = Fof_unary_formulaContext; 

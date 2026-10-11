@@ -140,21 +140,21 @@ export default class TPTPListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by TPTPParser#thf_binary_nonassoc.
-	enterThf_binary_nonassoc(ctx) {
+	// Enter a parse tree produced by TPTPParser#thf_binary_pair.
+	enterThf_binary_pair(ctx) {
 	}
 
-	// Exit a parse tree produced by TPTPParser#thf_binary_nonassoc.
-	exitThf_binary_nonassoc(ctx) {
+	// Exit a parse tree produced by TPTPParser#thf_binary_pair.
+	exitThf_binary_pair(ctx) {
 	}
 
 
-	// Enter a parse tree produced by TPTPParser#thf_binary_assoc.
-	enterThf_binary_assoc(ctx) {
+	// Enter a parse tree produced by TPTPParser#thf_binary_list.
+	enterThf_binary_list(ctx) {
 	}
 
-	// Exit a parse tree produced by TPTPParser#thf_binary_assoc.
-	exitThf_binary_assoc(ctx) {
+	// Exit a parse tree produced by TPTPParser#thf_binary_list.
+	exitThf_binary_list(ctx) {
 	}
 
 
@@ -572,21 +572,21 @@ export default class TPTPListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by TPTPParser#tff_binary_nonassoc.
-	enterTff_binary_nonassoc(ctx) {
+	// Enter a parse tree produced by TPTPParser#tff_binary_pair.
+	enterTff_binary_pair(ctx) {
 	}
 
-	// Exit a parse tree produced by TPTPParser#tff_binary_nonassoc.
-	exitTff_binary_nonassoc(ctx) {
+	// Exit a parse tree produced by TPTPParser#tff_binary_pair.
+	exitTff_binary_pair(ctx) {
 	}
 
 
-	// Enter a parse tree produced by TPTPParser#tff_binary_assoc.
-	enterTff_binary_assoc(ctx) {
+	// Enter a parse tree produced by TPTPParser#tff_binary_list.
+	enterTff_binary_list(ctx) {
 	}
 
-	// Exit a parse tree produced by TPTPParser#tff_binary_assoc.
-	exitTff_binary_assoc(ctx) {
+	// Exit a parse tree produced by TPTPParser#tff_binary_list.
+	exitTff_binary_list(ctx) {
 	}
 
 
@@ -1175,21 +1175,21 @@ export default class TPTPListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by TPTPParser#fof_binary_nonassoc.
-	enterFof_binary_nonassoc(ctx) {
+	// Enter a parse tree produced by TPTPParser#fof_binary_pair.
+	enterFof_binary_pair(ctx) {
 	}
 
-	// Exit a parse tree produced by TPTPParser#fof_binary_nonassoc.
-	exitFof_binary_nonassoc(ctx) {
+	// Exit a parse tree produced by TPTPParser#fof_binary_pair.
+	exitFof_binary_pair(ctx) {
 	}
 
 
-	// Enter a parse tree produced by TPTPParser#fof_binary_assoc.
-	enterFof_binary_assoc(ctx) {
+	// Enter a parse tree produced by TPTPParser#fof_binary_list.
+	enterFof_binary_list(ctx) {
 	}
 
-	// Exit a parse tree produced by TPTPParser#fof_binary_assoc.
-	exitFof_binary_assoc(ctx) {
+	// Exit a parse tree produced by TPTPParser#fof_binary_list.
+	exitFof_binary_list(ctx) {
 	}
 
 

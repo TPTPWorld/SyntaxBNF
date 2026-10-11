@@ -143,21 +143,21 @@ class TPTPListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by TPTPParser#thf_binary_nonassoc.
-    def enterThf_binary_nonassoc(self, ctx:TPTPParser.Thf_binary_nonassocContext):
+    # Enter a parse tree produced by TPTPParser#thf_binary_pair.
+    def enterThf_binary_pair(self, ctx:TPTPParser.Thf_binary_pairContext):
         pass
 
-    # Exit a parse tree produced by TPTPParser#thf_binary_nonassoc.
-    def exitThf_binary_nonassoc(self, ctx:TPTPParser.Thf_binary_nonassocContext):
+    # Exit a parse tree produced by TPTPParser#thf_binary_pair.
+    def exitThf_binary_pair(self, ctx:TPTPParser.Thf_binary_pairContext):
         pass
 
 
-    # Enter a parse tree produced by TPTPParser#thf_binary_assoc.
-    def enterThf_binary_assoc(self, ctx:TPTPParser.Thf_binary_assocContext):
+    # Enter a parse tree produced by TPTPParser#thf_binary_list.
+    def enterThf_binary_list(self, ctx:TPTPParser.Thf_binary_listContext):
         pass
 
-    # Exit a parse tree produced by TPTPParser#thf_binary_assoc.
-    def exitThf_binary_assoc(self, ctx:TPTPParser.Thf_binary_assocContext):
+    # Exit a parse tree produced by TPTPParser#thf_binary_list.
+    def exitThf_binary_list(self, ctx:TPTPParser.Thf_binary_listContext):
         pass
 
 
@@ -575,21 +575,21 @@ class TPTPListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by TPTPParser#tff_binary_nonassoc.
-    def enterTff_binary_nonassoc(self, ctx:TPTPParser.Tff_binary_nonassocContext):
+    # Enter a parse tree produced by TPTPParser#tff_binary_pair.
+    def enterTff_binary_pair(self, ctx:TPTPParser.Tff_binary_pairContext):
         pass
 
-    # Exit a parse tree produced by TPTPParser#tff_binary_nonassoc.
-    def exitTff_binary_nonassoc(self, ctx:TPTPParser.Tff_binary_nonassocContext):
+    # Exit a parse tree produced by TPTPParser#tff_binary_pair.
+    def exitTff_binary_pair(self, ctx:TPTPParser.Tff_binary_pairContext):
         pass
 
 
-    # Enter a parse tree produced by TPTPParser#tff_binary_assoc.
-    def enterTff_binary_assoc(self, ctx:TPTPParser.Tff_binary_assocContext):
+    # Enter a parse tree produced by TPTPParser#tff_binary_list.
+    def enterTff_binary_list(self, ctx:TPTPParser.Tff_binary_listContext):
         pass
 
-    # Exit a parse tree produced by TPTPParser#tff_binary_assoc.
-    def exitTff_binary_assoc(self, ctx:TPTPParser.Tff_binary_assocContext):
+    # Exit a parse tree produced by TPTPParser#tff_binary_list.
+    def exitTff_binary_list(self, ctx:TPTPParser.Tff_binary_listContext):
         pass
 
 
@@ -1178,21 +1178,21 @@ class TPTPListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by TPTPParser#fof_binary_nonassoc.
-    def enterFof_binary_nonassoc(self, ctx:TPTPParser.Fof_binary_nonassocContext):
+    # Enter a parse tree produced by TPTPParser#fof_binary_pair.
+    def enterFof_binary_pair(self, ctx:TPTPParser.Fof_binary_pairContext):
         pass
 
-    # Exit a parse tree produced by TPTPParser#fof_binary_nonassoc.
-    def exitFof_binary_nonassoc(self, ctx:TPTPParser.Fof_binary_nonassocContext):
+    # Exit a parse tree produced by TPTPParser#fof_binary_pair.
+    def exitFof_binary_pair(self, ctx:TPTPParser.Fof_binary_pairContext):
         pass
 
 
-    # Enter a parse tree produced by TPTPParser#fof_binary_assoc.
-    def enterFof_binary_assoc(self, ctx:TPTPParser.Fof_binary_assocContext):
+    # Enter a parse tree produced by TPTPParser#fof_binary_list.
+    def enterFof_binary_list(self, ctx:TPTPParser.Fof_binary_listContext):
         pass
 
-    # Exit a parse tree produced by TPTPParser#fof_binary_assoc.
-    def exitFof_binary_assoc(self, ctx:TPTPParser.Fof_binary_assocContext):
+    # Exit a parse tree produced by TPTPParser#fof_binary_list.
+    def exitFof_binary_list(self, ctx:TPTPParser.Fof_binary_listContext):
         pass
 
 

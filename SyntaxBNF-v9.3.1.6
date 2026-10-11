@@ -26,6 +26,10 @@
 %          - Thanks to Johannes Schuster for finding the flaws!
 % v9.3.1.4 - Changed <*_binary_assoc> to <*_binary_list> and <*_binary_nonassoc> to
 %            <*_binary_pair>, to reflect the intended non-associativity.
+% v9.3.1.5 - Changed <printable_char> ::: . to <comment_char> ::: [^\r\n], and replaced
+%            <printable_char> with <comment_char> in all uses. Removed unused <viewable_char>.
+%            Thanks to Jiazhen Xia for these fixes.
+% v9.3.1.6 - Removed $temporal_instant and added $intuitionistic as a <ntf_logic_name>
 %--------------------------------------------------------------------------------------------------
 %----README ... this header provides important meta- and usage information
 %----
@@ -327,7 +331,7 @@
 %----NHF logic specifications are captured by <thf_definition>
 <ntf_semantics_spec>   :== <ntf_logic_name> <identical> [<ntf_logic_spec_list>]
 <ntf_logic_name>       :== $modal | $alethic_modal | $deontic_modal | $epistemic_modal |
-                           $doxastic_modal | $temporal_instant
+                           $doxastic_modal | $intuitionistic
 <ntf_logic_spec_list>  :== <ntf_logic_spec> | <ntf_logic_spec>,<ntf_logic_spec_list>
 <ntf_logic_spec>       :== <ntf_domains_spec> | <ntf_designation_spec> | <ntf_terms_spec> |
                            <ntf_modalities_spec> | <ntf_time_spec>
@@ -703,7 +707,7 @@
 
 %----For lex/yacc there cannot be spaces on either side of the | here
 <comment>              ::- <comment_line>|<comment_block>
-<comment_line>         ::- <percentage_sign><printable_char>*
+<comment_line>         ::- <percentage_sign><comment_char>*
 <comment_block>        ::: <slash_char><star><not_star_slash><star><star>*<slash_char>
 <not_star_slash>       ::: ([^*]*[*][*]*[^/*])*[^*]*
 %----Defined comments are a convention used for annotations that are used as additional input for
@@ -712,7 +716,7 @@
 %----system. They are analogous to pragmas in programming languages. To extract these separately
 %----from regular comments, the rules are:
 %----  <defined_comment>    ::- <def_comment_line>|<def_comment_block>
-%----  <def_comment_line>   ::: [%]<dollar><printable_char>*
+%----  <def_comment_line>   ::: [%]<dollar><comment_char>*
 %----  <def_comment_block>  ::: [/][*]<dollar><not_star_slash>[*][*]*[/]
 %----A string that matches both <defined_comment> and <comment> should be recognized as
 %----<defined_comment>, so put these before <comment>. Defined comments that are in use include:
@@ -724,7 +728,7 @@
 %----after the $$, e.g., /*$$Otter 3.3: Demodulator */ To extract these separately from regular
 %----comments, the rules are:
 %----  <system_comment>     ::- <sys_comment_line>|<sys_comment_block>
-%----  <sys_comment_line>   ::: [%]<dollar><dollar><printable_char>*
+%----  <sys_comment_line>   ::: [%]<dollar><dollar><comment_char>*
 %----  <sys_comment_block>  ::: [/][*]<dollar><dollar><not_star_slash>[*][*]*[/]
 %----A string that matches both <system_comment> and <defined_comment> should
 %----be recognized as <system_comment>, so put these before <defined_comment>.
@@ -751,9 +755,8 @@
 <alpha>                ::: (<lower_alpha>|<upper_alpha>)
 <alpha_numeric>        ::: (<lower_alpha>|<upper_alpha>|<numeric>|<underscore>)
 <dollar>               ::: [$]
-<printable_char>       ::: .
+<comment_char>         ::: [^\r\n]
 %----<printable_char> is any printable ASCII character, codes 32 (space) to 126 (tilde).
 %----<printable_char> does not include tabs, newlines, bells, etc. The use of . allows
 %----tab, so this is a bit loose.
-<viewable_char>        ::: [.\n]
 %--------------------------------------------------------------------------------------------------

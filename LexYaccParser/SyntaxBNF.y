@@ -283,17 +283,17 @@ thf_logic_formula : thf_unitary_formula {$<pval>$ = P_BUILD("thf_logic_formula",
                     | thf_sequent {$<pval>$ = P_BUILD("thf_logic_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-thf_binary_formula : thf_binary_nonassoc {$<pval>$ = P_BUILD("thf_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | thf_binary_assoc {$<pval>$ = P_BUILD("thf_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+thf_binary_formula : thf_binary_pair {$<pval>$ = P_BUILD("thf_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | thf_binary_list {$<pval>$ = P_BUILD("thf_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     | thf_binary_type {$<pval>$ = P_BUILD("thf_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-thf_binary_nonassoc : thf_unit_formula nonassoc_connective thf_unit_formula {$<pval>$ = P_BUILD("thf_binary_nonassoc", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+thf_binary_pair : thf_unit_formula nonassoc_connective thf_unit_formula {$<pval>$ = P_BUILD("thf_binary_pair", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-thf_binary_assoc : thf_or_formula {$<pval>$ = P_BUILD("thf_binary_assoc", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | thf_and_formula {$<pval>$ = P_BUILD("thf_binary_assoc", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | thf_apply_formula {$<pval>$ = P_BUILD("thf_binary_assoc", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+thf_binary_list : thf_or_formula {$<pval>$ = P_BUILD("thf_binary_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | thf_and_formula {$<pval>$ = P_BUILD("thf_binary_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | thf_apply_formula {$<pval>$ = P_BUILD("thf_binary_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 thf_or_formula : thf_unit_formula VLINE thf_unit_formula {$<pval>$ = P_BUILD("thf_or_formula", $<pval>1, P_TOKEN("VLINE ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -477,15 +477,15 @@ tff_logic_formula : tff_unitary_formula {$<pval>$ = P_BUILD("tff_logic_formula",
                     | txf_sequent {$<pval>$ = P_BUILD("tff_logic_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tff_binary_formula : tff_binary_nonassoc {$<pval>$ = P_BUILD("tff_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tff_binary_assoc {$<pval>$ = P_BUILD("tff_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+tff_binary_formula : tff_binary_pair {$<pval>$ = P_BUILD("tff_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | tff_binary_list {$<pval>$ = P_BUILD("tff_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tff_binary_nonassoc : tff_unit_formula nonassoc_connective tff_unit_formula {$<pval>$ = P_BUILD("tff_binary_nonassoc", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+tff_binary_pair : tff_unit_formula nonassoc_connective tff_unit_formula {$<pval>$ = P_BUILD("tff_binary_pair", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-tff_binary_assoc : tff_or_formula {$<pval>$ = P_BUILD("tff_binary_assoc", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | tff_and_formula {$<pval>$ = P_BUILD("tff_binary_assoc", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+tff_binary_list : tff_or_formula {$<pval>$ = P_BUILD("tff_binary_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | tff_and_formula {$<pval>$ = P_BUILD("tff_binary_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 tff_or_formula : tff_unit_formula VLINE tff_unit_formula {$<pval>$ = P_BUILD("tff_or_formula", $<pval>1, P_TOKEN("VLINE ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
@@ -738,15 +738,15 @@ fof_logic_formula : fof_binary_formula {$<pval>$ = P_BUILD("fof_logic_formula", 
                     | fof_unitary_formula {$<pval>$ = P_BUILD("fof_logic_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-fof_binary_formula : fof_binary_nonassoc {$<pval>$ = P_BUILD("fof_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | fof_binary_assoc {$<pval>$ = P_BUILD("fof_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+fof_binary_formula : fof_binary_pair {$<pval>$ = P_BUILD("fof_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | fof_binary_list {$<pval>$ = P_BUILD("fof_binary_formula", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-fof_binary_nonassoc : fof_unit_formula nonassoc_connective fof_unit_formula {$<pval>$ = P_BUILD("fof_binary_nonassoc", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+fof_binary_pair : fof_unit_formula nonassoc_connective fof_unit_formula {$<pval>$ = P_BUILD("fof_binary_pair", $<pval>1, $<pval>2, $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
-fof_binary_assoc : fof_or_formula {$<pval>$ = P_BUILD("fof_binary_assoc", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
-                    | fof_and_formula {$<pval>$ = P_BUILD("fof_binary_assoc", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+fof_binary_list : fof_or_formula {$<pval>$ = P_BUILD("fof_binary_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
+                    | fof_and_formula {$<pval>$ = P_BUILD("fof_binary_list", $<pval>1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}
                     ;
 
 fof_or_formula : fof_unit_formula VLINE fof_unit_formula {$<pval>$ = P_BUILD("fof_or_formula", $<pval>1, P_TOKEN("VLINE ", $<ival>2), $<pval>3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);}

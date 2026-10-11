@@ -58,8 +58,7 @@ Underscore : [_];
 Alpha : ( Lower_alpha | Upper_alpha );
 fragment Alpha_numeric : Lower_alpha | Upper_alpha | Numeric | '_';
 Dollar : [$];
-Printable_char : .;
-Viewable_char : '.\n';
+Comment_char : [^\r\n];
 
 //# END THE LEXER RULES
 
@@ -90,6 +89,11 @@ Viewable_char : '.\n';
 //%            <Double_quote> <Do_char> <Do_char>*<Double_quote> 
 //%          = Removed "unknown" from <source> because it conflicts with <dag_source> 
 //%          - Thanks to Johannes Schuster for finding the flaws! 
+//% v9.3.1.4 - Changed <*_binary_assoc> to <*_binary_list> and <*_binary_nonassoc> to 
+//%            <*_binary_pair>, to reflect the intended non-associativity. 
+//% v9.3.1.5 - Changed <printable_char> ::: . to <Comment_char> ::: [^\r\n], and replaced 
+//%            <printable_char> with <Comment_char> in all uses. Removed unused <viewable_char>. 
+//%            Thanks to Jiazhen Xia for these fixes. 
 //%-------------------------------------------------------------------------------------------------- 
 //%----README ... this header provides important meta- and usage information 
 //%---- 
@@ -158,10 +162,10 @@ formula_role : Lower_word  |  Lower_word'-'general_term;
 //%----THF formulae. 
 thf_formula : thf_logic_formula  |  thf_atom_typing  |  thf_subtype;
 thf_logic_formula : thf_unitary_formula  |  thf_unary_formula  |  thf_binary_formula  |  thf_defined_infix  |  thf_definition  |  thf_sequent;
-thf_binary_formula : thf_binary_nonassoc  |  thf_binary_assoc  |  thf_binary_type;
-//%----There's no precedence among binary connectives 
-thf_binary_nonassoc : thf_unit_formula nonassoc_connective thf_unit_formula;
-thf_binary_assoc : thf_or_formula  |  thf_and_formula  |  thf_apply_formula;
+thf_binary_formula : thf_binary_pair  |  thf_binary_list  |  thf_binary_type;
+thf_binary_pair : thf_unit_formula nonassoc_connective thf_unit_formula;
+//%----There's no intended precedence among associative connectives 
+thf_binary_list : thf_or_formula  |  thf_and_formula  |  thf_apply_formula;
 thf_or_formula : thf_unit_formula Vline thf_unit_formula  |  thf_or_formula Vline thf_unit_formula;
 thf_and_formula : thf_unit_formula '&' thf_unit_formula  |  thf_and_formula '&' thf_unit_formula;
 //%----@ for THF applicative style is left-associative and lambda is right-associative. 
@@ -249,9 +253,10 @@ tff_formula : tff_logic_formula  |  tff_atom_typing  |  tff_subtype;
 tff_logic_formula : tff_unitary_formula  |  tff_unary_formula  |  tff_binary_formula  |  tff_defined_infix  |  txf_definition  |  txf_sequent;
 //%----<tff_defined_infix> up here to avoid confusion in a = b | p, for TXF. 
 //%----For plain TFF it can be in <tff_defined_atomic> 
-tff_binary_formula : tff_binary_nonassoc  |  tff_binary_assoc;
-tff_binary_nonassoc : tff_unit_formula nonassoc_connective tff_unit_formula;
-tff_binary_assoc : tff_or_formula  |  tff_and_formula;
+tff_binary_formula : tff_binary_pair  |  tff_binary_list;
+tff_binary_pair : tff_unit_formula nonassoc_connective tff_unit_formula;
+//%----There's no intended precedence among associative connectives 
+tff_binary_list : tff_or_formula  |  tff_and_formula;
 tff_or_formula : tff_unit_formula Vline tff_unit_formula  |  tff_or_formula Vline tff_unit_formula;
 tff_and_formula : tff_unit_formula '&' tff_unit_formula  |  tff_and_formula '&' tff_unit_formula;
 tff_unit_formula : tff_unitary_formula  |  tff_unary_formula  |  tff_defined_infix;
@@ -376,12 +381,10 @@ tcf_quantified_formula : '!' '['tff_variable_list']' ':' tcf_logic_formula;
 fof_formula : fof_logic_formula  |  fof_sequent;
 fof_logic_formula : fof_binary_formula  |  fof_unary_formula  |  fof_unitary_formula;
 //%----Future answer variable ideas | <answer_formula> 
-fof_binary_formula : fof_binary_nonassoc  |  fof_binary_assoc;
-//%----Only some binary connectives are associative 
-//%----There's no precedence among binary connectives 
-fof_binary_nonassoc : fof_unit_formula nonassoc_connective fof_unit_formula;
-//%----Associative connectives & and | are in <binary_assoc> 
-fof_binary_assoc : fof_or_formula  |  fof_and_formula;
+fof_binary_formula : fof_binary_pair  |  fof_binary_list;
+fof_binary_pair : fof_unit_formula nonassoc_connective fof_unit_formula;
+//%----There's no intended precedence among associative connectives 
+fof_binary_list : fof_or_formula  |  fof_and_formula;
 fof_or_formula : fof_unit_formula Vline fof_unit_formula  |  fof_or_formula Vline fof_unit_formula;
 fof_and_formula : fof_unit_formula '&' fof_unit_formula  |  fof_and_formula '&' fof_unit_formula;
 fof_unary_formula : unary_connective fof_unit_formula  |  fof_infix_unary;
@@ -640,7 +643,7 @@ nothing : ;
 //%----system. They are analogous to pragmas in programming languages. To extract these separately 
 //%----from regular comments, the rules are: 
 //%----  <defined_comment>    ::- <def_comment_line>|<def_comment_block> 
-//%----  <def_comment_line>   ::: [%]<Dollar> <Printable_char>* 
+//%----  <def_comment_line>   ::: [%]<Dollar> <Comment_char>* 
 //%----  <def_comment_block>  ::: [/][*]<Dollar> <Not_star_slash>[*][*]*[/] 
 //%----A string that matches both <defined_comment> and <comment> should be recognized as 
 //%----<defined_comment>, so put these before <comment>. Defined comments that are in use include: 
@@ -652,13 +655,13 @@ nothing : ;
 //%----after the $$, e.g., /*$$Otter 3.3: Demodulator */ To extract these separately from regular 
 //%----comments, the rules are: 
 //%----  <system_comment>     ::- <sys_comment_line>|<sys_comment_block> 
-//%----  <sys_comment_line>   ::: [%]<Dollar> <Dollar> <Printable_char>* 
+//%----  <sys_comment_line>   ::: [%]<Dollar> <Dollar> <Comment_char>* 
 //%----  <sys_comment_block>  ::: [/][*]<Dollar> <Dollar> <Not_star_slash>[*][*]*[/] 
 //%----A string that matches both <system_comment> and <defined_comment> should 
 //%----be recognized as <system_comment>, so put these before <defined_comment>. 
 //%----Character classes 
 //%---Space and visible characters upto ~, except ' and \ 
-//%----<Printable_char> is any printable ASCII character, codes 32 (space) to 126 (tilde). 
-//%----<Printable_char> does not include tabs, newlines, bells, etc. The use of . allows 
+//%----<printable_char> is any printable ASCII character, codes 32 (space) to 126 (tilde). 
+//%----<printable_char> does not include tabs, newlines, bells, etc. The use of . allows 
 //%----tab, so this is a bit loose. 
 //%-------------------------------------------------------------------------------------------------- 
