@@ -94,6 +94,7 @@ Comment_char : [^\r\n];
 //% v9.3.1.5 - Changed <printable_char> ::: . to <Comment_char> ::: [^\r\n], and replaced 
 //%            <printable_char> with <Comment_char> in all uses. Removed unused <viewable_char>. 
 //%            Thanks to Jiazhen Xia for these fixes. 
+//% v9.3.1.6 - Removed $temporal_instant and added $intuitionistic as a <ntf_logic_name> 
 //%-------------------------------------------------------------------------------------------------- 
 //%----README ... this header provides important meta- and usage information 
 //%---- 
@@ -346,7 +347,7 @@ ntf_short_connective : '[.]'  |  Less_sign'.'Arrow  |  '{.}'  |  '(.)';
 //%----NXF logic specifications. Captured by <txf_definition> 
 //%----NHF logic specifications are captured by <thf_definition> 
 //<ntf_semantics_spec>   :== <ntf_logic_name> <identical> [<ntf_logic_spec_list>] 
-//<ntf_logic_name>       :== $modal | $alethic_modal | $deontic_modal | $epistemic_modal | $doxastic_modal | $temporal_instant 
+//<ntf_logic_name>       :== $modal | $alethic_modal | $deontic_modal | $epistemic_modal | $doxastic_modal | $intuitionistic 
 //<ntf_logic_spec_list>  :== <ntf_logic_spec> | <ntf_logic_spec>,<ntf_logic_spec_list> 
 //<ntf_logic_spec>       :== <ntf_domains_spec> | <ntf_designation_spec> | <ntf_terms_spec> | <ntf_modalities_spec> | <ntf_time_spec> 
 //<ntf_domains_spec>     :== $domains <identical> <ntf_domains_value> 
