@@ -85,7 +85,7 @@ and emits a combined ANTLR4 grammar.
 
 The converter follows the existing SyntaxBNF conventions directly:
 `TPTP_file` is the entry rule,
-`comment` tokens are skipped,
+`comment` tokens are retained on the `HIDDEN` channel for tooling,
 and macros referenced by parser rules become tokens.
 It relies on the metagrammar to validate definitions
 and stops at the first syntax error.

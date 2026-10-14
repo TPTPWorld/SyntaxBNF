@@ -252,20 +252,31 @@ class CharsetTests(unittest.TestCase):
             )
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
-            # A line comment must consume letters and backslashes, and stop at
-            # either newline character without swallowing the following record.
+            # Comments remain available to tooling without reaching the parser.
+            # Line comments must stop before the following record.
             for ending in ("\n", "\r\n", "\r"):
-                for comment in ("ordinary remark", r"back\slash", ""):
+                for comment in (
+                    "% ordinary remark", r"% back\slash", "% ",
+                    "/* block comment */", "/* block\ncomment */",
+                ):
                     with self.subTest(ending=ending, comment=comment):
-                        lexer = lexer_class(antlr4.InputStream(
-                            f"% {comment}{ending}fof(a,axiom,p)."
-                        ))
-                        parser = module.CorpusParser(antlr4.CommonTokenStream(lexer))
+                        source_text = f"{comment}{ending}fof(a,axiom,p)."
+                        lexer = lexer_class(antlr4.InputStream(source_text))
+                        tokens = antlr4.CommonTokenStream(lexer)
+                        parser = module.CorpusParser(tokens)
                         for recognizer in (lexer, parser):
                             recognizer.removeErrorListeners()
                             recognizer.addErrorListener(converter.SyntaxErrors())
                         tree = parser.tptp_file()
                         self.assertEqual(len(tree.tptp_input()), 1)
+                        tokens.fill()
+                        comments = [token for token in tokens.tokens
+                                    if token.type == lexer_class.Comment]
+                        self.assertEqual(len(comments), 1)
+                        token = comments[0]
+                        self.assertEqual(token.channel, antlr4.Token.HIDDEN_CHANNEL)
+                        self.assertEqual(token.text, comment)
+                        self.assertEqual(source_text[token.start:token.stop + 1], comment)
 
     def test_generated_parser(self):
         source = (

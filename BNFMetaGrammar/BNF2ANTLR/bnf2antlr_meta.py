@@ -343,7 +343,7 @@ class GrammarConverter:
             if definition.operator == ":::" and definition.name not in self.references:
                 name = "fragment " + name
             alternatives = regex_alternatives(definition.expression)
-            command = "-> skip" if definition.name == "comment" else ""
+            command = "-> channel(HIDDEN)" if definition.name == "comment" else ""
             if command and len(alternatives) > 1:
                 alternatives = ["( " + " | ".join(alternatives) + " )"]
             blocks.append(format_rule(name, alternatives, command))

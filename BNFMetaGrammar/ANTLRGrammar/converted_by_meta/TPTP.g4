@@ -1338,7 +1338,7 @@ Hash
 
 Comment
     : ( Comment_line | Comment_block )
-    -> skip;
+    -> channel(HIDDEN);
 
 Comment_line
     : Percentage_sign Comment_char*
