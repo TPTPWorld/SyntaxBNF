@@ -235,7 +235,10 @@ class CharsetTests(unittest.TestCase):
                         self.convert(f"<sample> ::: {charset}\n", Path(tmp), "Invalid")
 
     def test_full_syntax_bnf(self):
-        source = converter.select_input_file().read_text()
+        # Select the corpus explicitly; the root may also contain an HTML export.
+        source = converter.select_input_file(
+            converter.REPOSITORY_ROOT / "SyntaxBNF-v9.3.1.6"
+        ).read_text()
         with tempfile.TemporaryDirectory(prefix="bnf-corpus-test-") as tmp:
             directory = Path(tmp)
             definitions, grammar = self.convert(source, directory, "Corpus")

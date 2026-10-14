@@ -57,8 +57,8 @@ annotations
     ;
 
 formula_role
-    : Lower_word
-    | Lower_word '-' general_term
+    : lower_word_token
+    | lower_word_token '-' general_term
     ;
 
 thf_formula
@@ -1103,7 +1103,7 @@ name
     ;
 
 atomic_word
-    : Lower_word
+    : lower_word_token
     | Single_quoted
     | Back_quoted
     ;
@@ -1128,6 +1128,21 @@ file_name
 
 nothing
     :
+    ;
+
+// Preserve Lower_word spellings shadowed by implicit literal tokens.
+lower_word_token
+    : Lower_word
+    | 'cnf'
+    | 'file'
+    | 'fof'
+    | 'include'
+    | 'inference'
+    | 'introduced'
+    | 'tcf'
+    | 'tff'
+    | 'thf'
+    | 'tpi'
     ;
 
 // Semantic restrictions from SyntaxBNF.

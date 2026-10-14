@@ -176,6 +176,58 @@ def regex_alternatives(expression) -> list[str]:
     ]
 
 
+def lexical_pattern(name: str, definitions: dict[str, Definition]) -> re.Pattern:
+    """Match complete literal spellings against a SyntaxBNF lexical definition."""
+    patterns = {}
+    visiting = set()
+
+    def rule(rule_name):
+        if rule_name in visiting:
+            raise ConversionError(f"Recursive lexical definition in <{name}>: <{rule_name}>")
+        if rule_name not in patterns:
+            if rule_name not in definitions:
+                raise ConversionError(f"Undefined lexical reference <{rule_name}> in <{name}>")
+            visiting.add(rule_name)
+            patterns[rule_name] = expression(definitions[rule_name].expression)
+            visiting.remove(rule_name)
+        return patterns[rule_name]
+
+    def expression(context):
+        alternatives = []
+        for alternative in context.regexAlternative():
+            parts = []
+            for element in alternative.regexElement():
+                primary = element.regexPrimary()
+                if primary.NONTERMINAL():
+                    part = rule(primary.getText()[1:-1])
+                elif primary.regexExpression():
+                    part = expression(primary.regexExpression())
+                else:
+                    char_set = primary.charSet()
+                    charset(char_set)  # Apply the same validation as ANTLR emission.
+                    if char_set.WILDCARD():
+                        part = r"[\s\S]"
+                    else:
+                        content = char_set.charSetContent()
+                        characters = [r"\-"] if content.leadingDash else []
+                        for item in content.charSetElement():
+                            characters.append("-".join(
+                                re.escape(chr(charset_char(char)[0]))
+                                for char in item.charSetChar()
+                            ))
+                        if content.trailingDash:
+                            characters.append(r"\-")
+                        negation = "^" if char_set.NEGATED_LBRACKET() else ""
+                        part = "[" + negation + "".join(characters) + "]"
+                quantifier = element.regexQuantifier()
+                parts.append("(?:" + part + ")" +
+                             (quantifier.getText() if quantifier else ""))
+            alternatives.append("".join(parts))
+        return "(?:" + "|".join(alternatives) + ")"
+
+    return re.compile(rule(name))
+
+
 class GrammarConverter:
     def __init__(self, definitions, source, lexer_class, grammar_name,
                  source_name, metagrammar_name):
@@ -199,6 +251,26 @@ class GrammarConverter:
                      if a.getText() and set(a.getText()) <= OPERATOR_CHARACTERS}
         ordered = sorted(operators, key=lambda text: (-len(text), text))
         self.punctuation = re.compile("|".join([re.escape(op) for op in ordered] + ["."]))
+        self.lower_word_literals = []
+        self.lower_word_wrapper = None
+        if "lower_word" in self.references and "lower_word" in self.lexer_names:
+            candidates = {
+                element.start.text
+                for alternative in alternatives for element in alternative.syntaxElement()
+                if element.start.type == self.bare_word
+            }
+            if candidates:
+                pattern = lexical_pattern("lower_word", {d.name: d for d in self.lexical})
+                self.lower_word_literals = sorted(
+                    word for word in candidates if pattern.fullmatch(word)
+                )
+            if self.lower_word_literals:
+                occupied = {d.name.lower() for d in self.syntax}
+                self.lower_word_wrapper = "lower_word_token"
+                suffix = 2
+                while self.lower_word_wrapper in occupied:
+                    self.lower_word_wrapper = f"lower_word_token_{suffix}"
+                    suffix += 1
 
     def syntax_alternative(self, alternative) -> str:
         parts = []
@@ -217,7 +289,10 @@ class GrammarConverter:
             if element.NONTERMINAL():
                 flush()
                 name = token.text[1:-1]
-                name = lexer_name(name) if name in self.lexer_names else name.lower()
+                if name == "lower_word" and self.lower_word_wrapper:
+                    name = self.lower_word_wrapper
+                else:
+                    name = lexer_name(name) if name in self.lexer_names else name.lower()
                 parts.append(name + ("*" if element.STAR() else ""))
             elif token.type == self.bare_word:
                 flush()
@@ -242,6 +317,13 @@ class GrammarConverter:
             if index == 0 and definition.name == "TPTP_file":
                 alternatives = [(a + " EOF").strip() for a in alternatives]
             blocks.append(format_rule(definition.name.lower(), alternatives))
+
+        if self.lower_word_wrapper:
+            blocks.append(
+                "// Preserve Lower_word spellings shadowed by implicit literal tokens.\n" +
+                format_rule(self.lower_word_wrapper,
+                            ["Lower_word"] + [literal(word) for word in self.lower_word_literals])
+            )
 
         if self.semantic:
             comments = [
@@ -293,10 +375,11 @@ def main(argv=None) -> int:
         definitions, source, lexer = parse_syntax_bnf(
             input_path, args.metagrammar.resolve(), args.antlr_jar.resolve(),
         )
-        grammar = GrammarConverter(
+        conversion = GrammarConverter(
             definitions, source, lexer, args.output_grammar_name,
             input_path.name, args.metagrammar.name,
-        ).convert()
+        )
+        grammar = conversion.convert()
         output = args.output
         if output.suffix != ".g4":
             output /= f"{args.output_grammar_name}.g4"
@@ -307,7 +390,8 @@ def main(argv=None) -> int:
         return 1
 
     counts = Counter(d.operator for d in definitions)
-    print(f"Wrote {output} ({counts['::=']} parser rules, {counts['::-']} tokens, "
+    parser_rules = counts['::='] + bool(conversion.lower_word_wrapper)
+    print(f"Wrote {output} ({parser_rules} parser rules, {counts['::-']} tokens, "
           f"{counts[':::']} macros, {counts[':==']} semantic restrictions).")
     return 0
 
