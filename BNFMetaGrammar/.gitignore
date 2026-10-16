@@ -1,0 +1,5 @@
+# Generated ANTLR tooling output
+.antlr/
+
+# Python bytecode caches
+__pycache__/
