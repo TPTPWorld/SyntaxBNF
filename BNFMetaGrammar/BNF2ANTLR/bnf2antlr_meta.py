@@ -17,7 +17,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from antlr4 import CommonTokenStream, InputStream
-from antlr4.error.ErrorListener import ErrorListener
+from antlr4.error.ErrorListener import ErrorListener as AntlrErrorListener
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
@@ -27,33 +27,6 @@ DEFAULT_OUTPUT_DIRECTORY = REPOSITORY_ROOT / "BNFMetaGrammar/ANTLRGrammar/conver
 OPERATOR_CHARACTERS = set("!#&*+-/:<=>?@^~|")
 
 
-class ConversionError(RuntimeError):
-    """An invalid SyntaxBNF definition."""
-
-
-def select_input_file(input_path: Path | None = None) -> Path:
-    """Use an explicit file, or the sole SyntaxBNF* file in the repository root."""
-    if input_path is not None:
-        if not input_path.is_file():
-            raise ConversionError(f"BNF input is not a file: {input_path}")
-        return input_path
-
-    root = REPOSITORY_ROOT
-    candidates = [path for path in root.glob("SyntaxBNF*") if path.is_file()]
-    if len(candidates) == 0:
-        raise ConversionError(f"No files beginning with SyntaxBNF found in {root}")
-    if len(candidates) > 1:
-        raise ConversionError(
-            f"Multiple SyntaxBNF files found in {root}; specify the input file explicitly."
-        )
-    return candidates[0]
-
-
-class SyntaxErrors(ErrorListener):
-    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
-        raise ConversionError(f"line {line}:{column}: {msg}")
-
-
 @dataclass
 class Definition:
     name: str
@@ -61,6 +34,32 @@ class Definition:
     expression: object
     context: object
 
+class ConversionError(RuntimeError):
+    """An error converting BNF to ANTLR, e.g., missing input, parser loading
+    failure, or an invalid SyntaxBNF definition.
+    """
+
+class SyntaxErrorListener(AntlrErrorListener):
+    def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
+        raise ConversionError(f"line {line}:{column}: {msg}")
+
+
+def select_input_file(input_path: Path | None = None) -> Path:
+    """Use an explicit file, or the sole SyntaxBNF-v* file in the repository root."""
+    if input_path is not None:
+        if not input_path.is_file():
+            raise ConversionError(f"BNF input is not a file: {input_path}")
+        return input_path
+
+    root = REPOSITORY_ROOT
+    candidates = [path for path in root.glob("SyntaxBNF-v*") if path.is_file()]
+    if len(candidates) == 0:
+        raise ConversionError(f"No files beginning with SyntaxBNF-v found in {root}")
+    if len(candidates) > 1:
+        raise ConversionError(
+            f"Multiple SyntaxBNF files found in {root}; specify the input file explicitly."
+        )
+    return candidates[0]
 
 def generate_metaparser(metagrammar: Path, antlr_jar: Path, output_directory: Path):
     subprocess.run(
@@ -71,9 +70,8 @@ def generate_metaparser(metagrammar: Path, antlr_jar: Path, output_directory: Pa
         check=True,
     )
 
-
 def import_generated_metaparser(output_directory: Path):
-    # Load these files directly: ordinary imports would reuse an earlier parser.
+    '''Load generated lexer and parser'''
     classes = []
     for name in ("BNFMetaLexer", "BNFMetaParser"):
         spec = importlib.util.spec_from_file_location(name, output_directory / f"{name}.py")
@@ -95,7 +93,7 @@ def parse_syntax_bnf(input_path: Path, metagrammar: Path, antlr_jar: Path):
         parser = parser_class(CommonTokenStream(lexer))
         for recognizer in (lexer, parser):
             recognizer.removeErrorListeners()
-            recognizer.addErrorListener(SyntaxErrors())
+            recognizer.addErrorListener(SyntaxErrorListener())
         definitions = [
             Definition(rule.name.text[1:-1], rule.separator.text,
                        rule.syntaxExpression() or rule.regexExpression(), rule)
@@ -356,17 +354,14 @@ class GrammarConverter:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input", type=Path, nargs="?",
-                        help="BNF input file (default: select the SyntaxBNF* file in repository root)")
-    parser.add_argument("output", type=Path, nargs="?",
-                        help="output directory or .g4 file (default: BNFMetaGrammar/ANTLRGrammar/converted_by_meta)")
+        help="BNF input file (default: select the SyntaxBNF-v* file in repository root)")
+    parser.add_argument("-o", dest="output", type=Path, default=DEFAULT_OUTPUT_DIRECTORY,
+        help="output directory or .g4 file (default: BNFMetaGrammar/ANTLRGrammar/converted_by_meta)")
     parser.add_argument("--output-grammar-name", default="TPTP",
-                        help="output grammar name (default: TPTP)")
+        help="output grammar name (default: TPTP)")
     parser.add_argument("--metagrammar", type=Path, default=DEFAULT_METAGRAMMAR)
     parser.add_argument("--antlr-jar", type=Path, default=DEFAULT_ANTLR_JAR)
     args = parser.parse_args(argv)
-    # Preserve the output-only invocation when one positional argument is supplied.
-    if args.output is None:
-        args.input, args.output = None, args.input or DEFAULT_OUTPUT_DIRECTORY
     if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*", args.output_grammar_name):
         parser.error(f"invalid ANTLR grammar name: {args.output_grammar_name!r}")
 
@@ -375,22 +370,22 @@ def main(argv=None) -> int:
         definitions, source, lexer = parse_syntax_bnf(
             input_path, args.metagrammar.resolve(), args.antlr_jar.resolve(),
         )
-        conversion = GrammarConverter(
+        converter = GrammarConverter(
             definitions, source, lexer, args.output_grammar_name,
             input_path.name, args.metagrammar.name,
         )
-        grammar = conversion.convert()
+        output_grammar = converter.convert()
         output = args.output
         if output.suffix != ".g4":
             output /= f"{args.output_grammar_name}.g4"
         output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(grammar, encoding="utf-8")
+        output.write_text(output_grammar, encoding="utf-8")
     except (ConversionError, OSError, subprocess.CalledProcessError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
 
     counts = Counter(d.operator for d in definitions)
-    parser_rules = counts['::='] + bool(conversion.lower_word_wrapper)
+    parser_rules = counts['::='] + bool(converter.lower_word_wrapper)
     print(f"Wrote {output} ({parser_rules} parser rules, {counts['::-']} tokens, "
           f"{counts[':::']} macros, {counts[':==']} semantic restrictions).")
     return 0
