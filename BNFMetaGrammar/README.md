@@ -125,6 +125,13 @@ The converter requires Java and the repository's `ANTLRParsers/antlr-4.13.2-comp
 Alternative metagrammar and jar paths can be selected with `--metagrammar` and `--antlr-jar`.
 The selected metagrammar must have its companion `BNFMetaLexer.g4` in the same directory.
 
+Use `--debug` to print the generated lexer/parser class names, inheritance chains, attributes, 
+token names, lexer modes, parser rule names, and the generated `document()` method source:
+
+```bash
+python3 BNFMetaGrammar/BNF2ANTLR/bnf2antlr_meta.py --debug
+```
+
 ### How to test the metagrammar-driven converter
 
 Run the converter, generated-lexer, and lower-word parser regression checks

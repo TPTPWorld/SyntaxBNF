@@ -8,6 +8,7 @@ and ::: defines fragments (or tokens when referenced directly by parser rules).
 
 import argparse
 import importlib.util
+import inspect
 import re
 import subprocess
 import sys
@@ -83,22 +84,73 @@ def import_generated_metaparser(output_directory: Path):
     return classes
 
 
-def parse_syntax_bnf(input_path: Path, metagrammar: Path, antlr_jar: Path):
+def debug_print_syntax_bnf(lexer_class, parser_class, bnf_source_text: str):
+    """Print generated class details and inspect rules parsed from the source."""
+    for label, value in (
+        ("lexer_class.__name__", lexer_class.__name__),
+        ("parser_class.__name__", parser_class.__name__),
+        ("lexer_class.__mro__", lexer_class.__mro__),   # Method Resolution Order
+        ("parser_class.__mro__", parser_class.__mro__),
+        ("dir(lexer_class)", dir(lexer_class)),
+        ("list(vars(lexer_class))", list(vars(lexer_class))),
+        ("list(vars(parser_class))", list(vars(parser_class))),
+        ("lexer_class.symbolicNames", lexer_class.symbolicNames),
+        ("lexer_class.modeNames", lexer_class.modeNames),
+        ("parser_class.ruleNames", parser_class.ruleNames),
+    ):
+        print(f"{label} = {value!r}")
+    # print("inspect.getsource(parser_class.document):")
+    # print(inspect.getsource(parser_class.document))
+    print()
+
+    lexer = lexer_class(antlr4.InputStream(bnf_source_text))
+    parser = parser_class(antlr4.CommonTokenStream(lexer))
+    for recognizer in (lexer, parser):
+        recognizer.removeErrorListeners()
+        recognizer.addErrorListener(SyntaxErrorListener())
+
+    # Each rule (`definition` in BNFMetaParser.g4) is either a syntaxExpression or a regexExpression
+    rules = parser.document().definition()
+
+    for label, value in (
+        ("len(rules)", len(rules)),
+        ("type(rules[0])", type(rules[0])),
+        ("dir(rules[0])", dir(rules[0])),
+        ("type(rules[0].syntaxExpression())", type(rules[0].syntaxExpression())),
+        ("dir(rules[0].syntaxExpression())", dir(rules[0].syntaxExpression())),
+        ("type(rules[-1].regexExpression())", type(rules[-1].regexExpression())),
+        ("dir(rules[-1].regexExpression())", dir(rules[-1].regexExpression()))
+    ):
+        print(f"{label} = {value!r}")
+    print()
+
+    # for i, rule in enumerate(rules):
+    #     print(i, rule.name.text, rule.separator.text, rule.syntaxExpression(), rule.regexExpression())
+    # print()
+
+
+def parse_syntax_bnf(input_path: Path, metagrammar: Path, antlr_jar: Path, *, debug: bool = False):
     source = input_path.read_text(encoding="utf-8")
     with tempfile.TemporaryDirectory(prefix="bnf2antlr-meta-") as temporary:
         directory = Path(temporary)
         generate_metaparser(metagrammar, antlr_jar, directory)
         lexer_class, parser_class = import_generated_metaparser(directory)
+        if debug:
+            debug_print_syntax_bnf(lexer_class, parser_class, source)
+
         lexer = lexer_class(antlr4.InputStream(source))
         parser = parser_class(antlr4.CommonTokenStream(lexer))
         for recognizer in (lexer, parser):
             recognizer.removeErrorListeners()
             recognizer.addErrorListener(SyntaxErrorListener())
+        rules = parser.document().definition()
+
         definitions = [
             Definition(rule.name.text[1:-1], rule.separator.text,
                        rule.syntaxExpression() or rule.regexExpression(), rule)
-            for rule in parser.document().definition()
+            for rule in rules
         ]
+
     return definitions, source, lexer_class
 
 
@@ -354,6 +406,8 @@ def main(argv=None) -> int:
         help="output grammar name (default: TPTP)")
     parser.add_argument("--metagrammar", type=Path, default=DEFAULT_METAGRAMMAR)
     parser.add_argument("--antlr-jar", type=Path, default=DEFAULT_ANTLR_JAR)
+    parser.add_argument("--debug", action="store_true",
+        help="print generated lexer/parser class details and document() source after import")
     args = parser.parse_args(argv)
     if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*", args.output_grammar_name):
         parser.error(f"invalid ANTLR grammar name: {args.output_grammar_name!r}")
@@ -362,6 +416,7 @@ def main(argv=None) -> int:
         input_path = select_input_file(args.input)
         definitions, source, lexer = parse_syntax_bnf(
             input_path, args.metagrammar.resolve(), args.antlr_jar.resolve(),
+            debug=args.debug,
         )
         converter = GrammarConverter(
             definitions, source, lexer, args.output_grammar_name,
