@@ -129,16 +129,17 @@ def debug_print_syntax_bnf(lexer_class, parser_class, bnf_source_text: str):
     # print()
 
 
-def parse_syntax_bnf(input_path: Path, metagrammar: Path, antlr_jar: Path, *, debug: bool = False):
-    source = input_path.read_text(encoding="utf-8")
-    with tempfile.TemporaryDirectory(prefix="bnf2antlr-meta-") as temporary:
-        directory = Path(temporary)
-        generate_metaparser(metagrammar, antlr_jar, directory)
-        lexer_class, parser_class = import_generated_metaparser(directory)
+def parse_syntax_bnf(input_path: Path, metagrammar_path: Path, antlr_jar_path: Path,
+                     *, debug: bool = False):
+    bnf_source_text = input_path.read_text(encoding="utf-8")
+    with tempfile.TemporaryDirectory(prefix="bnf2antlr-meta-") as tmpdir:
+        tmpdir_path = Path(tmpdir)
+        generate_metaparser(metagrammar_path, antlr_jar_path, tmpdir_path)
+        lexer_class, parser_class = import_generated_metaparser(tmpdir_path)
         if debug:
-            debug_print_syntax_bnf(lexer_class, parser_class, source)
+            debug_print_syntax_bnf(lexer_class, parser_class, bnf_source_text)
 
-        lexer = lexer_class(antlr4.InputStream(source))
+        lexer = lexer_class(antlr4.InputStream(bnf_source_text))
         parser = parser_class(antlr4.CommonTokenStream(lexer))
         for recognizer in (lexer, parser):
             recognizer.removeErrorListeners()
@@ -151,7 +152,7 @@ def parse_syntax_bnf(input_path: Path, metagrammar: Path, antlr_jar: Path, *, de
             for rule in rules
         ]
 
-    return definitions, source, lexer_class
+    return definitions, bnf_source_text, lexer_class
 
 
 def lexer_name(name: str) -> str:
@@ -272,17 +273,20 @@ def lexical_pattern(name: str, definitions: dict[str, Definition]) -> re.Pattern
 
 
 class GrammarConverter:
-    def __init__(self, definitions, source, lexer_class, grammar_name,
-                 source_name, metagrammar_name):
-        self.source = source
-        self.grammar_name = grammar_name
-        self.source_name = source_name
+    def __init__(self,
+                 definitions, bnf_source_text: str, lexer_class,
+                 output_grammar_name: str,
+                 bnf_source_file_name: str,
+                 metagrammar_name: str) -> None:
+        self.bnf_source_text = bnf_source_text
+        self.grammar_name = output_grammar_name
+        self.bnf_source_file_name = bnf_source_file_name
         self.metagrammar_name = metagrammar_name
         self.syntactic = [d for d in definitions if d.operator == "::="]
         self.semantic  = [d for d in definitions if d.operator == ":=="]
         self.lexical   = [d for d in definitions if d.operator in ("::-", ":::")]
         self.lexer_names = {d.name for d in self.lexical}
-        self.bare_word = lexer_class.BARE_WORD
+        self.token_type_id_BARE_WORD: int = lexer_class.BARE_WORD
         alternatives = [a for d in self.syntactic for a in d.expression.syntaxAlternative()]
         self.references = {
             element.NONTERMINAL().getText()[1:-1]
@@ -300,7 +304,7 @@ class GrammarConverter:
             candidates = {
                 element.start.text
                 for alternative in alternatives for element in alternative.syntaxElement()
-                if element.start.type == self.bare_word
+                if element.start.type == self.token_type_id_BARE_WORD
             }
             if candidates:
                 pattern = lexical_pattern("lower_word", {d.name: d for d in self.lexical})
@@ -337,7 +341,7 @@ class GrammarConverter:
                 else:
                     name = lexer_name(name) if name in self.lexer_names else name.lower()
                 parts.append(name + ("*" if element.STAR() else ""))
-            elif token.type == self.bare_word:
+            elif token.type == self.token_type_id_BARE_WORD:
                 flush()
                 parts.append(literal(token.text))
             else:
@@ -349,7 +353,7 @@ class GrammarConverter:
     def convert(self) -> str:
         blocks = [
             f"grammar {self.grammar_name};\n",
-            f"// Generated from {self.source_name} using {self.metagrammar_name}.\n"
+            f"// Generated from {self.bnf_source_file_name} using {self.metagrammar_name}.\n"
             "// ::= rules are parser rules; :== restrictions are comments;\n"
             "// ::- rules are tokens; ::: rules are lexer fragments unless\n"
             "// referenced directly by a parser rule.\n",
@@ -376,7 +380,7 @@ class GrammarConverter:
             ]
             for definition in self.semantic:
                 context = definition.context
-                text = self.source[context.start.start:context.stop.stop + 1]
+                text = self.bnf_source_text[context.start.start:context.stop.stop + 1]
                 comments.append(f"// line {context.start.line}: {' '.join(text.split())}")
             blocks.append("\n".join(comments) + "\n")
 
@@ -414,13 +418,13 @@ def main(argv=None) -> int:
 
     try:
         input_path = select_input_file(args.input)
-        definitions, source, lexer = parse_syntax_bnf(
+        definitions, bnf_source_text, lexer = parse_syntax_bnf(
             input_path, args.metagrammar.resolve(), args.antlr_jar.resolve(),
             debug=args.debug,
         )
         converter = GrammarConverter(
-            definitions, source, lexer, args.output_grammar_name,
-            input_path.name, args.metagrammar.name,
+            definitions, bnf_source_text, lexer,
+            args.output_grammar_name, input_path.name, args.metagrammar.name,
         )
         output_grammar = converter.convert()
         output = args.output
