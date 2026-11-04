@@ -31,13 +31,13 @@ class LowerWordTests(unittest.TestCase):
         cls.temporary = tempfile.TemporaryDirectory(prefix="bnf-lower-words-test-")
         cls.addClassCleanup(cls.temporary.cleanup)
         directory = Path(cls.temporary.name)
-        definitions, source, lexer = converter.parse_syntax_bnf(
+        source, lexer, definitions = converter.parse_syntax_bnf(
             converter.REPOSITORY_ROOT / "SyntaxBNF-v9.3.1.6",
             converter.DEFAULT_METAGRAMMAR, converter.DEFAULT_ANTLR_JAR,
         )
         cls.conversion = converter.GrammarConverter(
-            definitions, source, lexer, "LowerWords", "SyntaxBNF-v9.3.1.6",
-            converter.DEFAULT_METAGRAMMAR.name,
+            source, lexer, definitions, "SyntaxBNF-v9.3.1.6",
+            converter.DEFAULT_METAGRAMMAR.name, "LowerWords",
         )
         cls.grammar = cls.conversion.convert()
         path = directory / "LowerWords.g4"
@@ -145,12 +145,12 @@ class LowerWordTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="bnf-lower-category-test-") as tmp:
             path = Path(tmp) / "sample.bnf"
             path.write_text(source)
-            definitions, text, lexer = converter.parse_syntax_bnf(
+            text, lexer, definitions = converter.parse_syntax_bnf(
                 path, converter.DEFAULT_METAGRAMMAR, converter.DEFAULT_ANTLR_JAR,
             )
             conversion = converter.GrammarConverter(
-                definitions, text, lexer, "Sample", path.name,
-                converter.DEFAULT_METAGRAMMAR.name,
+                text, lexer, definitions, path.name,
+                converter.DEFAULT_METAGRAMMAR.name, "Sample",
             )
             return conversion, conversion.convert()
 

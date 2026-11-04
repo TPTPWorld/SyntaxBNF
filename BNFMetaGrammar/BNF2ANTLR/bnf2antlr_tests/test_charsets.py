@@ -17,12 +17,12 @@ class CharsetTests(unittest.TestCase):
     def convert(self, source, directory, name):
         input_path = directory / f"{name}.bnf"
         input_path.write_text(source, encoding="utf-8")
-        definitions, text, lexer = converter.parse_syntax_bnf(
+        text, lexer, definitions = converter.parse_syntax_bnf(
             input_path, converter.DEFAULT_METAGRAMMAR, converter.DEFAULT_ANTLR_JAR
         )
         grammar = converter.GrammarConverter(
-            definitions, text, lexer, name, input_path.name,
-            converter.DEFAULT_METAGRAMMAR.name,
+            text, lexer, definitions, input_path.name,
+            converter.DEFAULT_METAGRAMMAR.name, name,
         ).convert()
         return definitions, grammar
 
@@ -143,7 +143,7 @@ class CharsetTests(unittest.TestCase):
                             Path(tmp), "Boundaries",
                         )
                         self.assertEqual(
-                            [(item.name, item.operator) for item in definitions],
+                            [(item.name, item.separator) for item in definitions],
                             [("entry", "::="), ("entry", ":=="),
                              ("sample", "::-"), ("letter", ":::"),
                              ("nothing", "::=")],
