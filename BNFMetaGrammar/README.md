@@ -12,7 +12,9 @@ It also recognizes `%` comments, blank lines, and indented continuation lines.
 The parser and its companion `BNFMetaLexer.g4` are target-neutral and contain
 no embedded actions.
 All four definition kinds share one `definition` parser rule, with `name` and
-`separator` token labels. Only the RHS distinguishes syntax from regex rules.
+`separator` token labels. The RHS is a `parserExpression` for `::=` and `:==`,
+or a `lexerExpression` for `::-` and `:::`. These names distinguish expressions
+over tokens and nonterminals from lexical patterns over characters.
 
 The lexer keeps words such as `tpi` intact in syntactic and semantic rules.
 Inside regex charsets, it emits individual literal characters and complete

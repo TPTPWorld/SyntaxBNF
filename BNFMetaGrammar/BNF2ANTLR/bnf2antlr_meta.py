@@ -41,8 +41,8 @@ class Definition:
 
     expression: Any
     """RHS of the definition:
-    syntaxExpression or regexExpression (see `definition` in BNFMetaParser.g4).
-    The runtime type will be SyntaxExpressionContext or RegexExpressionContext."""
+    parserExpression or lexerExpression (see `definition` in BNFMetaParser.g4).
+    The runtime type will be ParserExpressionContext or LexerExpressionContext."""
 
     context: Any
     """The entire DefinitionContext from the runtime-generated parser class, BNFMetaParser.
@@ -124,23 +124,24 @@ def debug_print_syntax_bnf(LexerClass: type[antlr4.Lexer],
         recognizer.removeErrorListeners()
         recognizer.addErrorListener(SyntaxErrorListener())
 
-    # Each rule (`definition` in BNFMetaParser.g4) is either a syntaxExpression or a regexExpression
+    # Each rule (`definition` in BNFMetaParser.g4) is either a parserExpression or a lexerExpression
     rules = cast(Any, parser).document().definition()
 
     for label, value in (
         ("len(rules)", len(rules)),
         ("type(rules[0])", type(rules[0])),
+        ("type(rules[0]).__mro__", type(rules[0]).__mro__),
         ("dir(rules[0])", dir(rules[0])),
-        ("type(rules[0].syntaxExpression())", type(rules[0].syntaxExpression())),
-        ("dir(rules[0].syntaxExpression())", dir(rules[0].syntaxExpression())),
-        ("type(rules[-1].regexExpression())", type(rules[-1].regexExpression())),
-        ("dir(rules[-1].regexExpression())", dir(rules[-1].regexExpression()))
+        ("type(rules[0].parserExpression())", type(rules[0].parserExpression())),
+        ("dir(rules[0].parserExpression())", dir(rules[0].parserExpression())),
+        ("type(rules[-1].lexerExpression())", type(rules[-1].lexerExpression())),
+        ("dir(rules[-1].lexerExpression())", dir(rules[-1].lexerExpression()))
     ):
         print(f"{label} = {value!r}")
     print()
 
     # for i, rule in enumerate(rules):
-    #     print(i, rule.name.text, rule.separator.text, rule.syntaxExpression(), rule.regexExpression())
+    #     print(i, rule.name.text, rule.separator.text, rule.parserExpression(), rule.lexerExpression())
     # print()
 
 
@@ -164,7 +165,7 @@ def parse_syntax_bnf(input_path: Path, metagrammar_path: Path, antlr_jar_path: P
 
         definitions = [
             Definition(rule.name.text[1:-1], rule.separator.text,
-                       rule.syntaxExpression() or rule.regexExpression(), rule)
+                       rule.parserExpression() or rule.lexerExpression(), rule)
             for rule in rules
         ]
 
@@ -219,21 +220,21 @@ def charset(char_set) -> str:
     negation = "~" if char_set.NEGATED_LBRACKET() else ""
     return negation + "[" + "".join(parts) + "]"
 
-def regex_element(element) -> str:
-    primary = element.regexPrimary()
+def lexer_element(element) -> str:
+    primary = element.lexerPrimary()
     if primary.NONTERMINAL():
         text = lexer_name(primary.getText()[1:-1])
-    elif primary.regexExpression():
-        text = "( " + " | ".join(regex_alternatives(primary.regexExpression())) + " )"
+    elif primary.lexerExpression():
+        text = "( " + " | ".join(lexer_alternatives(primary.lexerExpression())) + " )"
     else:
         text = charset(primary.charSet())
-    quantifier = element.regexQuantifier()
+    quantifier = element.lexerQuantifier()
     return text + (quantifier.getText() if quantifier else "")
 
-def regex_alternatives(expression) -> list[str]:
+def lexer_alternatives(expression) -> list[str]:
     return [
-        " ".join(regex_element(element) for element in alternative.regexElement())
-        for alternative in expression.regexAlternative()
+        " ".join(lexer_element(element) for element in alternative.lexerElement())
+        for alternative in expression.lexerAlternative()
     ]
 
 def lexical_pattern(name: str, definitions: dict[str, Definition]) -> re.Pattern:
@@ -254,14 +255,14 @@ def lexical_pattern(name: str, definitions: dict[str, Definition]) -> re.Pattern
 
     def expression(context):
         alternatives = []
-        for alternative in context.regexAlternative():
+        for alternative in context.lexerAlternative():
             parts = []
-            for element in alternative.regexElement():
-                primary = element.regexPrimary()
+            for element in alternative.lexerElement():
+                primary = element.lexerPrimary()
                 if primary.NONTERMINAL():
                     part = rule(primary.getText()[1:-1])
-                elif primary.regexExpression():
-                    part = expression(primary.regexExpression())
+                elif primary.lexerExpression():
+                    part = expression(primary.lexerExpression())
                 else:
                     char_set = primary.charSet()
                     charset(char_set)  # Apply the same validation as ANTLR emission.
@@ -279,7 +280,7 @@ def lexical_pattern(name: str, definitions: dict[str, Definition]) -> re.Pattern
                             characters.append(r"\-")
                         negation = "^" if char_set.NEGATED_LBRACKET() else ""
                         part = "[" + negation + "".join(characters) + "]"
-                quantifier = element.regexQuantifier()
+                quantifier = element.lexerQuantifier()
                 parts.append("(?:" + part + ")" +
                              (quantifier.getText() if quantifier else ""))
             alternatives.append("".join(parts))
@@ -305,14 +306,14 @@ class GrammarConverter:
         self.lexical   = [d for d in definitions if d.separator in ("::-", ":::")]
         self.lexical_names = {d.name for d in self.lexical}
         self.token_type_id_bare_word: int = cast(Any, LexerClass).BARE_WORD
-        alternatives = [a for d in self.syntactic for a in d.expression.syntaxAlternative()]
+        parser_alternatives = [a for d in self.syntactic for a in d.expression.parserAlternative()]
         self.references = {
             element.NONTERMINAL().getText()[1:-1]
-            for alternative in alternatives for element in alternative.syntaxElement()
+            for a in parser_alternatives for element in a.parserElement()
             if element.NONTERMINAL()
         }
         # All-punctuation alternatives define operators such as => and ?*.
-        operators = {a.getText() for a in alternatives
+        operators = {a.getText() for a in parser_alternatives
                      if a.getText() and set(a.getText()) <= OPERATOR_CHARACTERS}
         ordered = sorted(operators, key=lambda text: (-len(text), text))
         self.punctuation = re.compile("|".join([re.escape(op) for op in ordered] + ["."]))
@@ -321,7 +322,7 @@ class GrammarConverter:
         if "lower_word" in self.references and "lower_word" in self.lexical_names:
             candidates = {
                 element.start.text
-                for alternative in alternatives for element in alternative.syntaxElement()
+                for alternative in parser_alternatives for element in alternative.parserElement()
                 if element.start.type == self.token_type_id_bare_word
             }
             if candidates:
@@ -337,7 +338,7 @@ class GrammarConverter:
                     self.lower_word_wrapper = f"lower_word_token_{suffix}"
                     suffix += 1
 
-    def syntax_alternative(self, alternative) -> str:
+    def parser_alternative(self, alternative) -> str:
         parts = []
         punctuation = ""
         previous_stop = -1
@@ -347,7 +348,7 @@ class GrammarConverter:
             parts.extend(literal(p) for p in self.punctuation.findall(punctuation))
             punctuation = ""
 
-        for element in alternative.syntaxElement():
+        for element in alternative.parserElement():
             token = element.start
             if token.start != previous_stop + 1:
                 flush()
@@ -377,8 +378,8 @@ class GrammarConverter:
             "// referenced directly by a parser rule.\n",
         ]
         for index, definition in enumerate(self.syntactic):
-            alternatives = [self.syntax_alternative(a)
-                            for a in definition.expression.syntaxAlternative()]
+            alternatives = [self.parser_alternative(a)
+                            for a in definition.expression.parserAlternative()]
             if index == 0 and definition.name == "TPTP_file":
                 alternatives = [(a + " EOF").strip() for a in alternatives]
             blocks.append(format_rule(definition.name.lower(), alternatives))
@@ -407,7 +408,7 @@ class GrammarConverter:
             name = lexer_name(definition.name)
             if definition.separator == ":::" and definition.name not in self.references:
                 name = "fragment " + name
-            alternatives = regex_alternatives(definition.expression)
+            alternatives = lexer_alternatives(definition.expression)
             command = "-> channel(HIDDEN)" if definition.name == "comment" else ""
             if command and len(alternatives) > 1:
                 alternatives = ["( " + " | ".join(alternatives) + " )"]
