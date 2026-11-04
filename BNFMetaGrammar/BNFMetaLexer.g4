@@ -1,17 +1,17 @@
 lexer grammar BNFMetaLexer;
 
-// Shared token types emitted by rules in both SYNTAX and REGEX modes.
+// Shared token types emitted by rules in both PARSER_EXPR and LEXER_EXPR modes.
 tokens { PIPE, STAR }
 
 // Modes describe where characters occur; BNFMetaParser.g4 gives them meaning.
-// Only ::- and ::: enter REGEX, and only REGEX's [ enters CHARSET.
+// Only ::- and ::: enter LEXER_EXPR, and only LEXER_EXPR's [ enters CHARSET.
 // Thus brackets and backslashes in syntactic rules stay literal punctuation.
 // A physical newline ends a definition unless the next line is indented.
 
-SYNTAX_DEFINITION      : '::=' -> mode(SYNTAX) ;
-SEMANTIC_DEFINITION    : ':==' -> mode(SYNTAX) ;
-TOKEN_DEFINITION       : '::-' -> mode(REGEX) ;
-LEXER_MACRO_DEFINITION : ':::' -> mode(REGEX) ;
+SYNTACTIC_DEFINITION   : '::=' -> mode(PARSER_EXPR) ;
+SEMANTIC_DEFINITION    : ':==' -> mode(PARSER_EXPR) ;
+TOKEN_DEFINITION       : '::-' -> mode(LEXER_EXPR) ;
+LEXER_MACRO_DEFINITION : ':::' -> mode(LEXER_EXPR) ;
 NONTERMINAL            : NONTERMINAL_PATTERN ;
 COMMENT                : '%' ~[\r\n]* ;
 WHITESPACE             : WHITESPACE_PATTERN -> skip ;
@@ -23,7 +23,7 @@ fragment NEWLINE_PATTERN     : '\r'? '\n' ;
 // A newline followed by indentation is whitespace, not a definition boundary.
 fragment WHITESPACE_PATTERN  : NEWLINE_PATTERN? [ \t]+ ;
 
-mode SYNTAX;
+mode PARSER_EXPR;
 SYNTAX_NONTERMINAL : NONTERMINAL_PATTERN -> type(NONTERMINAL) ;
 BARE_WORD          : [A-Za-z0-9_$]+ ;
 SYNTAX_PIPE        : '|' -> type(PIPE) ;
@@ -32,7 +32,7 @@ SYNTAX_WHITESPACE  : WHITESPACE_PATTERN -> skip ;
 SYNTAX_NEWLINE     : NEWLINE_PATTERN -> type(NEWLINE), mode(DEFAULT_MODE) ;
 SYNTAX_RAW_CHAR    : . -> type(RAW_CHAR) ;
 
-mode REGEX;
+mode LEXER_EXPR;
 REGEX_NONTERMINAL : NONTERMINAL_PATTERN -> type(NONTERMINAL) ;
 REGEX_PIPE        : '|' -> type(PIPE) ;
 REGEX_STAR        : '*' -> type(STAR) ;

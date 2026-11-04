@@ -10,7 +10,7 @@ document : ((definition | COMMENT) lineEnd | NEWLINE)* EOF ;
 // ::- defines a token; ::: defines a lexer macro.
 definition
     : name=NONTERMINAL
-      ( separator=(SYNTAX_DEFINITION | SEMANTIC_DEFINITION) parserExpression
+      ( separator=(SYNTACTIC_DEFINITION | SEMANTIC_DEFINITION) parserExpression
       | separator=(TOKEN_DEFINITION | LEXER_MACRO_DEFINITION) lexerExpression
       )
     ;

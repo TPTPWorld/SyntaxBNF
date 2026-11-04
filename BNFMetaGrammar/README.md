@@ -24,12 +24,12 @@ converter decodes each escape token. Lexer modes follow these contexts:
 | Context | Entry | Exit |
 | --- | --- | --- |
 | Default: rule names and comments | Start of document or end of definition | A definition operator |
-| Syntactic RHS | `::=` or `:==` | An uncontinued newline |
-| Regex RHS | `::-` or `:::` | An uncontinued newline |
-| Charset | `[` in a regex RHS | `]` |
+| `PARSER_EXPR`: `parserExpression` RHS | `::=` or `:==` | An uncontinued newline |
+| `LEXER_EXPR`: `lexerExpression` RHS | `::-` or `:::` | An uncontinued newline |
+| `CHARSET`: character set | `[` in `LEXER_EXPR` | `]` |
 
 Charset openers use `pushMode(CHARSET)`; the closing bracket uses `popMode`
-to return to REGEX. Other transitions use `mode(...)` directly.
+to return to `LEXER_EXPR`. Other transitions use `mode(...)` directly.
 One `WHITESPACE_PATTERN` fragment handles horizontal whitespace
 and indented continuation lines in all three contexts outside charsets.
 
