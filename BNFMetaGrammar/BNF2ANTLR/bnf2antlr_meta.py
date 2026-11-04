@@ -306,23 +306,30 @@ class GrammarConverter:
         self.lexical   = [d for d in definitions if d.separator in ("::-", ":::")]
         self.lexical_names = {d.name for d in self.lexical}
         self.token_type_id_bare_word: int = cast(Any, LexerClass).BARE_WORD
-        parser_alternatives = [a for d in self.syntactic for a in d.expression.parserAlternative()]
-        self.references = {
+
+        syntactic_alternatives = [a for d in self.syntactic for a in d.expression.parserAlternative()]
+
+        # Collect nonterminal names referenced directly by syntactic rules (::=).
+        # A ::: rule referenced directly by a ::= rule becomes a token-producing lexer rule
+        # otherwise, it becomes an ANTLR fragment.
+        self.references_by_syntactic = {
             element.NONTERMINAL().getText()[1:-1]
-            for a in parser_alternatives for element in a.parserElement()
+            for a in syntactic_alternatives for element in a.parserElement()
             if element.NONTERMINAL()
         }
+        
         # All-punctuation alternatives define operators such as => and ?*.
-        operators = {a.getText() for a in parser_alternatives
-                     if a.getText() and set(a.getText()) <= OPERATOR_CHARACTERS}
-        ordered = sorted(operators, key=lambda text: (-len(text), text))
-        self.punctuation = re.compile("|".join([re.escape(op) for op in ordered] + ["."]))
+        operators_set: set[str] = {a.getText() for a in syntactic_alternatives
+            if a.getText() and set(a.getText()) <= OPERATOR_CHARACTERS}
+        self.operators: list[str] = sorted(operators_set, key=lambda text: (-len(text), text))
+        self.punctuation = re.compile("|".join([re.escape(op) for op in self.operators] + ["."]))
+
         self.lower_word_literals = []
         self.lower_word_wrapper = None
-        if "lower_word" in self.references and "lower_word" in self.lexical_names:
+        if "lower_word" in self.references_by_syntactic and "lower_word" in self.lexical_names:
             candidates = {
                 element.start.text
-                for alternative in parser_alternatives for element in alternative.parserElement()
+                for alternative in syntactic_alternatives for element in alternative.parserElement()
                 if element.start.type == self.token_type_id_bare_word
             }
             if candidates:
@@ -369,12 +376,19 @@ class GrammarConverter:
         flush()
         return " ".join(parts)
 
-    def convert(self) -> str:
+    def print_debug_info(self):
+        print(f"operators = {self.operators}")
+        print()
+
+    def convert(self, *, debug: bool = False) -> str:
+        if debug:
+            self.print_debug_info()
+
         blocks = [
             f"grammar {self.output_grammar_name};\n",
             f"// Generated from {self.bnf_source_file_name} using {self.metagrammar_name}.\n"
-            "// ::= rules are parser rules; :== restrictions are comments;\n"
-            "// ::- rules are tokens; ::: rules are lexer fragments unless\n"
+            "// ::= rules become parser rules; :== restrictions become comments;\n"
+            "// ::- rules become tokens; ::: rules become lexer fragments unless\n"
             "// referenced directly by a parser rule.\n",
         ]
         for index, definition in enumerate(self.syntactic):
@@ -406,7 +420,7 @@ class GrammarConverter:
         blocks.append("// Lexer rules derived from ::- and ::: definitions.")
         for definition in self.lexical:
             name = lexer_name(definition.name)
-            if definition.separator == ":::" and definition.name not in self.references:
+            if definition.separator == ":::" and definition.name not in self.references_by_syntactic:
                 name = "fragment " + name
             alternatives = lexer_alternatives(definition.expression)
             command = "-> channel(HIDDEN)" if definition.name == "comment" else ""
@@ -445,7 +459,7 @@ def main(argv=None) -> int:
             bnf_source_text, LexerClass, definitions,
             input_path.name, args.metagrammar.name, args.output_grammar_name,
         )
-        output_grammar_text: str = converter.convert()
+        output_grammar_text: str = converter.convert(debug=args.debug)
         output_path: Path = args.output
         if output_path.suffix != ".g4":
             output_path /= f"{args.output_grammar_name}.g4"
