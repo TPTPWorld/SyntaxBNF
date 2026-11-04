@@ -31,10 +31,23 @@ OPERATOR_CHARACTERS = set("!#&*+-/:<=>?@^~|")
 
 @dataclass
 class Definition:
+    """A definition from SyntaxBNF."""
+
     name: str
+    """LHS of the definition."""
+
     separator: str
+    ''' "::=", ":==", "::-", or ":::" '''
+
     expression: Any
+    """RHS of the definition:
+    syntaxExpression or regexExpression (see `definition` in BNFMetaParser.g4).
+    The runtime type will be SyntaxExpressionContext or RegexExpressionContext."""
+
     context: Any
+    """The entire DefinitionContext from the runtime-generated parser class, BNFMetaParser.
+    (Note: the runtime class DefinitionContext will be generated from `definition`
+    in BNFMetaParser.g4 and inherits ANTLR’s generic ParserRuleContext class.)"""
 
 class ConversionError(RuntimeError):
     """An error converting BNF to ANTLR, e.g., missing input, parser loading
@@ -73,7 +86,7 @@ def generate_metaparser(metagrammar: Path, antlr_jar: Path, output_directory: Pa
     )
 
 def import_generated_metaparser(output_directory: Path):
-    '''Load generated lexer and parser'''
+    """Load generated lexer and parser"""
     classes = []
     for name in ("BNFMetaLexer", "BNFMetaParser"):
         spec = importlib.util.spec_from_file_location(name, output_directory / f"{name}.py")
@@ -85,33 +98,34 @@ def import_generated_metaparser(output_directory: Path):
     return classes
 
 
-def debug_print_syntax_bnf(lexer_class, parser_class, bnf_source_text: str):
+def debug_print_syntax_bnf(LexerClass: type[antlr4.Lexer],
+                           ParserClass: type[antlr4.Parser], bnf_source_text: str):
     """Print generated class details and inspect rules parsed from the source."""
     for label, value in (
-        ("lexer_class.__name__", lexer_class.__name__),
-        ("parser_class.__name__", parser_class.__name__),
-        ("lexer_class.__mro__", lexer_class.__mro__),   # Method Resolution Order
-        ("parser_class.__mro__", parser_class.__mro__),
-        ("dir(lexer_class)", dir(lexer_class)),
-        ("list(vars(lexer_class))", list(vars(lexer_class))),
-        ("list(vars(parser_class))", list(vars(parser_class))),
-        ("lexer_class.symbolicNames", lexer_class.symbolicNames),
-        ("lexer_class.modeNames", lexer_class.modeNames),
-        ("parser_class.ruleNames", parser_class.ruleNames),
+        ("lexer_class.__name__", LexerClass.__name__),
+        ("parser_class.__name__", ParserClass.__name__),
+        ("lexer_class.__mro__", LexerClass.__mro__),   # Method Resolution Order
+        ("parser_class.__mro__", ParserClass.__mro__),
+        ("dir(lexer_class)", dir(LexerClass)),
+        ("list(vars(lexer_class))", list(vars(LexerClass))),
+        ("list(vars(parser_class))", list(vars(ParserClass))),
+        ("lexer_class.symbolicNames", cast(Any, LexerClass).symbolicNames),
+        ("lexer_class.modeNames", cast(Any, LexerClass).modeNames),
+        ("parser_class.ruleNames", cast(Any, ParserClass).ruleNames),
     ):
         print(f"{label} = {value!r}")
     # print("inspect.getsource(parser_class.document):")
     # print(inspect.getsource(parser_class.document))
     print()
 
-    lexer = lexer_class(antlr4.InputStream(bnf_source_text))
-    parser = parser_class(antlr4.CommonTokenStream(lexer))
+    lexer = LexerClass(antlr4.InputStream(bnf_source_text))
+    parser = ParserClass(antlr4.CommonTokenStream(lexer))
     for recognizer in (lexer, parser):
         recognizer.removeErrorListeners()
         recognizer.addErrorListener(SyntaxErrorListener())
 
     # Each rule (`definition` in BNFMetaParser.g4) is either a syntaxExpression or a regexExpression
-    rules = parser.document().definition()
+    rules = cast(Any, parser).document().definition()
 
     for label, value in (
         ("len(rules)", len(rules)),
@@ -283,9 +297,9 @@ class GrammarConverter:
                  metagrammar_name: str,
                  output_grammar_name: str) -> None:
         self.bnf_source_text = bnf_source_text
-        self.output_grammar_name = output_grammar_name
         self.bnf_source_file_name = bnf_source_file_name
         self.metagrammar_name = metagrammar_name
+        self.output_grammar_name = output_grammar_name
         self.syntactic = [d for d in definitions if d.separator == "::="]
         self.semantic  = [d for d in definitions if d.separator == ":=="]
         self.lexical   = [d for d in definitions if d.separator in ("::-", ":::")]
