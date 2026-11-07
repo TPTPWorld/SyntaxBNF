@@ -69,7 +69,7 @@ python_parser: antlr_grammar
 
 antlr_grammar: $(FULLBNF)
 	@echo "---- Make ANTLR grammar"
-	cd ANTLRParsers/BNF2ANTLR && python3 bnf2antlr.py $(FULLBNF) ../ANTLRGrammar
+#TEST NEW INSTEAD	cd ANTLRParsers/BNF2ANTLR && python3 bnf2antlr.py $(FULLBNF) ../ANTLRGrammar
 	@echo "---- Made ANTLR grammar"
 
 clean:

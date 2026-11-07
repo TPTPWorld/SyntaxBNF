@@ -1,37 +1,7 @@
 <HTML><HEAD><TITLE>TPTP Syntax</TITLE><LINK REL="icon" HREF="https://tptp.org/Logos/TPTPBNF.png" type="image/png" /></HEAD><BODY><A NAME="TOPOFPAGE"></A><TT>
 %--------------------------------------------------------------------------------------------------<BR>
-%&nbsp;v9.3.1.1&nbsp;-&nbsp;Damn,&nbsp;to&nbsp;make&nbsp;ITV&nbsp;work&nbsp;I&nbsp;have&nbsp;to&nbsp;allow&nbsp;&lt;functor&gt;(&lt;thf_arguments&gt;),&nbsp;but&nbsp;that's&nbsp;not&nbsp;for&nbsp;<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THF&nbsp;logic.&nbsp;Thus&nbsp;now&nbsp;it's&nbsp;...<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;thf_fof_function&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;defined_functor&gt;(&lt;thf_arguments&gt;)&nbsp;|&nbsp;<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;system_functor&gt;(&lt;thf_arguments&gt;)&nbsp;|<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;functor&gt;(&lt;thf_arguments&gt;)<BR>
-%&nbsp;v9.3.1.2&nbsp;-&nbsp;Fixed&nbsp;typos&nbsp;in&nbsp;comments&nbsp;(thanks&nbsp;to&nbsp;Jiazhen)<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Changed&nbsp;{&nbsp;and&nbsp;}&nbsp;to&nbsp;&lt;&nbsp;and&nbsp;&gt;&nbsp;in&nbsp;...<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;comment_block&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:::&nbsp;&lt;slash_char&gt;&lt;star&gt;&lt;not_star_slash&gt;&lt;star&gt;&lt;star&gt;*&lt;slash_char&gt;<BR>
-%&nbsp;v9.3.1.3&nbsp;-&nbsp;Added&nbsp;logic&nbsp;to&nbsp;&lt;formula_role&gt;&nbsp;semantic&nbsp;rule.<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Completed&nbsp;the&nbsp;&lt;ntf_modal_system&gt;&nbsp;list:<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$modal_system_K&nbsp;|&nbsp;$modal_system_KB&nbsp;|&nbsp;$modal_system_K4&nbsp;|<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$modal_system_K5&nbsp;|&nbsp;$modal_system_K45&nbsp;|&nbsp;$modal_system_KB5&nbsp;|<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$modal_system_D&nbsp;|&nbsp;$modal_system_DB&nbsp;|&nbsp;$modal_system_D4&nbsp;|<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$modal_system_D5&nbsp;|&nbsp;$modal_system_D45&nbsp;|&nbsp;$modal_system_M&nbsp;|<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$modal_system_B&nbsp;|&nbsp;$modal_system_S4&nbsp;|&nbsp;$modal_system_S5&nbsp;|<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$modal_system_S5U<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Completed&nbsp;the&nbsp;&lt;ntf_modal_axiom&gt;&nbsp;list:<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$modal_axiom_K&nbsp;|&nbsp;$modal_axiom_M&nbsp;|&nbsp;$modal_axiom_B&nbsp;|&nbsp;$modal_axiom_D&nbsp;|<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$modal_axiom_4&nbsp;|&nbsp;$modal_axiom_5&nbsp;|&nbsp;$modal_axiom_CD&nbsp;|&nbsp;$modal_axiom_BoxM&nbsp;|<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$modal_axiom_C4&nbsp;|&nbsp;$modal_axiom_C<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Added&nbsp;$abs&nbsp;to&nbsp;&lt;defined_functor&gt;&nbsp;semantic&nbsp;rule.<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Fixed&nbsp;&lt;distinct_object&gt;&nbsp;to&nbsp;require&nbsp;at&nbsp;least&nbsp;one&nbsp;&lt;do_char&gt;&nbsp;...<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;double_quote&gt;&lt;do_char&gt;&lt;do_char&gt;*&lt;double_quote&gt;<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;Removed&nbsp;"unknown"&nbsp;from&nbsp;&lt;source&gt;&nbsp;because&nbsp;it&nbsp;conflicts&nbsp;with&nbsp;&lt;dag_source&gt;<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Thanks&nbsp;to&nbsp;Johannes&nbsp;Schuster&nbsp;for&nbsp;finding&nbsp;the&nbsp;flaws!<BR>
-%&nbsp;v9.3.1.4&nbsp;-&nbsp;Changed&nbsp;&lt;*_binary_assoc&gt;&nbsp;to&nbsp;&lt;*_binary_list&gt;&nbsp;and&nbsp;&lt;*_binary_nonassoc&gt;&nbsp;to<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;*_binary_pair&gt;,&nbsp;to&nbsp;reflect&nbsp;the&nbsp;intended&nbsp;non-associativity.<BR>
-%&nbsp;v9.3.1.5&nbsp;-&nbsp;Changed&nbsp;&lt;printable_char&gt;&nbsp;:::&nbsp;.&nbsp;to&nbsp;&lt;comment_char&gt;&nbsp;:::&nbsp;[^\r\n],&nbsp;and&nbsp;replaced<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;printable_char&gt;&nbsp;with&nbsp;&lt;comment_char&gt;&nbsp;in&nbsp;all&nbsp;uses.&nbsp;Removed&nbsp;unused&nbsp;&lt;viewable_char&gt;.<BR>
-%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thanks&nbsp;to&nbsp;Jiazhen&nbsp;Xia&nbsp;for&nbsp;these&nbsp;fixes.<BR>
-%&nbsp;v9.3.1.6&nbsp;-&nbsp;Removed&nbsp;$temporal_instant&nbsp;and&nbsp;added&nbsp;$intuitionistic&nbsp;as&nbsp;a&nbsp;&lt;ntf_logic_name&gt;<BR>
-%----<A HREF="#TOPOFPAGE">Top of Page</A>-----------------------------------------------------------------------------------<BR>
+%&nbsp;v10.0.0.0&nbsp;<BR>
+%--------------------------------------------------------------------------------------------------<BR>
 %----README&nbsp;...&nbsp;this&nbsp;header&nbsp;provides&nbsp;important&nbsp;meta-&nbsp;and&nbsp;usage&nbsp;information<BR>
 %----<BR>
 %----Intended&nbsp;uses&nbsp;of&nbsp;the&nbsp;various&nbsp;parts&nbsp;of&nbsp;the&nbsp;TPTP&nbsp;syntax&nbsp;are&nbsp;explained&nbsp;in&nbsp;the&nbsp;TPTP&nbsp;technical<BR>
@@ -56,7 +26,7 @@
 %----Multiple&nbsp;languages&nbsp;are&nbsp;defined.&nbsp;Depending&nbsp;on&nbsp;your&nbsp;need,&nbsp;you&nbsp;can&nbsp;implement&nbsp;just&nbsp;the&nbsp;one(s)&nbsp;you<BR>
 %----need.&nbsp;The&nbsp;common&nbsp;rules&nbsp;for&nbsp;atoms,&nbsp;terms,&nbsp;etc,&nbsp;come&nbsp;after&nbsp;the&nbsp;definitions&nbsp;of&nbsp;the&nbsp;languages,&nbsp;and<BR>
 %----mostly&nbsp;all&nbsp;needed&nbsp;for&nbsp;all&nbsp;the&nbsp;languages.<BR>
-%----<A HREF="#TOPOFPAGE">Top of Page</A>-----------------------------------------------------------------------------------<BR>
+%--------------------------------------------------------------------------------------------------<BR>
 %----Files.&nbsp;Empty&nbsp;file&nbsp;is&nbsp;OK.<BR>
 &lt;<A NAME="TPTP_file">TPTP_file</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#TPTP_input">TPTP_input</A>&gt;*<BR>
 &lt;<A NAME="TPTP_input">TPTP_input</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#annotated_formula">annotated_formula</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#include">include</A>&gt;<BR>

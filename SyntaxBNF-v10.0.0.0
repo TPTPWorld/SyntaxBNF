@@ -1,35 +1,5 @@
 %--------------------------------------------------------------------------------------------------
-% v9.3.1.1 - Damn, to make ITV work I have to allow <functor>(<thf_arguments>), but that's not for 
-%            THF logic. Thus now it's ...
-%            <thf_fof_function>     ::= <defined_functor>(<thf_arguments>) | 
-%                                       <system_functor>(<thf_arguments>) |
-%                                       <functor>(<thf_arguments>)
-% v9.3.1.2 - Fixed typos in comments (thanks to Jiazhen)
-%          - Changed { and } to < and > in ...
-%            <comment_block>        ::: <slash_char><star><not_star_slash><star><star>*<slash_char>
-% v9.3.1.3 - Added logic to <formula_role> semantic rule.
-%          - Completed the <ntf_modal_system> list:
-%            $modal_system_K | $modal_system_KB | $modal_system_K4 |
-%            $modal_system_K5 | $modal_system_K45 | $modal_system_KB5 |
-%            $modal_system_D | $modal_system_DB | $modal_system_D4 |
-%            $modal_system_D5 | $modal_system_D45 | $modal_system_M |
-%            $modal_system_B | $modal_system_S4 | $modal_system_S5 |
-%            $modal_system_S5U
-%          - Completed the <ntf_modal_axiom> list:
-%            $modal_axiom_K | $modal_axiom_M | $modal_axiom_B | $modal_axiom_D |
-%            $modal_axiom_4 | $modal_axiom_5 | $modal_axiom_CD | $modal_axiom_BoxM |
-%            $modal_axiom_C4 | $modal_axiom_C
-%          - Added $abs to <defined_functor> semantic rule.
-%          - Fixed <distinct_object> to require at least one <do_char> ...
-%            <double_quote><do_char><do_char>*<double_quote>
-%          = Removed "unknown" from <source> because it conflicts with <dag_source>
-%          - Thanks to Johannes Schuster for finding the flaws!
-% v9.3.1.4 - Changed <*_binary_assoc> to <*_binary_list> and <*_binary_nonassoc> to
-%            <*_binary_pair>, to reflect the intended non-associativity.
-% v9.3.1.5 - Changed <printable_char> ::: . to <comment_char> ::: [^\r\n], and replaced
-%            <printable_char> with <comment_char> in all uses. Removed unused <viewable_char>.
-%            Thanks to Jiazhen Xia for these fixes.
-% v9.3.1.6 - Removed $temporal_instant and added $intuitionistic as a <ntf_logic_name>
+% v10.0.0.0 
 %--------------------------------------------------------------------------------------------------
 %----README ... this header provides important meta- and usage information
 %----
