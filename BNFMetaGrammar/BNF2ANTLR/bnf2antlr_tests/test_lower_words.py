@@ -31,12 +31,13 @@ class LowerWordTests(unittest.TestCase):
         cls.temporary = tempfile.TemporaryDirectory(prefix="bnf-lower-words-test-")
         cls.addClassCleanup(cls.temporary.cleanup)
         directory = Path(cls.temporary.name)
+        input_path = converter.select_input_file()
         source, lexer, definitions = converter.parse_syntax_bnf(
-            converter.REPOSITORY_ROOT / "SyntaxBNF-v9.3.1.6",
+            input_path,
             converter.DEFAULT_METAGRAMMAR, converter.DEFAULT_ANTLR_JAR,
         )
         cls.conversion = converter.GrammarConverter(
-            source, lexer, definitions, "SyntaxBNF-v9.3.1.6",
+            source, lexer, definitions, input_path.name,
             converter.DEFAULT_METAGRAMMAR.name, "LowerWords",
         )
         cls.grammar = cls.conversion.convert()
