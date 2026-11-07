@@ -146,19 +146,19 @@ python3 -m unittest discover -s BNFMetaGrammar/BNF2ANTLR/bnf2antlr_tests -p 'tes
 ### Fix: Lower_word literals and the CSR003+2.ax parsing failure
 
 Before this fix, the generated ANTLR grammar failed to parse
-[CSR003+2.ax, line 275538](/home/xiaji/_TPTP/TPTP-v9.2.1/Axioms/CSR003+2.ax:275538)
-in TPTP-v9.2.1:
+CSR003+2.ax, line 275538, in TPTP-v9.2.1:
 
 ```tptp
 fof(kb_SUMO_52578,axiom,
     s__lexicon(s__ComputerFile,s__LexNoun,file) ).
 ```
 
-The first error pointed to `file` at column 42 (zero-based). The rule
-`file_source : 'file' '(' file_name file_info ')'` creates an implicit lexer
-token for `'file'` that takes precedence over `Lower_word`. Previously,
-`atomic_word` did not accept that token. The older converter's `'file('` token
-avoided this constant case, but still rejected ordinary functors such as `file(z)`.
+The first error pointed to `file` at column 43.
+The rule `file_source : 'file' '(' file_name file_info ')'` creates an implicit lexer
+token for `'file'` that takes precedence over `Lower_word`.
+Previously, `atomic_word` did not accept that token.
+The older converter's `'file('` token avoided this constant case,
+but still rejected ordinary functors such as `file(z)`.
 
 #### Parser wrapper
 
@@ -197,15 +197,15 @@ ANTLR's [lexer priority documentation](https://github.com/antlr/antlr4/blob/4.13
 and [implicit-lexer construction](https://github.com/antlr/antlr4/blob/4.13.2/tool/src/org/antlr/v4/tool/GrammarTransformPipeline.java#L433-L459)
 explain why implicit literal tokens take precedence.
 
-#### Correctly parsed uses of file
+#### Correctly parsed uses of `file`
 
 Each of the following is correctly parsed:
 
 ```tptp
-fof(a,axiom,p(file)).            % constant
-fof(a,axiom,p(file(z))).         % functor
-fof(a,axiom,p,file).             % formula-name reference
-fof(a,axiom,p,file('y.p',x)).     % file_source
+fof(a,axiom,p(file)).            % `file` is a constant
+fof(a,axiom,p(file(z))).         % `file` is a functor
+fof(a,axiom,p,file).             % formula-name reference via dag_source
+fof(a,axiom,p,file('y.p',x)).    % file_source
 ```
 
 In the source field, the following `(` distinguishes a file-source record from

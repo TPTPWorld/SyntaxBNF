@@ -310,22 +310,22 @@ class GrammarConverter:
         syntactic_alternatives = [a for d in self.syntactic for a in d.expression.parserAlternative()]
 
         # Collect nonterminal names referenced directly by syntactic rules (::=).
-        # A ::: rule referenced directly by a ::= rule becomes a token-producing lexer rule
+        # A ::: rule referenced directly by a ::= rule becomes a token-producing lexer rule;
         # otherwise, it becomes an ANTLR fragment.
-        self.references_by_syntactic = {
+        self.references_by_syntactic: set[str] = {
             element.NONTERMINAL().getText()[1:-1]
             for a in syntactic_alternatives for element in a.parserElement()
             if element.NONTERMINAL()
         }
         
-        # All-punctuation alternatives define operators such as => and ?*.
+        # All-punctuation alternatives define operators such as => and ?*
         operators_set: set[str] = {a.getText() for a in syntactic_alternatives
             if a.getText() and set(a.getText()) <= OPERATOR_CHARACTERS}
         self.operators: list[str] = sorted(operators_set, key=lambda text: (-len(text), text))
         self.punctuation = re.compile("|".join([re.escape(op) for op in self.operators] + ["."]))
 
         self.lower_word_literals = []
-        self.lower_word_wrapper = None
+        self.lower_word_wrapper: str|None = None
         if "lower_word" in self.references_by_syntactic and "lower_word" in self.lexical_names:
             candidates = {
                 element.start.text
@@ -345,7 +345,8 @@ class GrammarConverter:
                     self.lower_word_wrapper = f"lower_word_token_{suffix}"
                     suffix += 1
 
-    def parser_alternative(self, alternative) -> str:
+    def parser_alternative(self, alternative: antlr4.ParserRuleContext) -> str:
+        """Convert one branch of a SyntaxBNF parser rule (::= or :==) into ANTLR text."""
         parts = []
         punctuation = ""
         previous_stop = -1
@@ -355,7 +356,7 @@ class GrammarConverter:
             parts.extend(literal(p) for p in self.punctuation.findall(punctuation))
             punctuation = ""
 
-        for element in alternative.parserElement():
+        for element in cast(Any, alternative).parserElement():
             token = element.start
             if token.start != previous_stop + 1:
                 flush()
@@ -385,16 +386,19 @@ class GrammarConverter:
             self.print_debug_info()
 
         blocks = [
-            f"grammar {self.output_grammar_name};\n",
+            f"grammar {self.output_grammar_name};\n"
+            "\n"
             f"// Generated from {self.bnf_source_file_name} using {self.metagrammar_name}.\n"
             "// ::= rules become parser rules; :== restrictions become comments;\n"
             "// ::- rules become tokens; ::: rules become lexer fragments unless\n"
-            "// referenced directly by a parser rule.\n",
+            "// referenced directly by a parser rule.\n"
         ]
-        for index, definition in enumerate(self.syntactic):
+
+        for i, definition in enumerate(self.syntactic):
             alternatives = [self.parser_alternative(a)
                             for a in definition.expression.parserAlternative()]
-            if index == 0 and definition.name == "TPTP_file":
+            if i == 0 and definition.name == "TPTP_file":
+                # need EOF to make the entire TPTP input parsed with the generated grammar
                 alternatives = [(a + " EOF").strip() for a in alternatives]
             blocks.append(format_rule(definition.name.lower(), alternatives))
 
@@ -434,20 +438,20 @@ class GrammarConverter:
 
 
 def main(argv=None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("input", type=Path, nargs="?",
+    arg_parser = argparse.ArgumentParser(description=__doc__)
+    arg_parser.add_argument("input", type=Path, nargs="?",
         help="BNF input file (default: select the SyntaxBNF-v* file in repository root)")
-    parser.add_argument("-o", dest="output", type=Path, default=DEFAULT_OUTPUT_DIRECTORY,
+    arg_parser.add_argument("-o", dest="output", type=Path, default=DEFAULT_OUTPUT_DIRECTORY,
         help="output directory or .g4 file (default: BNFMetaGrammar/ANTLRGrammar/converted_by_meta)")
-    parser.add_argument("--output-grammar-name", default="TPTP",
+    arg_parser.add_argument("--output-grammar-name", default="TPTP",
         help="output grammar name (default: TPTP)")
-    parser.add_argument("--metagrammar", type=Path, default=DEFAULT_METAGRAMMAR)
-    parser.add_argument("--antlr-jar", type=Path, default=DEFAULT_ANTLR_JAR)
-    parser.add_argument("--debug", action="store_true",
+    arg_parser.add_argument("--metagrammar", type=Path, default=DEFAULT_METAGRAMMAR)
+    arg_parser.add_argument("--antlr-jar", type=Path, default=DEFAULT_ANTLR_JAR)
+    arg_parser.add_argument("--debug", action="store_true",
         help="print generated lexer/parser class details")
-    args = parser.parse_args(argv)
+    args = arg_parser.parse_args(argv)
     if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*", args.output_grammar_name):
-        parser.error(f"invalid ANTLR grammar name: {args.output_grammar_name!r}")
+        arg_parser.error(f"invalid ANTLR grammar name: {args.output_grammar_name!r}")
 
     try:
         input_path: Path = select_input_file(args.input)
@@ -460,6 +464,7 @@ def main(argv=None) -> int:
             input_path.name, args.metagrammar.name, args.output_grammar_name,
         )
         output_grammar_text: str = converter.convert(debug=args.debug)
+
         output_path: Path = args.output
         if output_path.suffix != ".g4":
             output_path /= f"{args.output_grammar_name}.g4"
