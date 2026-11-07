@@ -155,16 +155,17 @@ class LowerWordTests(unittest.TestCase):
             )
             return conversion, conversion.convert()
 
-    def test_literals_follow_lexical_macros_and_ignore_semantic_rules(self):
+    def test_lower_word_literals_ignore_comments_and_semantic_rules(self):
         conversion, grammar = self.convert(
             "<TPTP_file> ::= <lower_word>*\n"
-            "<marker> ::= file | frog | data | $fof\n"
+            "<marker> ::= file | frog | data | fILE_2 | File | 123 | _file | $fof | file$\n"
+            "% comment_only\n"
             "<marker> :== fake\n"
-            "<lower_word> ::- <initial><rest>*\n"
-            "<initial> ::: [\\146]\n"
-            "<rest> ::: ([a-z]|[0-9_])\n"
+            "<lower_word> ::- <lower_alpha><alpha_numeric>*\n"
+            "<lower_alpha> ::: [a-z]\n"
+            "<alpha_numeric> ::: [A-Za-z0-9_]\n"
         )
-        self.assertEqual(conversion.lower_word_literals, ["file", "frog"])
+        self.assertEqual(conversion.lower_word_literals, ["data", "fILE_2", "file", "frog"])
         self.assertIn("lower_word_token* EOF", grammar)
 
     def test_wrapper_name_avoids_existing_parser_rules(self):
@@ -172,7 +173,7 @@ class LowerWordTests(unittest.TestCase):
             "<entry> ::= <lower_word>\n"
             "<lower_word_token> ::= file\n"
             "<lower_word_token_2> ::= second\n"
-            "<lower_word> ::- [a-z]+\n"
+            "<lower_word> ::- [a-z][A-Za-z0-9_]*\n"
         )
         self.assertEqual(conversion.lower_word_wrapper, "lower_word_token_3")
         self.assertIn("entry\n    : lower_word_token_3\n", grammar)
@@ -181,7 +182,7 @@ class LowerWordTests(unittest.TestCase):
         conversion, grammar = self.convert(
             "<entry> ::= <lower_word>\n"
             "<marker> ::= $fof\n"
-            "<lower_word> ::- [a-z]+\n"
+            "<lower_word> ::- [a-z][A-Za-z0-9_]*\n"
         )
         self.assertIsNone(conversion.lower_word_wrapper)
         self.assertIn("entry\n    : Lower_word\n", grammar)

@@ -237,58 +237,6 @@ def lexer_alternatives(expression) -> list[str]:
         for alternative in expression.lexerAlternative()
     ]
 
-def lexical_pattern(name: str, definitions: dict[str, Definition]) -> re.Pattern:
-    """Match complete literal spellings against a SyntaxBNF lexical definition."""
-    patterns = {}
-    visiting = set()
-
-    def rule(rule_name):
-        if rule_name in visiting:
-            raise ConversionError(f"Recursive lexical definition in <{name}>: <{rule_name}>")
-        if rule_name not in patterns:
-            if rule_name not in definitions:
-                raise ConversionError(f"Undefined lexical reference <{rule_name}> in <{name}>")
-            visiting.add(rule_name)
-            patterns[rule_name] = expression(definitions[rule_name].expression)
-            visiting.remove(rule_name)
-        return patterns[rule_name]
-
-    def expression(context):
-        alternatives = []
-        for alternative in context.lexerAlternative():
-            parts = []
-            for element in alternative.lexerElement():
-                primary = element.lexerPrimary()
-                if primary.NONTERMINAL():
-                    part = rule(primary.getText()[1:-1])
-                elif primary.lexerExpression():
-                    part = expression(primary.lexerExpression())
-                else:
-                    char_set = primary.charSet()
-                    charset(char_set)  # Apply the same validation as ANTLR emission.
-                    if char_set.WILDCARD():
-                        part = r"[\s\S]"
-                    else:
-                        content = char_set.charSetContent()
-                        characters = [r"\-"] if content.leadingDash else []
-                        for item in content.charSetElement():
-                            characters.append("-".join(
-                                re.escape(chr(charset_char(char)[0]))
-                                for char in item.charSetChar()
-                            ))
-                        if content.trailingDash:
-                            characters.append(r"\-")
-                        negation = "^" if char_set.NEGATED_LBRACKET() else ""
-                        part = "[" + negation + "".join(characters) + "]"
-                quantifier = element.lexerQuantifier()
-                parts.append("(?:" + part + ")" +
-                             (quantifier.getText() if quantifier else ""))
-            alternatives.append("".join(parts))
-        return "(?:" + "|".join(alternatives) + ")"
-
-    return re.compile(rule(name))
-
-
 class GrammarConverter:
     def __init__(self,
                  bnf_source_text: str,
@@ -327,16 +275,16 @@ class GrammarConverter:
         self.lower_word_literals = []
         self.lower_word_wrapper: str|None = None
         if "lower_word" in self.references_by_syntactic and "lower_word" in self.lexical_names:
-            candidates = {
-                element.start.text
-                for alternative in syntactic_alternatives for element in alternative.parserElement()
-                if element.start.type == self.token_type_id_bare_word
+            candidates: set[str] = {
+                elem.start.text
+                for alt in syntactic_alternatives for elem in alt.parserElement()
+                if elem.start.type == self.token_type_id_bare_word
             }
-            if candidates:
-                pattern = lexical_pattern("lower_word", {d.name: d for d in self.lexical})
-                self.lower_word_literals = sorted(
-                    word for word in candidates if pattern.fullmatch(word)
-                )
+            self.lower_word_literals = sorted(
+                word for word in candidates
+                # Assume the definition of <lower_word> when classifying literals.
+                if re.fullmatch(r"[a-z][A-Za-z0-9_]*", word)
+            )
             if self.lower_word_literals:
                 occupied = {d.name.lower() for d in self.syntactic}
                 self.lower_word_wrapper = "lower_word_token"

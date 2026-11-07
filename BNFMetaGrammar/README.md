@@ -166,9 +166,10 @@ because `file(` was consumed as a single token.
 
 #### Parser wrapper
 
-The converter now generates `lower_word_token` from literal strings
+The converter now generates `lower_word_token` from literal strings (keywords)
 that appear on the RHS of syntactic definitions (::=)
 and match the BNF's `<lower_word>` lexical definition.
+(The Python converter assumes the definition of `<lower_word>` is `[a-z][A-Za-z0-9_]*`.)
 All parser references to `<lower_word>` use the wrapper,
 including those in `atomic_word` and `formula_role`.
 For `SyntaxBNF-v9.3.1.6`:
