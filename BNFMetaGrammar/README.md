@@ -153,19 +153,25 @@ fof(kb_SUMO_52578,axiom,
     s__lexicon(s__ComputerFile,s__LexNoun,file) ).
 ```
 
-The first error pointed to `file` at column 43.
-The rule `file_source : 'file' '(' file_name file_info ')'` creates an implicit lexer
-token for `'file'` that takes precedence over `Lower_word`.
-Previously, `atomic_word` did not accept that token.
-The older converter's `'file('` token avoided this constant case,
-but still rejected ordinary functors such as `file(z)`.
+The first error pointed to the constant `file` at column 43.
+In the combined ANTLR grammar, the literal `'file'` in
+`file_source : 'file' '(' file_name file_info ')'` creates an implicit lexer token
+that takes precedence over `Lower_word` when both match `file`.
+Before the fix, `atomic_word` did not accept this implicit token,
+so the parser rejected `file` as a constant.
+The older converter instead used the literal `'file('`,
+allowing bare `file` to be tokenized as `Lower_word`.
+However, it still rejected ordinary functors such as `file(z)`
+because `file(` was consumed as a single token.
 
 #### Parser wrapper
 
-The converter now generates `lower_word_token` from syntactic literals whose
-complete spellings match the BNF's `<lower_word>` lexical definition, following
-referenced macros. All parser references to `<lower_word>` use the wrapper,
-including those in `atomic_word` and `formula_role`. For `SyntaxBNF-v9.3.1.6`:
+The converter now generates `lower_word_token` from literal strings
+that appear on the RHS of syntactic definitions (::=)
+and match the BNF's `<lower_word>` lexical definition.
+All parser references to `<lower_word>` use the wrapper,
+including those in `atomic_word` and `formula_role`.
+For `SyntaxBNF-v9.3.1.6`:
 
 ```antlr
 lower_word_token
