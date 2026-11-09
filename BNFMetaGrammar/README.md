@@ -143,10 +143,12 @@ from the repository root:
 python3 -m unittest discover -s BNFMetaGrammar/BNF2ANTLR/bnf2antlr_tests -p 'test_*.py'
 ```
 
-### Fix: Lower_word literals and the CSR003+2.ax parsing failure
+### Fix: Allow keywords as ordinary symbols
 
-Before this fix, the generated ANTLR grammar failed to parse
-CSR003+2.ax, line 275538, in TPTP-v9.2.1:
+This fix allows keywords such as `file` to be used as ordinary symbols
+(constants, functors, or formula names) in the generated ANTLR grammar.
+For example, before this fix, the grammar rejected `file` as a constant in
+line 275538 of CSR003+2.ax, in TPTP-v9.2.1:
 
 ```tptp
 fof(kb_SUMO_52578,axiom,
@@ -164,10 +166,14 @@ allowing bare `file` to be tokenized as `Lower_word`.
 However, it still rejected ordinary functors such as `file(z)`
 because `file(` was consumed as a single token.
 
-#### Parser wrapper
+ANTLR's [lexer priority documentation](https://github.com/antlr/antlr4/blob/4.13.2/doc/predicates.md#predicates-in-lexer-rules)
+and [implicit-lexer construction](https://github.com/antlr/antlr4/blob/4.13.2/tool/src/org/antlr/v4/tool/GrammarTransformPipeline.java#L433-L459)
+explain why implicit literal tokens take precedence.
 
-The converter now generates `lower_word_token` from literal strings (keywords)
-that appear on the RHS of syntactic definitions (::=)
+#### Helper parser rule (wrapper)
+
+The converter now generates a helper parser rule (wrapper) `lower_word_token`
+from literal strings (keywords) that appear on the RHS of syntactic definitions (::=)
 and match the BNF's `<lower_word>` lexical definition.
 (The Python converter assumes the definition of `<lower_word>` is `[a-z][A-Za-z0-9_]*`.)
 All parser references to `<lower_word>` use the wrapper,
@@ -200,34 +206,44 @@ productions remain unchanged. The list is derived from `::=` productions rather
 than hard-coded; comments and `:==` restrictions are excluded. If the wrapper
 name is already taken, the converter uses an available numbered suffix.
 
-ANTLR's [lexer priority documentation](https://github.com/antlr/antlr4/blob/4.13.2/doc/predicates.md#predicates-in-lexer-rules)
-and [implicit-lexer construction](https://github.com/antlr/antlr4/blob/4.13.2/tool/src/org/antlr/v4/tool/GrammarTransformPipeline.java#L433-L459)
-explain why implicit literal tokens take precedence.
-
 #### Correctly parsed uses of `file`
 
-Each of the following is correctly parsed:
+Each of the following independent examples is correctly parsed:
 
 ```tptp
-fof(a,axiom,p(file)).            % `file` is a constant
-fof(a,axiom,p(file(z))).         % `file` is a functor
-fof(a,axiom,p,file).             % formula-name reference via dag_source
-fof(a,axiom,p,file('y.p',x)).    % file_source
+% 1. Symbols in logical expressions and type expressions
+fof(a,axiom,p(file)).                   % constant
+fof(a,axiom,p(file(z))).                % functor
+fof(a,axiom,file).                      % proposition
+fof(a,axiom,file(z)).                   % predicate
+tff(a,type,c:file).                     % type_constant
+tff(a,type,c:file($i)).                 % type_functor (type constructor)
+
+% 2. Names in formula headers, source records, and include directives
+fof(file,axiom,p).                      % name (formula name)
+fof(a,plain,p,file).                    % name in dag_source
+include(file).                          % file_name
+include('y.p',[a],file).                % space_name
+fof(a,plain,p,inference(file,[],[b])).  % inference_rule
+
+% 3. general_data in optional_info
+fof(a,axiom,p,file('y.p',x),[file]).    % general_data via atomic_word
+fof(a,axiom,p,file('y.p',x),[file(z)]). % general_data via general_function
+
+% 4. Keyword
+fof(a,axiom,p,file('y.p',x)).           % keyword introducing file_source
 ```
 
 In the source field, the following `(` distinguishes a file-source record from
-a name reference. Spaces before `(` are supported. All ten literals can also
-be ordinary constants, functors, formula names, and general data. Special
-productions still require their exact keyword: `other('y.p',x)` is rejected in
-a file-source position. Name references require an appropriate formula in a
-complete derivation.
+a name reference. Spaces before `(` are supported.
 
 #### Why Dollar_word is excluded
 
 The fix covers only `Lower_word`. The six overlapping dollar-prefixed literals
 already have dedicated productions for their standard semantically valid uses:
-`$thf`, `$tff`, `$fof`, `$cnf`, and `$fot` in `formula_data`, and `$let` in
-structured `thf_let` and `txf_let` expressions. These examples already parse:
+`$thf`, `$tff`, `$fof`, `$cnf`, and `$fot` in `formula_data`,
+and `$let` in structured `thf_let` and `txf_let` expressions.
+These examples already parse:
 
 ```tptp
 fof(a,axiom,p,file('y.p',x),[$fof(q)]).
