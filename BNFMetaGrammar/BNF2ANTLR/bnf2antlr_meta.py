@@ -153,8 +153,6 @@ def parse_syntax_bnf(input_path: Path, metagrammar_path: Path, antlr_jar_path: P
         tmpdir_path = Path(tmpdir)
         generate_metaparser(metagrammar_path, antlr_jar_path, tmpdir_path)
         LexerClass, ParserClass = import_generated_metaparser(tmpdir_path)
-        if debug:
-            debug_print_syntax_bnf(LexerClass, ParserClass, bnf_source_text)
 
         lexer = LexerClass(antlr4.InputStream(bnf_source_text))
         parser = ParserClass(antlr4.CommonTokenStream(lexer))
@@ -162,6 +160,10 @@ def parse_syntax_bnf(input_path: Path, metagrammar_path: Path, antlr_jar_path: P
             recognizer.removeErrorListeners()
             recognizer.addErrorListener(SyntaxErrorListener())
         rules = parser.document().definition()
+        if not rules:
+            raise ConversionError(f"BNF input contains no definitions: {input_path}")
+        if debug:
+            debug_print_syntax_bnf(LexerClass, ParserClass, bnf_source_text)
 
         definitions = [
             Definition(rule.name.text[1:-1], rule.separator.text,
@@ -423,6 +425,16 @@ def main(argv=None) -> int:
         arg_parser.error(f"invalid ANTLR grammar name: {args.output_grammar_name!r}")
 
     try:
+        output_path: Path = args.output
+        if output_path.suffix == ".g4":
+            if output_path.stem != args.output_grammar_name: # ANTLR would reject this
+                raise ConversionError(
+                    f"Output file name {output_path.name!r} does not match grammar name "
+                    f"{args.output_grammar_name!r}; expected {args.output_grammar_name + '.g4'!r}."
+                )
+        else:
+            output_path /= f"{args.output_grammar_name}.g4"
+
         input_path: Path = select_input_file(args.input)
         bnf_source_text, LexerClass, definitions = parse_syntax_bnf(
             input_path, args.metagrammar.resolve(), args.antlr_jar.resolve(),
@@ -434,9 +446,6 @@ def main(argv=None) -> int:
         )
         output_grammar_text: str = converter.convert(debug=args.debug)
 
-        output_path: Path = args.output
-        if output_path.suffix != ".g4":
-            output_path /= f"{args.output_grammar_name}.g4"
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(output_grammar_text, encoding="utf-8")
     except (ConversionError, OSError, subprocess.CalledProcessError) as error:

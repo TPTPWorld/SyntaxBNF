@@ -113,6 +113,46 @@ class InputSelectionTests(unittest.TestCase):
         self.assertIn("Generated from SyntaxBNF-vonly", grammar)
         self.assertIn("'automatic' EOF", grammar)
 
+    def test_cli_matching_custom_output_file_and_grammar_name(self):
+        explicit = self.file("custom.bnf")
+        output = self.root / "CustomTPTP.g4"
+        with redirect_stdout(StringIO()):
+            result = converter.main([
+                str(explicit), "-o", str(output), "--output-grammar-name", "CustomTPTP",
+            ])
+        self.assertEqual(result, 0)
+        self.assertIn("grammar CustomTPTP;", output.read_text())
+
+    def test_cli_mismatched_output_file_reports_error_without_conversion(self):
+        explicit = self.file("custom.bnf")
+        for filename, options, grammar_name in (
+            ("CustomTPTP.g4", [], "TPTP"),
+            ("TPTP.g4", ["--output-grammar-name", "CustomTPTP"], "CustomTPTP"),
+            ("tptp.g4", [], "TPTP"),
+        ):
+            with self.subTest(filename=filename, options=options):
+                output = self.root / "generated" / filename
+                diagnostics = StringIO()
+                with patch.object(converter, "parse_syntax_bnf") as parse, \
+                        redirect_stdout(StringIO()), redirect_stderr(diagnostics):
+                    result = converter.main([str(explicit), "-o", str(output), *options])
+                self.assertEqual(result, 1)
+                self.assertIn(
+                    f"Output file name {filename!r} does not match grammar name {grammar_name!r}",
+                    diagnostics.getvalue(),
+                )
+                parse.assert_not_called()
+                self.assertFalse(output.parent.exists())
+
+    def test_cli_mismatched_output_file_preserves_existing_file(self):
+        explicit = self.file("custom.bnf")
+        output = self.root / "CustomTPTP.g4"
+        output.write_text("existing grammar", encoding="utf-8")
+        with redirect_stdout(StringIO()), redirect_stderr(StringIO()):
+            result = converter.main([str(explicit), "-o", str(output)])
+        self.assertEqual(result, 1)
+        self.assertEqual(output.read_text(), "existing grammar")
+
     def test_cli_multiple_inputs_reports_error_without_conversion(self):
         self.file("SyntaxBNF-va", "first")
         self.file("SyntaxBNF-vb", "second")
@@ -140,6 +180,40 @@ class InputSelectionTests(unittest.TestCase):
         self.assertEqual(result, 1)
         self.assertIn("error: No files beginning with SyntaxBNF", diagnostics.getvalue())
         self.assertFalse(output.exists())
+
+    def test_cli_empty_input_reports_error_without_output(self):
+        explicit = self.root / "empty.bnf"
+        output = self.root / "generated" / "TPTP.g4"
+        for source in ("", " \t\n\n", "% Only a comment\n\n% Another comment"):
+            for options in ([], ["--debug"]):
+                with self.subTest(source=source, options=options):
+                    explicit.write_text(source, encoding="utf-8")
+                    diagnostics = StringIO()
+                    stdout = StringIO()
+                    with redirect_stdout(stdout), redirect_stderr(diagnostics):
+                        result = converter.main([str(explicit), "-o", str(output), *options])
+                    self.assertEqual(result, 1)
+                    self.assertIn("error: BNF input contains no definitions", diagnostics.getvalue())
+                    self.assertEqual(stdout.getvalue(), "")
+                    self.assertFalse(output.parent.exists())
+
+    def test_cli_empty_input_preserves_existing_output(self):
+        explicit = self.root / "empty.bnf"
+        explicit.write_text("", encoding="utf-8")
+        output = self.root / "TPTP.g4"
+        output.write_text("existing grammar", encoding="utf-8")
+        with redirect_stdout(StringIO()), redirect_stderr(StringIO()):
+            result = converter.main([str(explicit), "-o", str(output)])
+        self.assertEqual(result, 1)
+        self.assertEqual(output.read_text(), "existing grammar")
+
+    def test_cli_empty_production_is_valid(self):
+        explicit = self.file("empty-production.bnf", literal="")
+        output = self.root / "TPTP.g4"
+        with redirect_stdout(StringIO()):
+            result = converter.main([str(explicit), "-o", str(output)])
+        self.assertEqual(result, 0)
+        self.assertIn("tptp_file\n    : EOF\n", output.read_text())
 
 
 if __name__ == "__main__":
