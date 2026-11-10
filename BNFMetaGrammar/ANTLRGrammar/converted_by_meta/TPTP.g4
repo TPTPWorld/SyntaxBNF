@@ -1245,7 +1245,8 @@ Lower_word
     ;
 
 Real
-    : ( Signed_real | Unsigned_real )
+    : Signed_real
+    | Unsigned_real
     ;
 
 fragment Signed_real
@@ -1253,7 +1254,8 @@ fragment Signed_real
     ;
 
 fragment Unsigned_real
-    : ( Decimal_fraction | Decimal_exponent )
+    : Decimal_fraction
+    | Decimal_exponent
     ;
 
 fragment Decimal_exponent
@@ -1265,7 +1267,8 @@ fragment Decimal_fraction
     ;
 
 fragment Exp_integer
-    : ( Signed_exp_integer | Integer_digits )
+    : Signed_exp_integer
+    | Integer_digits
     ;
 
 fragment Signed_exp_integer
@@ -1273,7 +1276,8 @@ fragment Signed_exp_integer
     ;
 
 Rational
-    : ( Signed_rational | Unsigned_rational )
+    : Signed_rational
+    | Unsigned_rational
     ;
 
 fragment Signed_rational
@@ -1285,7 +1289,8 @@ fragment Unsigned_rational
     ;
 
 Integer
-    : ( Signed_integer | Unsigned_integer )
+    : Signed_integer
+    | Unsigned_integer
     ;
 
 fragment Signed_integer
@@ -1293,7 +1298,8 @@ fragment Signed_integer
     ;
 
 fragment Unsigned_integer
-    : ( Zero_numeric | Positive_integer )
+    : Zero_numeric
+    | Positive_integer
     ;
 
 fragment Positive_integer
@@ -1361,7 +1367,8 @@ fragment Double_quote
     ;
 
 fragment Do_char
-    : ( [\u0020-\u0021\u0023-\u005B\u005D-\u007E] | ( [\\] ["\\] ) )
+    : [\u0020-\u0021\u0023-\u005B\u005D-\u007E]
+    | [\\] ["\\]
     ;
 
 fragment Single_quote
@@ -1373,7 +1380,8 @@ fragment Back_quote
     ;
 
 fragment Sq_char
-    : ( [\u0020-\u0026\u0028-\u005B\u005D-\u007E] | ( [\\] ['\\] ) )
+    : [\u0020-\u0026\u0028-\u005B\u005D-\u007E]
+    | [\\] ['\\]
     ;
 
 fragment Sign
@@ -1421,11 +1429,15 @@ fragment Underscore
     ;
 
 fragment Alpha
-    : ( Lower_alpha | Upper_alpha )
+    : Lower_alpha
+    | Upper_alpha
     ;
 
 fragment Alpha_numeric
-    : ( Lower_alpha | Upper_alpha | Numeric | Underscore )
+    : Lower_alpha
+    | Upper_alpha
+    | Numeric
+    | Underscore
     ;
 
 fragment Dollar

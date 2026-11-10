@@ -233,11 +233,23 @@ def lexer_element(element) -> str:
     quantifier = element.lexerQuantifier()
     return text + (quantifier.getText() if quantifier else "")
 
-def lexer_alternatives(expression) -> list[str]:
-    return [
-        " ".join(lexer_element(elem) for elem in alt.lexerElement())
-        for alt in expression.lexerAlternative()
-    ]
+def lexer_alternatives(expression, *, unwrap_groups: bool = True) -> list[str]:
+    """Convert a parsed `lexerExpression` into a list of ANTLR alternatives.
+
+    When unwrap_groups is True, recursively flatten a parenthesized group
+    into the result if it occupies an entire alternative and has no
+    quantifier. For example, ((A | B) | (C | D)) becomes four alternatives, A, B, C, and D.
+    Groups such as (A | B)+ and (A | B) C retain their parentheses."""
+    ans: list[str] = []
+    for alt in expression.lexerAlternative():
+        elements = alt.lexerElement()
+        if unwrap_groups and len(elements) == 1 and not elements[0].lexerQuantifier():
+            group = elements[0].lexerPrimary().lexerExpression()
+            if group is not None:
+                ans.extend(lexer_alternatives(group))
+                continue
+        ans.append(" ".join(lexer_element(elem) for elem in elements))
+    return ans
 
 class GrammarConverter:
     def __init__(self,
@@ -382,9 +394,9 @@ class GrammarConverter:
             name = lexer_name(definition.name)
             if definition.separator == ":::" and definition.name not in self.references_by_syntactic:
                 name = "fragment " + name
-            alternatives = lexer_alternatives(definition.expression)
             # Comments in TPTP input are diverted to ANTLR's HIDDEN channel
             command = "-> channel(HIDDEN)" if definition.name == "comment" else ""
+            alternatives = lexer_alternatives(definition.expression)
             if command and len(alternatives) > 1:
                 alternatives = ["( " + " | ".join(alternatives) + " )"]
             blocks.append(format_rule(name, alternatives, command))

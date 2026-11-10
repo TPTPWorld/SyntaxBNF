@@ -275,6 +275,59 @@ class CharsetTests(unittest.TestCase):
                         self.assertEqual(token.text, comment)
                         self.assertEqual(source_text[token.start:token.stop + 1], comment)
 
+    def test_lexer_groups(self):
+        source = (
+            "<entry> ::= <plain> | <nested> | <repeated> | <sequence> | <mixed>\n"
+            "<plain> ::- ([a]|[b])\n"
+            "<nested> ::- ((([c]|[d])))\n"
+            "<repeated> ::- ((([e]|[f])))+\n"
+            "<sequence> ::- ((([g]|[h])))[i]\n"
+            "<mixed> ::- ([j]|[k]) | [l]\n"
+            "<helper> ::: (([m]|[n]))\n"
+            "<comment> ::- ((([%]|[#]))) | [@]\n"
+        )
+        with tempfile.TemporaryDirectory(prefix="bnf-lexer-groups-test-") as tmp:
+            directory = Path(tmp)
+            _, grammar = self.convert(source, directory, "Groups")
+            for name, alternatives in (
+                ("Plain", ["[a]", "[b]"]),
+                ("Nested", ["[c]", "[d]"]),
+                ("Mixed", ["[j]", "[k]", "[l]"]),
+                ("fragment Helper", ["[m]", "[n]"]),
+            ):
+                self.assertIn(converter.format_rule(name, alternatives), grammar)
+            self.assertIn("Repeated\n    : ( [e] | [f] )+\n", grammar)
+            self.assertIn("Sequence\n    : ( [g] | [h] ) [i]\n", grammar)
+            self.assertIn("Comment\n    : ( [%] | [#] | [@] )\n    -> channel(HIDDEN);", grammar)
+
+            lexer_class = self.lexer_class(grammar, directory, "Groups")
+            words = ["a", "b", "c", "d", "effe", "gi", "hi", "j", "k", "l"]
+            lexer = lexer_class(antlr4.InputStream(" ".join(words + ["%", "#", "@"])))
+            lexer.removeErrorListeners()
+            lexer.addErrorListener(converter.SyntaxErrorListener())
+            self.assertEqual(
+                [(token.text, token.channel) for token in lexer.getAllTokens()],
+                [(word, antlr4.Token.DEFAULT_CHANNEL) for word in words]
+                + [(comment, antlr4.Token.HIDDEN_CHANNEL) for comment in ("%", "#", "@")],
+            )
+
+    def test_single_alternative_comment_group(self):
+        source = (
+            "<entry> ::= <word>\n"
+            "<word> ::- [a-z]+\n"
+            "<comment> ::- ((([%])))\n"
+        )
+        with tempfile.TemporaryDirectory(prefix="bnf-single-comment-group-test-") as tmp:
+            directory = Path(tmp)
+            _, grammar = self.convert(source, directory, "SingleComment")
+            self.assertIn("Comment\n    : [%]\n    -> channel(HIDDEN);", grammar)
+            lexer_class = self.lexer_class(grammar, directory, "SingleComment")
+            lexer = lexer_class(antlr4.InputStream("%"))
+            self.assertEqual(
+                [(token.text, token.channel) for token in lexer.getAllTokens()],
+                [("%", antlr4.Token.HIDDEN_CHANNEL)],
+            )
+
     def test_generated_parser(self):
         source = (
             "<TPTP_file> ::= <item>*\n"
