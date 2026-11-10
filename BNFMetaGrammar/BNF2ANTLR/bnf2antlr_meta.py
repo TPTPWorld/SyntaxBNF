@@ -183,9 +183,9 @@ def literal(text: str) -> str:
 
 def format_rule(name: str, alternatives: list[str], command: str = "") -> str:
     lines = [name]
-    for index, alternative in enumerate(alternatives):
-        separator = ":" if index == 0 else "|"
-        lines.append(f"    {separator} {alternative}".rstrip())
+    for i, alt in enumerate(alternatives):
+        separator = ":" if i == 0 else "|"
+        lines.append(f"    {separator} {alt}".rstrip())
     lines.append(f"    {command};")
     return "\n".join(lines) + "\n"
 
@@ -204,6 +204,8 @@ def charset_char(char) -> tuple[int, str]:
     return ord(text), spelling
 
 def charset(char_set) -> str:
+    """Convert a `BNFMetaParser.CharSetContext`
+    (subclass of `antlr4.ParserRuleContext`) instance to ANTLR text."""
     if char_set.WILDCARD():
         return "."
     content = char_set.charSetContent()
@@ -233,8 +235,8 @@ def lexer_element(element) -> str:
 
 def lexer_alternatives(expression) -> list[str]:
     return [
-        " ".join(lexer_element(element) for element in alternative.lexerElement())
-        for alternative in expression.lexerAlternative()
+        " ".join(lexer_element(elem) for elem in alt.lexerElement())
+        for alt in expression.lexerAlternative()
     ]
 
 class GrammarConverter:
@@ -270,7 +272,10 @@ class GrammarConverter:
         operators_set: set[str] = {a.getText() for a in syntactic_alternatives
             if a.getText() and set(a.getText()) <= OPERATOR_CHARACTERS}
         self.operators: list[str] = sorted(operators_set, key=lambda text: (-len(text), text))
-        self.punctuation = re.compile("|".join([re.escape(op) for op in self.operators] + ["."]))
+        self.operators_pattern = re.compile("|".join(
+            [re.escape(op) for op in self.operators] +
+            ["."]  # single-character fallback such as parentheses and commas
+        ))
 
         # Allow keywords as ordinary symbols (see README.md)
         self.lower_word_literals: list[str] = []
@@ -295,39 +300,41 @@ class GrammarConverter:
                     suffix += 1
 
     def parser_alternative(self, alternative: antlr4.ParserRuleContext) -> str:
-        """Convert one branch of a SyntaxBNF parser rule (::= or :==) into ANTLR text."""
-        parts: list[str] = []
-        punctuation: str = ""
-        previous_stop: int = -1
+        """Convert one branch of a SyntaxBNF parser rule (::= or :==) into ANTLR text.
+        Adjacent punctuation chars from the input are grouped together, so => becomes '=>'. """
+        ans: list[str] = []
+        punct_buf: str = ""  # buffers adjacent punctuation chars
+        prev_stop: int = -1  # position of preceding element's last char
 
         def flush():
-            nonlocal punctuation
-            parts.extend(literal(p) for p in self.punctuation.findall(punctuation))
-            punctuation = ""
+            nonlocal punct_buf
+            ans.extend(literal(p) for p in self.operators_pattern.findall(punct_buf))
+            punct_buf = ""
 
         for element in cast(Any, alternative).parserElement():
             token: antlr4.Token = element.start
-            if token.start != previous_stop + 1:
+            if token.start != prev_stop + 1:
                 flush()
             if element.NONTERMINAL():
                 flush()
-                name: str = token.text[1:-1]
+                name: str = token.text[1:-1]  # remove the <...> delimiter
                 if name == "lower_word" and self.lower_word_wrapper_name:
                     name = self.lower_word_wrapper_name
                 else:
                     name = lexer_name(name) if name in self.lexical_names else name.lower()
-                parts.append(name + ("*" if element.STAR() else ""))
+                ans.append(name + ("*" if element.STAR() else ""))
             elif token.type == self.token_type_id_bare_word:
                 flush()
-                parts.append(literal(token.text))
+                ans.append(literal(token.text))
             else:
-                punctuation += token.text
-            previous_stop = element.stop.stop
+                punct_buf += token.text
+            prev_stop = element.stop.stop
         flush()
-        return " ".join(parts)
+        return " ".join(ans)
 
     def print_debug_info(self):
         print(f"operators = {self.operators}")
+        print(f"operators_pattern = {self.operators_pattern}")
         print()
 
     def convert(self, *, debug: bool = False) -> str:
@@ -366,7 +373,7 @@ class GrammarConverter:
             ]
             for definition in self.semantic:
                 context = definition.context
-                text = self.bnf_source_text[context.start.start:context.stop.stop + 1]
+                text = self.bnf_source_text[context.start.start : context.stop.stop + 1]
                 comments.append(f"// line {context.start.line}: {' '.join(text.split())}")
             blocks.append("\n".join(comments) + "\n")
 
@@ -376,6 +383,7 @@ class GrammarConverter:
             if definition.separator == ":::" and definition.name not in self.references_by_syntactic:
                 name = "fragment " + name
             alternatives = lexer_alternatives(definition.expression)
+            # Comments in TPTP input are diverted to ANTLR's HIDDEN channel
             command = "-> channel(HIDDEN)" if definition.name == "comment" else ""
             if command and len(alternatives) > 1:
                 alternatives = ["( " + " | ".join(alternatives) + " )"]
@@ -406,7 +414,7 @@ def main(argv=None) -> int:
         input_path: Path = select_input_file(args.input)
         bnf_source_text, LexerClass, definitions = parse_syntax_bnf(
             input_path, args.metagrammar.resolve(), args.antlr_jar.resolve(),
-            debug=args.debug,
+            debug=args.debug
         )
         converter = GrammarConverter(
             bnf_source_text, LexerClass, definitions,
