@@ -272,8 +272,9 @@ class GrammarConverter:
         self.operators: list[str] = sorted(operators_set, key=lambda text: (-len(text), text))
         self.punctuation = re.compile("|".join([re.escape(op) for op in self.operators] + ["."]))
 
-        self.lower_word_literals = []
-        self.lower_word_wrapper: str|None = None
+        # Allow keywords as ordinary symbols (see README.md)
+        self.lower_word_literals: list[str] = []
+        self.lower_word_wrapper_name: str|None = None
         if "lower_word" in self.references_by_syntactic and "lower_word" in self.lexical_names:
             candidates: set[str] = {
                 elem.start.text
@@ -286,18 +287,18 @@ class GrammarConverter:
                 if re.fullmatch(r"[a-z][A-Za-z0-9_]*", word)
             )
             if self.lower_word_literals:
-                occupied = {d.name.lower() for d in self.syntactic}
-                self.lower_word_wrapper = "lower_word_token"
+                occupied: set[str] = {d.name.lower() for d in self.syntactic}
+                self.lower_word_wrapper_name = "lower_word_token"
                 suffix = 2
-                while self.lower_word_wrapper in occupied:
-                    self.lower_word_wrapper = f"lower_word_token_{suffix}"
+                while self.lower_word_wrapper_name in occupied:
+                    self.lower_word_wrapper_name = f"lower_word_token_{suffix}"
                     suffix += 1
 
     def parser_alternative(self, alternative: antlr4.ParserRuleContext) -> str:
         """Convert one branch of a SyntaxBNF parser rule (::= or :==) into ANTLR text."""
-        parts = []
-        punctuation = ""
-        previous_stop = -1
+        parts: list[str] = []
+        punctuation: str = ""
+        previous_stop: int = -1
 
         def flush():
             nonlocal punctuation
@@ -305,14 +306,14 @@ class GrammarConverter:
             punctuation = ""
 
         for element in cast(Any, alternative).parserElement():
-            token = element.start
+            token: antlr4.Token = element.start
             if token.start != previous_stop + 1:
                 flush()
             if element.NONTERMINAL():
                 flush()
-                name = token.text[1:-1]
-                if name == "lower_word" and self.lower_word_wrapper:
-                    name = self.lower_word_wrapper
+                name: str = token.text[1:-1]
+                if name == "lower_word" and self.lower_word_wrapper_name:
+                    name = self.lower_word_wrapper_name
                 else:
                     name = lexer_name(name) if name in self.lexical_names else name.lower()
                 parts.append(name + ("*" if element.STAR() else ""))
@@ -350,10 +351,10 @@ class GrammarConverter:
                 alternatives = [(a + " EOF").strip() for a in alternatives]
             blocks.append(format_rule(definition.name.lower(), alternatives))
 
-        if self.lower_word_wrapper:
+        if self.lower_word_wrapper_name:
             blocks.append(
                 "// Preserve Lower_word spellings shadowed by implicit literal tokens.\n" +
-                format_rule(self.lower_word_wrapper,
+                format_rule(self.lower_word_wrapper_name,
                             ["Lower_word"] + [literal(word) for word in self.lower_word_literals])
             )
 
@@ -423,7 +424,7 @@ def main(argv=None) -> int:
         return 1
 
     counts = Counter(d.separator for d in definitions)
-    parser_rules = counts['::='] + bool(converter.lower_word_wrapper)
+    parser_rules = counts['::='] + bool(converter.lower_word_wrapper_name)
     print(f"Wrote {output_path} ({parser_rules} parser rules, {counts['::-']} tokens, "
           f"{counts[':::']} macros, {counts[':==']} semantic restrictions).")
     return 0

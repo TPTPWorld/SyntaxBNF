@@ -175,7 +175,7 @@ class LowerWordTests(unittest.TestCase):
             "<lower_word_token_2> ::= second\n"
             "<lower_word> ::- [a-z][A-Za-z0-9_]*\n"
         )
-        self.assertEqual(conversion.lower_word_wrapper, "lower_word_token_3")
+        self.assertEqual(conversion.lower_word_wrapper_name, "lower_word_token_3")
         self.assertIn("entry\n    : lower_word_token_3\n", grammar)
 
     def test_no_wrapper_without_lower_word_literal_overlaps(self):
@@ -184,7 +184,7 @@ class LowerWordTests(unittest.TestCase):
             "<marker> ::= $fof\n"
             "<lower_word> ::- [a-z][A-Za-z0-9_]*\n"
         )
-        self.assertIsNone(conversion.lower_word_wrapper)
+        self.assertIsNone(conversion.lower_word_wrapper_name)
         self.assertIn("entry\n    : Lower_word\n", grammar)
 
 
