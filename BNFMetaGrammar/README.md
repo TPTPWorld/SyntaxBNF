@@ -1,0 +1,263 @@
+# SyntaxBNF metagrammar
+
+`BNFMetaParser.g4` is an ANTLR4 parser metagrammar for the four kinds of definition in
+the TPTP SyntaxBNF notation:
+
+- `::=` syntactic parser rules
+- `:==` semantic restrictions
+- `::-` lexer tokens
+- `:::` lexer character-class macros
+
+It also recognizes `%` comments, blank lines, and indented continuation lines.
+The parser and its companion `BNFMetaLexer.g4` are target-neutral and contain
+no embedded actions.
+All four definition kinds share one `definition` parser rule, with `name` and
+`separator` token labels. The RHS is a `parserExpression` for `::=` and `:==`,
+or a `lexerExpression` for `::-` and `:::`. These names distinguish expressions
+over tokens and nonterminals from lexical patterns over characters.
+
+The lexer keeps words such as `tpi` intact in syntactic and semantic rules.
+Inside regex charsets, it emits individual literal characters and complete
+escape tokens. The parser recognizes set elements and range endpoints; the
+converter decodes each escape token. Lexer modes follow these contexts:
+
+| Context | Entry | Exit |
+| --- | --- | --- |
+| Default: rule names and comments | Start of document or end of definition | A definition operator |
+| `PARSER_EXPR`: `parserExpression` RHS | `::=` or `:==` | An uncontinued newline |
+| `LEXER_EXPR`: `lexerExpression` RHS | `::-` or `:::` | An uncontinued newline |
+| `CHARSET`: character set | `[` in `LEXER_EXPR` | `]` |
+
+Charset openers use `pushMode(CHARSET)`; the closing bracket uses `popMode`
+to return to `LEXER_EXPR`. Other transitions use `mode(...)` directly.
+One `WHITESPACE_PATTERN` fragment handles horizontal whitespace
+and indented continuation lines in all three contexts outside charsets.
+
+Indented continuation lines keep the RHS mode. Brackets in syntactic rules
+and example definitions in comments do not enter charset mode. Literal charset
+characters are printable ASCII (U+0020–U+007E), including space. Physical line
+breaks, tabs, and other characters outside that range produce lexer errors;
+use escapes to represent them.
+
+Charset support is deliberately limited to SyntaxBNF notation:
+
+- One or more octal digits after a backslash, `\\` for backslash, `\n` for
+  newline, and `\r` for carriage return. These are the escape forms used in SyntaxBNF.
+- Leading `^` negation, such as `[^/*]`; a later `^` is literal.
+- Ranges with literal or escaped endpoints: `A-Z`, `\40-\46`, `\123-X`.
+- Literal hyphens at the edges, including `[+-]`, and the existing `.` wildcard.
+
+The lexer recognizes `[^` as a `NEGATED_LBRACKET` token, so leading negation
+cannot be interpreted as a literal caret. The parser requires nonempty
+`charSetContent`, rejecting `[]` and `[^]` while allowing `[-]` and `[^-]`.
+Edge hyphens are recorded as `leadingDash` and `trailingDash` on that content;
+a lone hyphen is always `leadingDash`.
+
+Each `charSetElement` contains one `charSetChar`, or two separated by
+`DASH` for a range. A character is a literal, `OCTAL_ESCAPE`, or `QUOTED_ESCAPE`
+token; no separate range or escape wrapper rules are needed. Longest-match
+lexing consumes the entire octal digit sequence: `\1234` is one escape, while `\78` is `\7`
+followed by literal `8`. Other backslashes fall back to literal characters;
+for example, `\q` contributes both a backslash and `q` to the set.
+The converter decodes octal values, emits ANTLR negation as `~[...]`, and
+rejects descending ranges and values outside Unicode's U+0000–U+10FFFF range.
+There is no limit on the number of octal digits, including leading zeros. Hex escapes,
+Unicode properties, POSIX classes, and set operations are not implemented.
+
+Generate and run a parser from this directory with `BNF_FILE` set to the path of
+your BNF syntax file:
+
+```bash
+java -jar ../ANTLRParsers/antlr-4.13.2-complete.jar BNFMetaLexer.g4 BNFMetaParser.g4
+javac -cp ../ANTLRParsers/antlr-4.13.2-complete.jar BNFMeta*.java
+java -cp "../ANTLRParsers/antlr-4.13.2-complete.jar:." \
+  org.antlr.v4.gui.TestRig BNFMeta document -tree "$BNF_FILE"
+```
+
+For automatic input selection, use the
+[metagrammar-driven Python converter](#metagrammar-driven-converter).
+
+## Metagrammar-driven converter
+
+`BNF2ANTLR/bnf2antlr_meta.py` is the metagrammar-driven converter.
+It generates a temporary Python parser
+from `BNFMetaGrammar/BNFMetaParser.g4` and its companion `BNFMetaLexer.g4`,
+parses the complete SyntaxBNF document,
+and emits a combined ANTLR4 grammar.
+
+The converter follows the existing SyntaxBNF conventions directly:
+`TPTP_file` is the entry rule,
+`comment` tokens are retained on the `HIDDEN` channel for tooling,
+and macros referenced by parser rules become tokens.
+It relies on the metagrammar to validate definitions
+and stops at the first syntax error.
+Charset conversion also checks range order and octal values.
+
+### How to run the metagrammar-driven converter
+
+Install the matching runtime once:
+
+```bash
+python3 -m pip install -r BNFMetaGrammar/BNF2ANTLR/requirements.txt
+```
+
+From the repository root, run the converter:
+
+```bash
+python3 BNFMetaGrammar/BNF2ANTLR/bnf2antlr_meta.py
+```
+
+By default, the converter takes as its input
+the file under the repository root whose name begins with `SyntaxBNF-v`,
+and generates `TPTP.g4` in the default output directory,
+`BNFMetaGrammar/ANTLRGrammar/converted_by_meta`.
+
+Alternatively, specify an input path and use `-o` to select the output path:
+
+```bash
+python3 BNFMetaGrammar/BNF2ANTLR/bnf2antlr_meta.py \
+  /path/to/Syntax/BNF \
+  -o BNFMetaGrammar/ANTLRGrammar/CustomTPTP.g4 \
+  --output-grammar-name CustomTPTP
+```
+
+The input path can be omitted when using `-o`; input selection then uses the default described above.
+
+The converter requires Java and the repository's `ANTLRParsers/antlr-4.13.2-complete.jar`.
+Alternative metagrammar and jar paths can be selected with `--metagrammar` and `--antlr-jar`.
+The selected metagrammar must have its companion `BNFMetaLexer.g4` in the same directory.
+
+Use `--debug` to print the generated lexer/parser class names, inheritance chains, attributes, 
+token names, lexer modes, parser rule names, and the generated `document()` method source:
+
+```bash
+python3 BNFMetaGrammar/BNF2ANTLR/bnf2antlr_meta.py --debug
+```
+
+### How to test the metagrammar-driven converter
+
+Run the converter, generated-lexer, and lower-word parser regression checks
+from the repository root:
+
+```bash
+python3 -m unittest discover -s BNFMetaGrammar/BNF2ANTLR/bnf2antlr_tests -p 'test_*.py'
+```
+
+### Fix: Allow keywords as ordinary symbols
+
+This fix allows keywords such as `file` to be used as ordinary symbols
+(constants, functors, or formula names) in the generated ANTLR grammar.
+For example, before this fix, the grammar rejected `file` as a constant in
+line 275538 of CSR003+2.ax, in TPTP-v9.2.1:
+
+```tptp
+fof(kb_SUMO_52578,axiom,
+    s__lexicon(s__ComputerFile,s__LexNoun,file) ).
+```
+
+The first error pointed to the constant `file` at column 43.
+In the combined ANTLR grammar, the literal `'file'` in
+`file_source : 'file' '(' file_name file_info ')'` creates an implicit lexer token
+that takes precedence over `Lower_word` when both match `file`.
+Before the fix, `atomic_word` did not accept this implicit token,
+so the parser rejected `file` as a constant.
+The older converter instead used the literal `'file('`,
+allowing bare `file` to be tokenized as `Lower_word`.
+However, it still rejected ordinary functors such as `file(z)`
+because `file(` was consumed as a single token.
+
+ANTLR's [lexer priority documentation](https://github.com/antlr/antlr4/blob/4.13.2/doc/predicates.md#predicates-in-lexer-rules)
+and [implicit-lexer construction](https://github.com/antlr/antlr4/blob/4.13.2/tool/src/org/antlr/v4/tool/GrammarTransformPipeline.java#L433-L459)
+explain why implicit literal tokens take precedence.
+
+#### Helper parser rule (wrapper)
+
+The converter now generates a helper parser rule (wrapper) `lower_word_token`
+from literal strings (keywords) that appear on the RHS of syntactic definitions (::=)
+and match the BNF's `<lower_word>` lexical definition.
+(The Python converter assumes the definition of `<lower_word>` is `[a-z][A-Za-z0-9_]*`.)
+All parser references to `<lower_word>` use the wrapper,
+including those in `atomic_word` and `formula_role`.
+For `SyntaxBNF-v9.3.1.6`:
+
+```antlr
+lower_word_token
+    : Lower_word
+    | 'cnf' | 'file' | 'fof' | 'include' | 'inference' | 'introduced'
+    | 'tcf' | 'tff' | 'thf' | 'tpi'
+    ;
+
+atomic_word
+    : lower_word_token | Single_quoted | Back_quoted
+    ;
+
+formula_role
+    : lower_word_token | lower_word_token '-' general_term
+    ;
+
+file_source
+    : 'file' '(' file_name file_info ')'
+    ;
+```
+
+This adaptation restores valid ordinary-symbol uses under ANTLR's token model.
+It adds parser alternatives; the lexer definitions and special keyword
+productions remain unchanged. The list is derived from `::=` productions rather
+than hard-coded; comments and `:==` restrictions are excluded. If the wrapper
+name is already taken, the converter uses an available numbered suffix.
+
+#### Correctly parsed uses of `file`
+
+Each of the following independent examples is correctly parsed:
+
+```tptp
+% 1. Symbols in logical expressions and type expressions
+fof(a,axiom,p(file)).                   % constant
+fof(a,axiom,p(file(z))).                % functor
+fof(a,axiom,file).                      % proposition
+fof(a,axiom,file(z)).                   % predicate
+tff(a,type,c:file).                     % type_constant
+tff(a,type,c:file($i)).                 % type_functor (type constructor)
+
+% 2. Names in formula headers, source records, and include directives
+fof(file,axiom,p).                      % name (formula name)
+fof(a,plain,p,file).                    % name in dag_source
+include(file).                          % file_name
+include('y.p',[a],file).                % space_name
+fof(a,plain,p,inference(file,[],[b])).  % inference_rule
+
+% 3. general_data in optional_info
+fof(a,axiom,p,file('y.p',x),[file]).    % general_data via atomic_word
+fof(a,axiom,p,file('y.p',x),[file(z)]). % general_data via general_function
+
+% 4. Keyword
+fof(a,axiom,p,file('y.p',x)).           % keyword introducing file_source
+```
+
+In the source field, the following `(` distinguishes a file-source record from
+a name reference. Spaces before `(` are supported.
+
+#### Why Dollar_word is excluded
+
+The fix covers only `Lower_word`. The six overlapping dollar-prefixed literals
+already have dedicated productions for their standard semantically valid uses:
+`$thf`, `$tff`, `$fof`, `$cnf`, and `$fot` in `formula_data`,
+and `$let` in structured `thf_let` and `txf_let` expressions.
+These examples already parse:
+
+```tptp
+fof(a,axiom,p,file('y.p',x),[$fof(q)]).
+tff(a,axiom,$let(p:$o,p:=$true,p)).
+```
+
+A dollar-word wrapper would add no valid standard uses of those six symbols;
+it would additionally admit invalid uses such as `p($fof)` or `$let(a,b,c)`
+through generic defined-constant/functor productions. See the
+[TPTP language documentation](https://tptp.org/UserDocs/TPTPLanguage/TPTPLanguage.shtml)
+for interpreted symbols and let expressions.
+
+Therefore, `atomic_defined_word : Dollar_word` remains unchanged. This is an
+intentional restriction of the broad `::=` grammar, not full enforcement of
+`:==` semantics: unknown dollar words can still parse. Symbols appearing only
+in semantic restrictions, such as `$true`, `$sum`, and `$ite`, do not create
+implicit tokens and already reach the parser as `Dollar_word`.
