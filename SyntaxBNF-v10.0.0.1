@@ -1,5 +1,6 @@
 %--------------------------------------------------------------------------------------------------
-% v10.0.0.0 
+% v10.0.0.1 - Removed redundant ()s from <real>, <unsigned_real>, <exp_integer>, <rational>,
+%             <integer>, <unsigned_integer>, <do_char>, <sq_char>, <alpha>, <alpha_numeric>.
 %--------------------------------------------------------------------------------------------------
 %----README ... this header provides important meta- and usage information
 %----
@@ -649,19 +650,19 @@
 <lower_word>           ::- <lower_alpha><alpha_numeric>*
 
 %----Numbers. Note only the <real>, <rational>, and <integer> are accessible.
-<real>                 ::- (<signed_real>|<unsigned_real>)
+<real>                 ::- <signed_real>|<unsigned_real>
 <signed_real>          ::: <sign><unsigned_real>
-<unsigned_real>        ::: (<decimal_fraction>|<decimal_exponent>)
+<unsigned_real>        ::: <decimal_fraction>|<decimal_exponent>
 <decimal_exponent>     ::: (<integer_digits>|<decimal_fraction>)<exponent><exp_integer>
 <decimal_fraction>     ::: <unsigned_integer><dot><integer_digits>
-<exp_integer>          ::: (<signed_exp_integer>|<integer_digits>)
+<exp_integer>          ::: <signed_exp_integer>|<integer_digits>
 <signed_exp_integer>   ::: <sign><integer_digits>
-<rational>             ::- (<signed_rational>|<unsigned_rational>)
+<rational>             ::- <signed_rational>|<unsigned_rational>
 <signed_rational>      ::: <sign><unsigned_rational>
 <unsigned_rational>    ::: <unsigned_integer><slash><positive_integer>
-<integer>              ::- (<signed_integer>|<unsigned_integer>)
+<integer>              ::- <signed_integer>|<unsigned_integer>
 <signed_integer>       ::: <sign><unsigned_integer>
-<unsigned_integer>     ::: (<zero_numeric>|<positive_integer>)
+<unsigned_integer>     ::: <zero_numeric>|<positive_integer>
 <positive_integer>     ::: <non_zero_numeric><numeric>*
 <integer_digits>       ::: <numeric><numeric>*
 <slash>                ::- <slash_char>
@@ -706,11 +707,11 @@
 %----Character classes
 <percentage_sign>      ::: [%]
 <double_quote>         ::: ["]
-<do_char>              ::: ([\40-\41\43-\133\135-\176]|([\\]["\\]))
+<do_char>              ::: [\40-\41\43-\133\135-\176]|([\\]["\\])
 <single_quote>         ::: [']
 <back_quote>           ::: [`]
 %---Space and visible characters upto ~, except ' and \
-<sq_char>              ::: ([\40-\46\50-\133\135-\176]|([\\]['\\]))
+<sq_char>              ::: [\40-\46\50-\133\135-\176]|([\\]['\\])
 <sign>                 ::: [+-]
 <dot>                  ::: [.]
 <exponent>             ::: [Ee]
@@ -722,8 +723,8 @@
 <lower_alpha>          ::: [a-z]
 <upper_alpha>          ::: [A-Z]
 <underscore>           ::: [_]
-<alpha>                ::: (<lower_alpha>|<upper_alpha>)
-<alpha_numeric>        ::: (<lower_alpha>|<upper_alpha>|<numeric>|<underscore>)
+<alpha>                ::: <lower_alpha>|<upper_alpha>
+<alpha_numeric>        ::: <lower_alpha>|<upper_alpha>|<numeric>|<underscore>
 <dollar>               ::: [$]
 <comment_char>         ::: [^\r\n]
 %----<printable_char> is any printable ASCII character, codes 32 (space) to 126 (tilde).

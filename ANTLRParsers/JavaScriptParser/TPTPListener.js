@@ -806,12 +806,12 @@ export default class TPTPListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
-	// Enter a parse tree produced by TPTPParser#txf_let_LHS.
-	enterTxf_let_LHS(ctx) {
+	// Enter a parse tree produced by TPTPParser#txf_let_lhs.
+	enterTxf_let_lhs(ctx) {
 	}
 
-	// Exit a parse tree produced by TPTPParser#txf_let_LHS.
-	exitTxf_let_LHS(ctx) {
+	// Exit a parse tree produced by TPTPParser#txf_let_lhs.
+	exitTxf_let_lhs(ctx) {
 	}
 
 
@@ -2063,6 +2063,15 @@ export default class TPTPListener extends antlr4.tree.ParseTreeListener {
 
 	// Exit a parse tree produced by TPTPParser#nothing.
 	exitNothing(ctx) {
+	}
+
+
+	// Enter a parse tree produced by TPTPParser#lower_word_token.
+	enterLower_word_token(ctx) {
+	}
+
+	// Exit a parse tree produced by TPTPParser#lower_word_token.
+	exitLower_word_token(ctx) {
 	}
 
 

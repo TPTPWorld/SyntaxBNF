@@ -67,9 +67,11 @@ python_parser: antlr_grammar
 	cd ANTLRParsers && java -jar antlr-4.13.2-complete.jar -Dlanguage=Python3 -visitor ANTLRGrammar/TPTP.g4 -o PythonParser -Xexact-output-dir
 	@echo "---- Made Python parser"
 
+antlr_grammar: VENV := BNFMetaGrammar/BNF2ANTLR/metagrammar-venv
 antlr_grammar: $(FULLBNF)
 	@echo "---- Make ANTLR grammar"
-#TEST NEW INSTEAD	cd ANTLRParsers/BNF2ANTLR && python3 bnf2antlr.py $(FULLBNF) ../ANTLRGrammar
+	$(VENV)/bin/python3 BNFMetaGrammar/BNF2ANTLR/bnf2antlr_meta.py $(FULLBNF) -o ANTLRParsers/ANTLRGrammar/TPTP.g4 --output-grammar-name TPTP
+#Daniel	cd ANTLRParsers/BNF2ANTLR && python3 bnf2antlr.py $(FULLBNF) ../ANTLRGrammar
 	@echo "---- Made ANTLR grammar"
 
 clean:

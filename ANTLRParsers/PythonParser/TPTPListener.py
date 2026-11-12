@@ -809,12 +809,12 @@ class TPTPListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by TPTPParser#txf_let_LHS.
-    def enterTxf_let_LHS(self, ctx:TPTPParser.Txf_let_LHSContext):
+    # Enter a parse tree produced by TPTPParser#txf_let_lhs.
+    def enterTxf_let_lhs(self, ctx:TPTPParser.Txf_let_lhsContext):
         pass
 
-    # Exit a parse tree produced by TPTPParser#txf_let_LHS.
-    def exitTxf_let_LHS(self, ctx:TPTPParser.Txf_let_LHSContext):
+    # Exit a parse tree produced by TPTPParser#txf_let_lhs.
+    def exitTxf_let_lhs(self, ctx:TPTPParser.Txf_let_lhsContext):
         pass
 
 
@@ -2066,6 +2066,15 @@ class TPTPListener(ParseTreeListener):
 
     # Exit a parse tree produced by TPTPParser#nothing.
     def exitNothing(self, ctx:TPTPParser.NothingContext):
+        pass
+
+
+    # Enter a parse tree produced by TPTPParser#lower_word_token.
+    def enterLower_word_token(self, ctx:TPTPParser.Lower_word_tokenContext):
+        pass
+
+    # Exit a parse tree produced by TPTPParser#lower_word_token.
+    def exitLower_word_token(self, ctx:TPTPParser.Lower_word_tokenContext):
         pass
 
 

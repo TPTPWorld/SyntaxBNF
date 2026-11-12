@@ -454,8 +454,8 @@ class TPTPVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by TPTPParser#txf_let_LHS.
-    def visitTxf_let_LHS(self, ctx:TPTPParser.Txf_let_LHSContext):
+    # Visit a parse tree produced by TPTPParser#txf_let_lhs.
+    def visitTxf_let_lhs(self, ctx:TPTPParser.Txf_let_lhsContext):
         return self.visitChildren(ctx)
 
 
@@ -1151,6 +1151,11 @@ class TPTPVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by TPTPParser#nothing.
     def visitNothing(self, ctx:TPTPParser.NothingContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by TPTPParser#lower_word_token.
+    def visitLower_word_token(self, ctx:TPTPParser.Lower_word_tokenContext):
         return self.visitChildren(ctx)
 
 
