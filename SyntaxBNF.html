@@ -131,8 +131,8 @@
 &lt;<A NAME="thf_unitary_term">thf_unitary_term</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#thf_atomic_formula">thf_atomic_formula</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#variable">variable</A>&gt;&nbsp;|&nbsp;(&lt;<A HREF="#thf_logic_formula">thf_logic_formula</A>&gt;)<BR>
 &lt;<A NAME="thf_conn_term">thf_conn_term</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;&lt;<A HREF="#nonassoc_connective">nonassoc_connective</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#assoc_connective">assoc_connective</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#infix_equality">infix_equality</A>&gt;&nbsp;|<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<A HREF="#infix_inequality">infix_inequality</A>&gt;&nbsp;|&nbsp;&lt;<A HREF="#thf_unary_connective">thf_unary_connective</A>&gt;<BR>
-%----Note&nbsp;that&nbsp;syntactically&nbsp;this&nbsp;allows&nbsp;(p&nbsp;@&nbsp;=),&nbsp;but&nbsp;for&nbsp;=&nbsp;the&nbsp;first&nbsp;argument&nbsp;must&nbsp;be&nbsp;known&nbsp;to<BR>
-%----infer&nbsp;the&nbsp;type&nbsp;of&nbsp;=,&nbsp;so&nbsp;that's&nbsp;not&nbsp;allowed,&nbsp;i.e.,&nbsp;only&nbsp;(=&nbsp;@&nbsp;p).<BR>
+%----Note&nbsp;that&nbsp;syntactically&nbsp;this&nbsp;allows&nbsp;(p&nbsp;@&nbsp;(=)),&nbsp;but&nbsp;for&nbsp;(=)&nbsp;the&nbsp;first&nbsp;argument&nbsp;must&nbsp;be&nbsp;known&nbsp;to<BR>
+%----infer&nbsp;the&nbsp;type&nbsp;of&nbsp;(=),&nbsp;so&nbsp;that's&nbsp;not&nbsp;allowed,&nbsp;i.e.,&nbsp;only&nbsp;((=)&nbsp;@&nbsp;p).<BR>
 &lt;<A NAME="thf_tuple">thf_tuple</A>&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;::=&nbsp;[]&nbsp;|&nbsp;[&lt;<A HREF="#thf_formula_list">thf_formula_list</A>&gt;]<BR>
 %----Allows&nbsp;first-order&nbsp;functional&nbsp;style&nbsp;in&nbsp;THF&nbsp;for&nbsp;$words,&nbsp;e.g.,&nbsp;$distinct.&nbsp;Damn,&nbsp;to&nbsp;make&nbsp;ITV<BR>
 %----work&nbsp;I&nbsp;have&nbsp;to&nbsp;allow&nbsp;&lt;functor&gt;(&lt;thf_arguments&gt;),&nbsp;but&nbsp;that's&nbsp;not&nbsp;for&nbsp;THF&nbsp;logic.<BR>
