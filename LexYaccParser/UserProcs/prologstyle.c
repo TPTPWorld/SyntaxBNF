@@ -83,7 +83,7 @@ int mPrintTree(mTree ss, int depth)
   if ((strcmp(ss->sym, "thf_apply_formula")==0) || (strcmp(ss->sym, "thf_quantified_formula")==0) || (strcmp(ss->sym, "thf_abstraction")==0))
       printf("(");
 // No children: 
-  if ((ss->ch[0] == 0) && (strcmp(ss->sym, "null") != 0))
+  if ((ss->ch[0] == 0) && (strchr(ss->sym, ' ') != NULL))
   {
     symbol=strdup(ss->sym);
     buf=strchr(symbol,' '); *buf=0; buf++;
@@ -125,7 +125,7 @@ void mPrintTree(mTree ss, int depth)
     { mPrintComments(mPrintIdx, 0); mPrintIdx = -1;}
   if (ss == NULL) return;
 //  for (d = 0; d < depth; d++) printf("  "); 
-  if ((ss->ch[0] == 0) && (strcmp(ss->sym, "null") != 0))
+  if ((ss->ch[0] == 0) && (strchr(ss->sym, ' ') != NULL))
     { buf=strchr(ss->sym,' '); buf++; printf("%s", buf);}
 //  else printf("<%s>\n", ss->sym); 
   if (strcmp(ss->sym, "PERIOD .") == 0)

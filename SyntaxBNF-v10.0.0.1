@@ -130,8 +130,8 @@
 <thf_unitary_term>     ::= <thf_atomic_formula> | <variable> | (<thf_logic_formula>)
 <thf_conn_term>        ::= <nonassoc_connective> | <assoc_connective> | <infix_equality> |
                            <infix_inequality> | <thf_unary_connective>
-%----Note that syntactically this allows (p @ =), but for = the first argument must be known to
-%----infer the type of =, so that's not allowed, i.e., only (= @ p).
+%----Note that syntactically this allows (p @ (=)), but for (=) the first argument must be known to
+%----infer the type of (=), so that's not allowed, i.e., only ((=) @ p).
 <thf_tuple>            ::= [] | [<thf_formula_list>]
 %----Allows first-order functional style in THF for $words, e.g., $distinct. Damn, to make ITV
 %----work I have to allow <functor>(<thf_arguments>), but that's not for THF logic.

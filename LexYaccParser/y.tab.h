@@ -129,92 +129,15 @@ extern int yydebug;
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
-/* Token kinds.  */
-#define YYEMPTY -2
-#define YYEOF 0
-#define YYerror 256
-#define YYUNDEF 257
-#define AMPERSAND 258
-#define AT_AT_SIGN_MINUS 259
-#define AT_AT_SIGN_PLUS 260
-#define AT_SIGN 261
-#define AT_SIGN_EQUALS 262
-#define AT_SIGN_MINUS 263
-#define AT_SIGN_PLUS 264
-#define CARET 265
-#define COLON 266
-#define COLON_EQUALS 267
-#define COMMA 268
-#define EQUALS 269
-#define EQUALS_EQUALS 270
-#define EQUALS_GREATER 271
-#define EXCLAMATION 272
-#define EXCLAMATION_EQUALS 273
-#define EXCLAMATION_EXCLAMATION 274
-#define EXCLAMATION_GREATER 275
-#define LBRACE 276
-#define LBRKT 277
-#define LESS_EQUALS 278
-#define LESS_EQUALS_GREATER 279
-#define LESS_LESS 280
-#define LESS_TILDE_GREATER 281
-#define LPAREN 282
-#define MINUS 283
-#define MINUS_MINUS_GREATER 284
-#define PERIOD 285
-#define QUESTION 286
-#define QUESTION_QUESTION 287
-#define QUESTION_STAR 288
-#define RBRACE 289
-#define RBRKT 290
-#define RPAREN 291
-#define STAR 292
-#define TILDE 293
-#define TILDE_AMPERSAND 294
-#define TILDE_VLINE 295
-#define VLINE 296
-#define _DLR_cnf 297
-#define _DLR_fof 298
-#define _DLR_fot 299
-#define _DLR_let 300
-#define _DLR_tff 301
-#define _DLR_thf 302
-#define _LIT_cnf 303
-#define _LIT_file 304
-#define _LIT_fof 305
-#define _LIT_include 306
-#define _LIT_inference 307
-#define _LIT_introduced 308
-#define _LIT_tcf 309
-#define _LIT_tff 310
-#define _LIT_thf 311
-#define _LIT_tpi 312
-#define arrow 313
-#define back_quoted 314
-#define distinct_object 315
-#define dollar_dollar_word 316
-#define dollar_word 317
-#define hash 318
-#define integer 319
-#define less_sign 320
-#define lower_word 321
-#define plus 322
-#define rational 323
-#define real 324
-#define single_quoted 325
-#define slash 326
-#define slosh 327
-#define unrecognized 328
-#define upper_word 329
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 152 "SyntaxBNF.y"
+#line 399 "SyntaxBNF.y"
 int ival; double dval; char* sval; void* pval;
 
-#line 218 "y.tab.h"
+#line 141 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -12,7 +12,7 @@ void pPrintTreemod(pTree ss, int depth)
     { pPrintComments(pPrintIdx, 0); pPrintIdx = -1;}
   if (ss == NULL) return;
 //  for (d = 0; d < depth; d++) printf("  "); 
-  if ((ss->ch[0] == 0) && (strcmp(ss->sym, "null") != 0))
+  if ((ss->ch[0] == 0) && (strchr(ss->sym, ' ') != NULL))
     { buf=strchr(ss->sym,' '); buf++; printf("%s", buf);}
 //  else printf("<%s>\n", ss->sym); 
   if (strcmp(ss->sym, "PERIOD .") == 0)

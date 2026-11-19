@@ -29,9 +29,7 @@ html: $(FULLBNF)
 
 lexyacc_parser: $(FULLBNF)
 	@echo "---- Make LexYacc parsers"
-	rm -f LexYaccParser/SyntaxBNF.l
-	rm -f LexYaccParser/SyntaxBNF.y
-	make -C LexYaccParser BNF=$(FULLBNF)
+	$(MAKE) -C LexYaccParser BNF=$(FULLBNF)
 	@echo "---- Made LexYacc parsers"
 
 idv_bundle: pre_bundle
